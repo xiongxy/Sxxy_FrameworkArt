@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sxxy_FrameworkArt.Web", "..\Src\Sxxy_FrameworkArt.Web\Sxxy_FrameworkArt.Web.csproj", "{D3F47CBC-87E8-47A4-89DE-38DAD90A928F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sxxy_FrameworkArt.Framework", "Sxxy_FrameworkArt.Framework", "{514FBD0C-1847-4C40-AE2D-B5FCF7552069}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sxxy_FrameworkArt.DataBase", "Sxxy_FrameworkArt.DataBase", "{C8A3572D-3DC5-49B0-9BAF-4466DB2872C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sxxy_FrameworkArt.DataAccess", "..\Src\Sxxy_FrameworkArt.DataAccess\Sxxy_FrameworkArt.DataAccess.csproj", "{DCB1D1FB-BDBA-474C-A85E-3EBF318DA2FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sxxy_FrameworkArt.Common", "..\Src\Sxxy_FrameworkArt.Common\Sxxy_FrameworkArt.Common.csproj", "{D513A5D7-D84C-4E88-B42A-95EF32003B07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sxxy_FrameworkArt.Entity", "..\Src\Sxxy_FrameworkArt.Models\Sxxy_FrameworkArt.Entity.csproj", "{C39C21E0-E9DC-474A-B660-E2E708E7644B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3F47CBC-87E8-47A4-89DE-38DAD90A928F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F47CBC-87E8-47A4-89DE-38DAD90A928F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F47CBC-87E8-47A4-89DE-38DAD90A928F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F47CBC-87E8-47A4-89DE-38DAD90A928F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB1D1FB-BDBA-474C-A85E-3EBF318DA2FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB1D1FB-BDBA-474C-A85E-3EBF318DA2FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB1D1FB-BDBA-474C-A85E-3EBF318DA2FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB1D1FB-BDBA-474C-A85E-3EBF318DA2FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D513A5D7-D84C-4E88-B42A-95EF32003B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D513A5D7-D84C-4E88-B42A-95EF32003B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D513A5D7-D84C-4E88-B42A-95EF32003B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D513A5D7-D84C-4E88-B42A-95EF32003B07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C39C21E0-E9DC-474A-B660-E2E708E7644B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C39C21E0-E9DC-474A-B660-E2E708E7644B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C39C21E0-E9DC-474A-B660-E2E708E7644B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C39C21E0-E9DC-474A-B660-E2E708E7644B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCB1D1FB-BDBA-474C-A85E-3EBF318DA2FC} = {C8A3572D-3DC5-49B0-9BAF-4466DB2872C0}
+		{D513A5D7-D84C-4E88-B42A-95EF32003B07} = {514FBD0C-1847-4C40-AE2D-B5FCF7552069}
+		{C39C21E0-E9DC-474A-B660-E2E708E7644B} = {514FBD0C-1847-4C40-AE2D-B5FCF7552069}
+	EndGlobalSection
+EndGlobal
