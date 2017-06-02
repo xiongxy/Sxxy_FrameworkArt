@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
+using System.Data.Entity.ModelConfiguration.Configuration;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Sxxy_FrameworkArt.Common.Helpers;
 using Sxxy_FrameworkArt.Models;
 using Sxxy_FrameworkArt.Models.SystemEntity;
 
@@ -35,6 +39,8 @@ namespace Sxxy_FrameworkArt.Common
         public DbSet<SystemMenu> SystemMenus { get; set; }
         public DbSet<SystemRole> SystemRoles { get; set; }
         public DbSet<SystemUser> SystemUsers { get; set; }
+        public DbSet<EncHash> EncHashs { get; set; }
+        
         #endregion
 
 
@@ -83,6 +89,14 @@ namespace Sxxy_FrameworkArt.Common
         void IDataContext.ChangeRelationTo<T, V>(T source, Expression<Func<T, List<V>>> navigation, List<long> oldIDs, List<long> newIDs)
         {
             throw new NotImplementedException();
+        }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //移除EF默认的一对多级联删除设定
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+          
         }
     }
 }

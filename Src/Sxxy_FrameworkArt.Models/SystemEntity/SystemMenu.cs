@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sxxy_FrameworkArt.Models.SystemEntity
 {
-    public class SystemMenu
+    public class SystemMenu : BaseEntity
     {
         public string PageName { get; set; }
         public string ActionName { get; set; }
@@ -14,9 +14,9 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         public bool? FolderOnly { get; set; }
         public bool? IsInherit { get; set; }
         public List<FunctionPrivilege> Privileges { get; set; }
-        public long? ActionID { get; set; }
-        public long? ModuleID { get; set; }
-        public long? DomainId { get; set; }
+        public Guid? ActionID { get; set; }
+        public Guid? ModuleID { get; set; }
+        public Guid? DomainId { get; set; }
         public SystemDomain Domain { get; set; }
         public bool? ShowOnMenu { get; set; }
         public bool? IsPublic { get; set; }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sxxy_FrameworkArt.DataAccess
+namespace Sxxy_FrameworkArt.Models.SystemEntity
 {
-    public class Class1
+    public class EncHash : BaseEntity
     {
+        public Guid Key { get; set; }
     }
 }

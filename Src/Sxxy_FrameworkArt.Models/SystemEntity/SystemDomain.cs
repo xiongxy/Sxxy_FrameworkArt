@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sxxy_FrameworkArt.Models.SystemEntity
 {
-    public class SystemDomain
+    public class SystemDomain : BaseEntity
     {
         public string DomainName { get; set; }
 

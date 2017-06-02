@@ -9,9 +9,9 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
 {
     public class SystemRole : BaseEntity
     {
-        public string Code { get; set; }
+        public string RoleCode { get; set; }
         public string RoleName { get; set; }
         public string RoleRemark { get; set; }
-        public List<SystemUser> Users { get; set; }
+        //public List<SystemUser> Users { get; set; }
     }
 }

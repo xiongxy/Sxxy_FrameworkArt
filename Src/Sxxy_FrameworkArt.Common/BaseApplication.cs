@@ -22,12 +22,12 @@ namespace Sxxy_FrameworkArt.Common
         public virtual void RegisterGlobalFilters(GlobalFilterCollection filter)
         {
             //填加异常过滤器
-            filter.Add(new ErrorFilter());
+            //filter.Add(new ErrorFilter());
             //检查webconfig，如果EnableLog设定为true，则添加日志过滤器
             var ls = System.Configuration.ConfigurationManager.AppSettings["EnableLog"];
             if (ls != null && (ls.ToLower() == "true" || ls == "1"))
             {
-                filter.Add(new ActionLogFilter());
+                // filter.Add(new ActionLogFilter());
             }
             //添加权限过滤器
             filter.Add(new PrivilegeFilter());

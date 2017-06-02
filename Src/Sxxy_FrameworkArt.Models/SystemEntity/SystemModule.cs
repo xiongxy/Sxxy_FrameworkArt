@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sxxy_FrameworkArt.Models.SystemEntity
 {
-    public class SystemModule
+    public class SystemModule:BaseEntity
     {
         public string ModuleName { get; set; }
         public string ClassName { get; set; }

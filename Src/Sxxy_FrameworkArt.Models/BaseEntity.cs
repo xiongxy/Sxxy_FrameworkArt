@@ -21,9 +21,9 @@ namespace Sxxy_FrameworkArt.Models
     }
 
 
-    public abstract class BaseParent<TParent>
-    {
-        public Guid ParentId { get; set; }
-        public TParent Parent { get; set; }
-    }
+    //public abstract class BaseParent<TParent>
+    //{
+    //    public Guid ParentId { get; set; }
+    //    public TParent Parent { get; set; }
+    //}
 }

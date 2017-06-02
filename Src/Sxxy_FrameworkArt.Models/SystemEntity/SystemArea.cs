@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sxxy_FrameworkArt.Models.SystemEntity
 {
-    public class SystemArea
+    public class SystemArea : BaseEntity
     {
         public string AreaName { get; set; }
 
