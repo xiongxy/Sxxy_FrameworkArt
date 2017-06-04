@@ -8,12 +8,13 @@ using Sxxy_FrameworkArt.DataAccess.Migrations;
 
 namespace Sxxy_FrameworkArt.DataAccess
 {
-    public class DataContext: Sxxy_FrameworkArt.Common.DataContext
+    public class DataContext : Sxxy_FrameworkArt.Common.DataContext
     {
         public DataContext()
             : base()
         {
             Database.SetInitializer<DataContext>(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
+            //Database.SetInitializer<DataContext>(null);
         }
 
         public DataContext(string cs)
