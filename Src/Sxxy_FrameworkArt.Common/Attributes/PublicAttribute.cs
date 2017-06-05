@@ -10,7 +10,7 @@ namespace Sxxy_FrameworkArt.Common.Attributes
     /// 标记公共页面，不需要登录即可访问
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    class PublicAttribute : Attribute
+  public  class PublicAttribute : Attribute
     {
     }
 }

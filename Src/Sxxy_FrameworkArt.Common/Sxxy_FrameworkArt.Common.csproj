@@ -59,6 +59,7 @@
     <Compile Include="Attributes\PublicAttribute.cs" />
     <Compile Include="BaseApplication.cs" />
     <Compile Include="BaseController.cs" />
+    <Compile Include="BaseViewModel.cs" />
     <Compile Include="Binders\StringBinder.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Filters\ActionLogFilter.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="SupportClasses\DataPrivilegeInfo.cs" />
     <Compile Include="SupportClasses\ExpressionVisitors.cs" />
     <Compile Include="SupportClasses\IAreaRegistration.cs" />
+    <Compile Include="SupportClasses\LoginUserInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sxxy_FrameworkArt.Models\Sxxy_FrameworkArt.Entity.csproj">

@@ -49,6 +49,7 @@
     <Compile Include="SystemEntity\FunctionPrivilege.cs" />
     <Compile Include="SystemEntity\SystemAction.cs" />
     <Compile Include="SystemEntity\SystemArea.cs" />
+    <Compile Include="SystemEntity\SystemDepartment.cs" />
     <Compile Include="SystemEntity\SystemDomain.cs" />
     <Compile Include="SystemEntity\SystemMenu.cs" />
     <Compile Include="SystemEntity\SystemModule.cs" />

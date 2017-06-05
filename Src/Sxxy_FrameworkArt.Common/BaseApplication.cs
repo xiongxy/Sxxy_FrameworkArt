@@ -38,8 +38,8 @@ namespace Sxxy_FrameworkArt.Common
         /// <param name="route"></param>
         public virtual void RegisterRoutes(RouteCollection route)
         {
-            //忽略
-            route.IgnoreRoute("");
+            ////忽略
+            route.IgnoreRoute("{resource}.axd/{*pathInfo}");
             //将默认首页设置为/home/Index
             route.MapRoute(
                 name: "Default",

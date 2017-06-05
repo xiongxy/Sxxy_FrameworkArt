@@ -39,9 +39,9 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
 
         //public Type Photo { get; set; }
 
-        //public long? DepartmentID { get; set; }
+        public long? DepartmentID { get; set; }
 
-        //public system Department { get; set; }
+        public SystemDepartment Department { get; set; }
 
         public UserTypeEnum? UserType { get; set; }
     }
