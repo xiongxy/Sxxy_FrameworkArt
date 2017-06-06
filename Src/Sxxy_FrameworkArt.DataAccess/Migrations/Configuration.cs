@@ -24,6 +24,8 @@ namespace Sxxy_FrameworkArt.DataAccess.Migrations
 
         protected override void Seed(DataContext context)
         {
+            return;
+            
             IDataContext dataContext = context as IDataContext;
             dataContext = dataContext.ReCreate();
             if (dataContext.Set<SystemUser>().Any())

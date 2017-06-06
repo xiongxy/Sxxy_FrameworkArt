@@ -50,5 +50,9 @@ namespace Sxxy_FrameworkArt.Common
         /// 模型状态，可在ViewModel中添加验证错误信息
         /// </summary>
         public ModelStateDictionary ModelStateDictionarys { get; set; }
+        /// <summary>
+        /// 记录Controller中的表单数据
+        /// </summary>
+        public FormCollection InSideFormCollection { get; set; }
     }
 }

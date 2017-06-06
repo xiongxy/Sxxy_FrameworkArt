@@ -59,6 +59,7 @@
     <Compile Include="Attributes\PublicAttribute.cs" />
     <Compile Include="BaseApplication.cs" />
     <Compile Include="BaseController.cs" />
+    <Compile Include="BaseCRUDViewModel.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="Binders\StringBinder.cs" />
     <Compile Include="DataContext.cs" />

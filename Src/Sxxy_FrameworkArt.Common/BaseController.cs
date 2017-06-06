@@ -57,32 +57,33 @@ namespace Sxxy_FrameworkArt.Common
                 }
                 return _dc;
             }
-            set
-            {
-                _dc = value;
-            }
+            set { _dc = value; }
         }
 
 
 
         #endregion
+
         #region 权限（属性）
+
         public static List<string> AllRightActions { get; set; }
 
         public static List<IDataPrivilege> DataPrivileges { get; set; }
 
 
         #endregion
+
         #region  是否开始调试模式(属性)
+
         public static bool IsQuickDebug
         {
-            get
-            {
-                return Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["QuickDebug"]);
-            }
+            get { return Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["QuickDebug"]); }
         }
+
         #endregion
+
         #region 域（属性）
+
         public static List<SystemDomain> Domains
         {
             get
@@ -92,7 +93,8 @@ namespace Sxxy_FrameworkArt.Common
                     using (DataContext dc = new DataContext())
                     {
                         var data = dc.SystemDomains.ToList();
-                        HttpRuntime.Cache.Add("Domains", data, null, System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(365, 0, 0, 0), System.Web.Caching.CacheItemPriority.Normal, null);
+                        HttpRuntime.Cache.Add("Domains", data, null, System.Web.Caching.Cache.NoAbsoluteExpiration,
+                            new TimeSpan(365, 0, 0, 0), System.Web.Caching.CacheItemPriority.Normal, null);
                     }
                 }
                 return HttpRuntime.Cache["Domains"] as List<SystemDomain>;
@@ -111,7 +113,8 @@ namespace Sxxy_FrameworkArt.Common
                     {
                         md = v;
                     }
-                    HttpRuntime.Cache.Add("MainDomain", md, null, System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(365, 0, 0, 0), System.Web.Caching.CacheItemPriority.Normal, null);
+                    HttpRuntime.Cache.Add("MainDomain", md, null, System.Web.Caching.Cache.NoAbsoluteExpiration,
+                        new TimeSpan(365, 0, 0, 0), System.Web.Caching.CacheItemPriority.Normal, null);
                 }
                 return HttpRuntime.Cache["MainDomain"].ToString();
             }
@@ -120,7 +123,9 @@ namespace Sxxy_FrameworkArt.Common
         public static long? DomainID { get; set; }
 
         #endregion
+
         #region 菜单 （属性）
+
         public static List<SystemMenu> SystemMenuProperty
         {
             get
@@ -143,10 +148,14 @@ namespace Sxxy_FrameworkArt.Common
                                 .OrderBy(x => x.DisplayOrder)
                                 .ToList();
                         }
-                        HttpRuntime.Cache.Add("SystemMenuProperty", data, null, DateTime.Now.AddHours(12), System.Web.Caching.Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.Normal, null);
+                        HttpRuntime.Cache.Add("SystemMenuProperty", data, null, DateTime.Now.AddHours(12),
+                            System.Web.Caching.Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.Normal,
+                            null);
                     }
                 }
-                return HttpRuntime.Cache["SystemMenuProperty"] == null ? new List<SystemMenu>() : HttpRuntime.Cache["SystemMenuProperty"] as List<SystemMenu>;
+                return HttpRuntime.Cache["SystemMenuProperty"] == null
+                    ? new List<SystemMenu>()
+                    : HttpRuntime.Cache["SystemMenuProperty"] as List<SystemMenu>;
             }
         }
 
@@ -154,19 +163,26 @@ namespace Sxxy_FrameworkArt.Common
 
         #endregion
 
+        protected T CreateViewModel<T>(long? ID = null, IEnumerable<long> IDs = null, Expression<Func<T, object>> values = null, bool passInit = false) where T : BaseViewModel
+        {
+            SetValuesParser p = new SetValuesParser();
+            var dir = p.Parse(values);
+            return CreateViewModel(typeof(T), ID, IDs, dir, passInit || IDs != null) as T;
+        }
 
-        //T CreateViewModel<T>(long? id = null, IEnumerable<long> IDs = null, Expression<Func<T, object>> values = null,
-        //    bool passInit = false) where T : BaseViewModel
-        //{
-        //    SetValuesParser p = new SetValuesParser();
-        //    var dir = p.Parse(values);
-        //    return CreateViewModel(typeof(T), id, IDs, dir, passInit || IDs != null) as T;
-        //}
+        public BaseViewModel CreateViewModel(Type ViewModelType, long? ID = null, IEnumerable<long> IDs = null,
+            Dictionary<string, object> values = null, bool passInit = false)
+        {
+            var v = Activator.CreateInstance(ViewModelType);
+            var vv = ViewModelType.GetConstructor(Type.EmptyTypes).Invoke(null);
+            BaseViewModel baseViewModel = (BaseViewModel)v;
+            baseViewModel.Dc = this.Dc;
+            baseViewModel.ModelStateDictionarys = this.ModelState;
+            baseViewModel.InSideFormCollection = HttpContext == null
+                ? new FormCollection()
+                : new FormCollection(this.HttpContext.Request.Form);
 
-        //BaseViewModel<T> CreateViewModel(Type type, long? id = null, IEnumerable<long> ids = null,
-        //    Dictionary<string, object> value = null, bool passInt = false)
-        //{
-
-        //}
+            return null;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,7 @@ namespace Sxxy_FrameworkArt.Common
         /// <param name="route"></param>
         public virtual void RegisterRoutes(RouteCollection route)
         {
+            //route.MapMvcAttributeRoutes();
             ////忽略
             route.IgnoreRoute("{resource}.axd/{*pathInfo}");
             //将默认首页设置为/home/Index
