@@ -71,6 +71,7 @@
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SupportClasses\DataPrivilegeInfo.cs" />
+    <Compile Include="SupportClasses\DuplicatedInfo.cs" />
     <Compile Include="SupportClasses\ExpressionVisitors.cs" />
     <Compile Include="SupportClasses\IAreaRegistration.cs" />
     <Compile Include="SupportClasses\LoginUserInfo.cs" />

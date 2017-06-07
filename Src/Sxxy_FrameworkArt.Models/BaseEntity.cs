@@ -18,8 +18,6 @@ namespace Sxxy_FrameworkArt.Models
         public DateTime? UpdateTime { get; set; }
         public string UpdateBy { get; set; }
     }
-
-
     public class TopBaseEntity
     {
         private Guid _id;
@@ -40,6 +38,11 @@ namespace Sxxy_FrameworkArt.Models
                 _id = value;
             }
         }
+    }
+    public class PersistEntity : BaseEntity
+    {
+        //是否有效
+        public bool IsValid { get; set; }
     }
 }
 

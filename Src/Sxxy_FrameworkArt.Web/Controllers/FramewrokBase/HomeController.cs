@@ -8,7 +8,6 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
     {
         public ActionResult Index()
         {
-            var vm = CreateViewModel<LoginViewModel>();
             return View();
         }
     }

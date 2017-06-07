@@ -56,5 +56,30 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.HomeViewModels
             }
             return rv;
         }
+
+        public string LoginUserValidate(string code, string pwd)
+        {
+            string msg = "";
+            SystemUser user = Dc.Set<SystemUser>().FirstOrDefault(x => x.Code.ToLower() == Code.ToLower());
+            if (user == null)//用户名错误
+            {
+                msg = "用户名或密码错误";
+            }
+            else
+            {
+                if (user.IsValid == false)
+                {
+                    msg = "您的用户已被禁用";
+                }
+                else
+                {
+                    if (user.Password != pwd)//密码错误
+                    {
+                        msg = "用户名或密码错误";
+                    }
+                }
+            }
+            return msg;
+        }
     }
 }

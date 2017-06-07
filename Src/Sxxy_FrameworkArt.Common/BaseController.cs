@@ -174,7 +174,7 @@ namespace Sxxy_FrameworkArt.Common
             Dictionary<string, object> values = null, bool passInit = false)
         {
             var v = Activator.CreateInstance(ViewModelType);
-            var vv = ViewModelType.GetConstructor(Type.EmptyTypes).Invoke(null);
+            //var vv = ViewModelType.GetConstructor(Type.EmptyTypes).Invoke(null);
             BaseViewModel baseViewModel = (BaseViewModel)v;
             baseViewModel.Dc = this.Dc;
             baseViewModel.ModelStateDictionarys = this.ModelState;
@@ -182,7 +182,7 @@ namespace Sxxy_FrameworkArt.Common
                 ? new FormCollection()
                 : new FormCollection(this.HttpContext.Request.Form);
 
-            return null;
+            return baseViewModel;
         }
     }
 }
