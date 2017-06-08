@@ -4,7 +4,7 @@ using Sxxy_FrameworkArt.Common;
 using Sxxy_FrameworkArt.Common.SupportClasses;
 using Sxxy_FrameworkArt.Models.SystemEntity;
 
-namespace Sxxy_FrameworkArt.Web.ViewModels.HomeViewModels
+namespace Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels
 {
     public class LoginViewModel : BaseViewModel
     {

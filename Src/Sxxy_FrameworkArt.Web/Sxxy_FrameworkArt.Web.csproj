@@ -159,7 +159,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\HomeViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModels\LoginViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />
@@ -413,6 +413,7 @@
     <Folder Include="App_Start\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\" />
+    <Folder Include="ViewModels\HomeViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

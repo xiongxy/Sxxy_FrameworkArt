@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Sxxy_FrameworkArt.Common;
 using Sxxy_FrameworkArt.Common.Attributes;
-using Sxxy_FrameworkArt.Web.ViewModels.HomeViewModels;
+using Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels;
 
 namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
 {

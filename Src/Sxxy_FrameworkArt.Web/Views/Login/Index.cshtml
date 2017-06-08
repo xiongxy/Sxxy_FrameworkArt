@@ -2,122 +2,122 @@
     Layout = null;
 
 }
-@model Sxxy_FrameworkArt.Web.ViewModels.HomeViewModels.LoginViewModel
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>欢迎来到Sxxy_Framewok</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.6 -->
-    <link href="~/Content/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Theme style -->
-    <link href="~/Content/css/AdminLTE.min.css" rel="stylesheet" />
-    <!-- iCheck -->
-    <link href="~/Content/css/blue.css" rel="stylesheet" />
-    <style>
-    </style>
-</head>
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="#" style="display: block;"><b>Sxxy_Framewok</b></a>
-            <a href="#" style="display: block;">.Net Version</a>
-        </div>
-        <!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">欢迎来到Sxxy_Framewok</p>
-            <input type="hidden" id="errorinfo_hi">
-            <form id="loginForm" action="Index" method="post">
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(x => x.Code, htmlAttributes: new { Class = "form-control", Type = "text", placeholder = "请输入用户名" })
-                    @*<input asp-for="UserName" type="text" class="form-control" placeholder="请输入用户名">*@
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(x => x.Password, htmlAttributes: new { Class = "form-control", Type = "Password", placeholder = "请输入密码" })
-                    @*<input type="password" asp-for="Password" class="form-control" placeholder="请输入密码">*@
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox" asp-for="RememberMe"> 记 住 我
-                            </label>
+@model Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels.LoginViewModel
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>欢迎来到Sxxy_Framewok</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.6 -->
+        <link href="~/Content/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- Theme style -->
+        <link href="~/Content/css/AdminLTE.min.css" rel="stylesheet" />
+        <!-- iCheck -->
+        <link href="~/Content/css/blue.css" rel="stylesheet" />
+        <style>
+        </style>
+    </head>
+    <body class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="#" style="display: block;"><b>Sxxy_Framewok</b></a>
+                <a href="#" style="display: block;">.Net Version</a>
+            </div>
+            <!-- /.login-logo -->
+            <div class="login-box-body">
+                <p class="login-box-msg">欢迎来到Sxxy_Framewok</p>
+                <input type="hidden" id="errorinfo_hi">
+                <form id="loginForm" action="Index" method="post">
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(x => x.Code, htmlAttributes: new { Class = "form-control", Type = "text", placeholder = "请输入用户名" })
+                        @*<input asp-for="UserName" type="text" class="form-control" placeholder="请输入用户名">*@
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(x => x.Password, htmlAttributes: new { Class = "form-control", Type = "Password", placeholder = "请输入密码" })
+                        @*<input type="password" asp-for="Password" class="form-control" placeholder="请输入密码">*@
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox" asp-for="RememberMe"> 记 住 我
+                                </label>
+                            </div>
                         </div>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <a id="aSubmit" href="javascript:Submit()" class="btn btn-primary btn-block btn-flat">登 录</a>
+                            @*<button type="submit" id="btnSubmit" class="btn btn-primary btn-block btn-flat">登 录</button>*@
+                        </div>
+                        <!-- /.col -->
                     </div>
-                    <!-- /.col -->
-                    <div class="col-xs-4">
-                        <a id="aSubmit" href="javascript:Submit()" class="btn btn-primary btn-block btn-flat">登 录</a>
-                        @*<button type="submit" id="btnSubmit" class="btn btn-primary btn-block btn-flat">登 录</button>*@
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-            <!-- /.social-auth-links -->
-            @*<a href="#">I forgot my password</a><br>
-                <a href="register.html" class="text-center">Register a new membership</a>*@
+                </form>
+                <!-- /.social-auth-links -->
+                @*<a href="#">I forgot my password</a><br>
+                    <a href="register.html" class="text-center">Register a new membership</a>*@
+            </div>
+            <!-- /.login-box-body -->
         </div>
-        <!-- /.login-box-body -->
-    </div>
-    <!-- /.login-box -->
-    <!-- jQuery 2.2.3 -->
-    <script src="~/Content/lib/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.3.6 -->
-    <script src="~/Content/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- iCheck -->
-    <script src="~/Content/js/icheck.min.js"></script>
-    <!-- Layer -->>
-    <script src="~/Content/layer/layer.js"></script>
-    <!-- jQuery.cookie -->>
-    @*<script src="~/lib/jquery.cookie/jquery.cookie.js"></script>*@
-    <script>
-        $(function () {
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
-            });
-        });
-        //$(function () {
-        //    if ($("#errorinfo_hi").val()) {
-        //        layer.tips($("#errorinfo_hi").val(), '#btnSubmit', {
-        //            tips: [2, '#CC0033']
-        //        });
-        //    }
-        //});
-    </script>
-    <script>
-        function Submit() {
-            var code = $("#Code");
-            var pwd = $("#Password");
-            if (code.val() === "") {
-                layer.tips("请填写用户名", '#aSubmit', {
-                    tips: [2, '#CC0033']
+        <!-- /.login-box -->
+        <!-- jQuery 2.2.3 -->
+        <script src="~/Content/lib/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="~/Content/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- iCheck -->
+        <script src="~/Content/js/icheck.min.js"></script>
+        <!-- Layer -->>
+        <script src="~/Content/layer/layer.js"></script>
+        <!-- jQuery.cookie -->>
+        @*<script src="~/lib/jquery.cookie/jquery.cookie.js"></script>*@
+        <script>
+            $(function () {
+                $('input').iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                    increaseArea: '20%' // optional
                 });
-                return;
-            }
-            if (pwd.val() === "") {
-                layer.tips("请填写密码", '#aSubmit', {
-                    tips: [2, '#CC0033']
-                });
-                return;
-            }
-            var url = "/Login/ValidateLoginUser";
-            $.get(url, { ITCode: code.val(), Msg: pwd.val() }, function (data) {
-                if (data == "") {
-                    $("#loginForm")[0].submit();
-                }
-                else {
-                    alert(data);
-                    code.focus();
-                }
             });
-        }
+            //$(function () {
+            //    if ($("#errorinfo_hi").val()) {
+            //        layer.tips($("#errorinfo_hi").val(), '#btnSubmit', {
+            //            tips: [2, '#CC0033']
+            //        });
+            //    }
+            //});
+        </script>
+        <script>
+            function Submit() {
+                var code = $("#Code");
+                var pwd = $("#Password");
+                if (code.val() === "") {
+                    layer.tips("请填写用户名", '#aSubmit', {
+                        tips: [2, '#CC0033']
+                    });
+                    return;
+                }
+                if (pwd.val() === "") {
+                    layer.tips("请填写密码", '#aSubmit', {
+                        tips: [2, '#CC0033']
+                    });
+                    return;
+                }
+                var url = "/Login/ValidateLoginUser";
+                $.get(url, { ITCode: code.val(), Msg: pwd.val() }, function (data) {
+                    if (data == "") {
+                        $("#loginForm")[0].submit();
+                    }
+                    else {
+                        alert(data);
+                        code.focus();
+                    }
+                });
+            }
 
-    </script>
-</body>
+        </script>
+    </body>
 </html>
