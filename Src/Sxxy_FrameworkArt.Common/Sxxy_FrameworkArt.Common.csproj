@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ActionDescriptionAttribute.cs" />
+    <Compile Include="Attributes\ControllerOrActionDescriptionAttribute.cs" />
     <Compile Include="Attributes\AllRightsAttribute.cs" />
     <Compile Include="Attributes\PublicAttribute.cs" />
     <Compile Include="BaseApplication.cs" />
@@ -67,6 +67,7 @@
     <Compile Include="Filters\ErrorFilter.cs" />
     <Compile Include="Filters\PrivilegeFilter.cs" />
     <Compile Include="Helpers\Extensions\DataContextExtension.cs" />
+    <Compile Include="Helpers\Extensions\TreeDataExtension.cs" />
     <Compile Include="Helpers\PropertyHelper.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="SupportClasses\ExpressionVisitors.cs" />
     <Compile Include="SupportClasses\IAreaRegistration.cs" />
     <Compile Include="SupportClasses\LoginUserInfo.cs" />
+    <Compile Include="SupportClasses\TreeItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sxxy_FrameworkArt.Models\Sxxy_FrameworkArt.Entity.csproj">

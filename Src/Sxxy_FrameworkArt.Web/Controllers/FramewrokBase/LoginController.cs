@@ -5,7 +5,7 @@ using Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels;
 
 namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
 {
-    [ActionDescription(DisplayName = "登录")]
+    [ControllerOrActionDescription("登录模块")]
     public class LoginController : BaseController
     {
         public ActionResult Index()
@@ -23,7 +23,6 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
         [HttpPost]
         public ActionResult Index(LoginViewModel vm)
         {
-
             return PartialView(vm);
         }
         [HttpGet]

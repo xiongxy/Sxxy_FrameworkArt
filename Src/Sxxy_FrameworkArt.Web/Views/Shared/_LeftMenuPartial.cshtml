@@ -1,4 +1,4 @@
-﻿
+﻿@model Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels.MenuViewModel
 <!DOCTYPE html>
 
 <html>
@@ -180,5 +180,24 @@
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>*@
     </ul>
+    <script>
+        $(function () {
+            debugger;
+            alert("bbb");
+            $.ajax({
+                url: "/Home/LeftMenu?ran=" + Math.random(),
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    alert(data.Data);
+                }
+            });
+        })
+    </script>
 </body>
+
+
+
+
 </html>

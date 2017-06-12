@@ -171,16 +171,15 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                         model.ClassName = item.Name.Replace("Controller", "");
                         model.NameSpace = item.Namespace;
                         //获取controller上标记的ActionDescription属性的值
-                        object[] attrs = item.GetCustomAttributes(typeof(ActionDescriptionAttribute), false);
+                        object[] attrs = item.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), false);
                         if (attrs.Length > 0)
                         {
-                            var ada = attrs[0] as ActionDescriptionAttribute;
+                            var ada = attrs[0] as ControllerOrActionDescriptionAttribute;
                             model.ModuleName = ada.DisplayName;
                         }
                         else
                         {
                             model.ModuleName = model.ClassName;
-
                         }
                         //获取该controller下所有的方法
                         var methods = item.GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
@@ -203,10 +202,10 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                                 SystemAction action = new SystemAction();
                                 action.Module = model;
                                 action.MethodName = method.Name;
-                                object[] attrs2 = method.GetCustomAttributes(typeof(ActionDescriptionAttribute), false);
+                                object[] attrs2 = method.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), false);
                                 if (attrs2.Length > 0)
                                 {
-                                    var ada = attrs2[0] as ActionDescriptionAttribute;
+                                    var ada = attrs2[0] as ControllerOrActionDescriptionAttribute;
                                     action.ActionName = ada.DisplayName;
                                 }
                                 else
@@ -242,10 +241,10 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                                 action.Module = model;
 
                                 action.MethodName = method.Name;
-                                object[] attrs2 = method.GetCustomAttributes(typeof(ActionDescriptionAttribute), false);
+                                object[] attrs2 = method.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), false);
                                 if (attrs2.Length > 0)
                                 {
-                                    var ada = attrs2[0] as ActionDescriptionAttribute;
+                                    var ada = attrs2[0] as ControllerOrActionDescriptionAttribute;
                                     action.ActionName = ada.DisplayName;
 
                                 }

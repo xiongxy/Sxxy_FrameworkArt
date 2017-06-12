@@ -10,14 +10,14 @@ namespace Sxxy_FrameworkArt.Common.Attributes
     /// 标记Controller与Action 名称
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class ActionDescriptionAttribute : Attribute
+    public class ControllerOrActionDescriptionAttribute : Attribute
     {
         public string DisplayName { get; set; }
 
-        public ActionDescriptionAttribute()
+        public ControllerOrActionDescriptionAttribute()
         {
         }
-        public ActionDescriptionAttribute(string displayName)
+        public ControllerOrActionDescriptionAttribute(string displayName)
         {
             DisplayName = displayName;
         }

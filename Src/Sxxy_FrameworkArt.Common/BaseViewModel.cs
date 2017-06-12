@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Sxxy_FrameworkArt.Common.SupportClasses;
+using Sxxy_FrameworkArt.Models.SystemEntity;
 
 namespace Sxxy_FrameworkArt.Common
 {
@@ -35,6 +36,14 @@ namespace Sxxy_FrameworkArt.Common
             }
         }
 
+
+        /// <summary>
+        /// 菜单(属性)
+        /// </summary>
+        public List<SystemMenu> SystemMenuProperty
+        {
+            get { return BaseController.SystemMenuProperty; }
+        }
         public HttpSessionStateBase Session { get; set; }
         public LoginUserInfo LoginUserInfo
         {

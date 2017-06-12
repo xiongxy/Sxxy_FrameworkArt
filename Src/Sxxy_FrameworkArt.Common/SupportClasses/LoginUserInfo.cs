@@ -72,7 +72,7 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
                 if (pos > 0)
                 {
                     url = url.Substring(0, pos);
-                    menu = menus.Where(x => x.ActionID != null && x.Url != null && x.Url.ToLower() == url.ToLower()).FirstOrDefault();
+                    menu = menus.Where(x => x.ActionId != null && x.Url != null && x.Url.ToLower() == url.ToLower()).FirstOrDefault();
                 }
             }
             //如果还没找到，则判断url是否为/controller/action/id这种格式，如果是则抹掉/id之后再对比
@@ -84,7 +84,7 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
                 {
                     int pos = url.LastIndexOf("/");
                     url = url.Substring(0, pos);
-                    menu = menus.Where(x => x.ActionID != null && x.Url != null && x.Url.ToLower() == url.ToLower()).FirstOrDefault();
+                    menu = menus.Where(x => x.ActionId != null && x.Url != null && x.Url.ToLower() == url.ToLower()).FirstOrDefault();
                 }
             }
             //如果最终没有找到，说明系统菜单中并没有配置这个url，返回false
