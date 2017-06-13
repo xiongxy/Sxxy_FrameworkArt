@@ -36,6 +36,7 @@ namespace Sxxy_FrameworkArt.Common
             }
         }
 
+        public string NowControllerName { get; set; }
 
         /// <summary>
         /// 菜单(属性)

@@ -94,6 +94,8 @@
     <Compile Include="Filters\ErrorFilter.cs" />
     <Compile Include="Filters\PrivilegeFilter.cs" />
     <Compile Include="FrameworkViewPages\BootstrapExtension.cs" />
+    <Compile Include="FrameworkViewPages\Bootstrap\BootstrapBaseInput.cs" />
+    <Compile Include="FrameworkViewPages\Bootstrap\BootstrapRouteGuidance.cs" />
     <Compile Include="FrameworkViewPages\FrameworkViewPage.cs" />
     <Compile Include="Helpers\Extensions\DataContextExtension.cs" />
     <Compile Include="Helpers\Extensions\TreeDataExtension.cs" />

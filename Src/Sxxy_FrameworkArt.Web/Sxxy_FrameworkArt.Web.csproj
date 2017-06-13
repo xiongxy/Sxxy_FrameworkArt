@@ -166,6 +166,14 @@
     <Compile Include="ViewModels\System\SystemUserViewModels\SystemUserListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Assembly\Table\dataTables.bootstrap.css" />
+    <Content Include="Content\Assembly\Table\dataTables.bootstrap.js" />
+    <Content Include="Content\Assembly\Table\dataTables.bootstrap.min.js" />
+    <Content Include="Content\Assembly\Table\jquery.dataTables.css" />
+    <Content Include="Content\Assembly\Table\jquery.dataTables.js" />
+    <Content Include="Content\Assembly\Table\jquery.dataTables.min.css" />
+    <Content Include="Content\Assembly\Table\jquery.dataTables.min.js" />
+    <Content Include="Content\Assembly\Table\jquery.dataTables_themeroller.css" />
     <Content Include="Content\css\AdminLTE.css" />
     <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\alt\AdminLTE-bootstrap-social.css" />
@@ -413,6 +421,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
+    <Folder Include="Content\Assembly\Table\extensions\" />
+    <Folder Include="Content\Assembly\Table\images\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\" />
     <Folder Include="ViewModels\HomeViewModels\" />
@@ -597,6 +607,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\SystemUser\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\BootstrapRouteGuidance.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

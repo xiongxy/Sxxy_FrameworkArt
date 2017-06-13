@@ -205,6 +205,9 @@ namespace Sxxy_FrameworkArt.Common
         }
         #endregion
 
+        public string NowControllerName { get; set; }
+
+
         protected T CreateViewModel<T>(long? ID = null, IEnumerable<long> IDs = null, Expression<Func<T, object>> values = null, bool passInit = false) where T : BaseViewModel
         {
             SetValuesParser p = new SetValuesParser();
@@ -223,7 +226,7 @@ namespace Sxxy_FrameworkArt.Common
             baseViewModel.InSideFormCollection = HttpContext == null
                 ? new FormCollection()
                 : new FormCollection(this.HttpContext.Request.Form);
-
+            baseViewModel.NowControllerName = this.NowControllerName;
             return baseViewModel;
         }
 
@@ -231,6 +234,10 @@ namespace Sxxy_FrameworkArt.Common
         // 在调用操作方法前调用
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            var vvv = filterContext.ActionDescriptor.ControllerDescriptor.ControllerType;
+            object[] objs = vvv.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), true);
+            this.NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName;
+            return;
             if (LoginUserInfo == null)
             {
                 var isStaticPublic = filterContext.ActionDescriptor.IsDefined(typeof(PublicAttribute), false) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(PublicAttribute), false);
@@ -249,11 +256,11 @@ namespace Sxxy_FrameworkArt.Common
                             string url = "";
                             if (cookie == null || string.IsNullOrEmpty(cookie.Value))
                             {
-                                url = MainDomain + "/Home/PopUpIndex/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + filterContext.HttpContext.Request.Url.LocalPath.ToString());
+                                url = MainDomain + "/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + filterContext.HttpContext.Request.Url.LocalPath.ToString());
                             }
                             else
                             {
-                                url = MainDomain + "/Home/PopUpIndex/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + cookie.Value);
+                                url = MainDomain + "/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + cookie.Value);
                             }
                             filterContext.Result = Content("<script>window.top.location.href = '" + url + "';</script>");
                         }
@@ -396,27 +403,27 @@ namespace Sxxy_FrameworkArt.Common
                 }
                 string url = "";
                 string script = "";
-//                if (filterContext.ActionDescriptor.IsDefined(typeof(PopUpAttribute), false) || isPublic == true)
-//                {
-//                    url = "/Home/PopUpIndex/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
-//                    if (filterContext.HttpContext.Request.QueryString != null && filterContext.HttpContext.Request.QueryString.Count > 0)
-//                    {
-//                        url += "?" + filterContext.HttpContext.Request.QueryString.ToSpratedString("&");
-//                    }
-//                }
-//                else
-//                {
-//                    url = "/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
-//                }
-//                script = @"
-//<script>
-//    var url = '" + url + @"';
-//    if (typeof mainwindow == 'undefined' && typeof popupwindow == 'undefined')
-//    { 
-//        window.location.href = url;
-//    }
-//</script>
-//";
+                //                if (filterContext.ActionDescriptor.IsDefined(typeof(PopUpAttribute), false) || isPublic == true)
+                //                {
+                //                    url = "/Home/PopUpIndex/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
+                //                    if (filterContext.HttpContext.Request.QueryString != null && filterContext.HttpContext.Request.QueryString.Count > 0)
+                //                    {
+                //                        url += "?" + filterContext.HttpContext.Request.QueryString.ToSpratedString("&");
+                //                    }
+                //                }
+                //                else
+                //                {
+                //                    url = "/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
+                //                }
+                //                script = @"
+                //<script>
+                //    var url = '" + url + @"';
+                //    if (typeof mainwindow == 'undefined' && typeof popupwindow == 'undefined')
+                //    { 
+                //        window.location.href = url;
+                //    }
+                //</script>
+                //";
                 filterContext.HttpContext.Response.Write(script);
                 BaseViewModel viewModel = null;
                 if (filterContext.Result is PartialViewResult)
