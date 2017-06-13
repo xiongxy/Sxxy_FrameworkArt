@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Sxxy_FrameworkArt.Common.Attributes;
 using Sxxy_FrameworkArt.Common.SupportClasses;
 using Sxxy_FrameworkArt.Models.SystemEntity;
 
@@ -124,6 +125,26 @@ namespace Sxxy_FrameworkArt.Common
 
         #endregion
 
+        #region CookiePre（属性）
+        public static string CookiePre
+        {
+            get
+            {
+
+                if (HttpRuntime.Cache["CookiePre"] == null)
+                {
+                    var ls = System.Configuration.ConfigurationManager.AppSettings["CookiePre"];
+                    if (string.IsNullOrEmpty(ls))
+                    {
+                        ls = "SxxyFramework";
+                    }
+                    HttpRuntime.Cache.Add("CookiePre", ls, null, System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(365, 0, 0, 0), System.Web.Caching.CacheItemPriority.Normal, null);
+                }
+                return HttpRuntime.Cache["CookiePre"].ToString();
+            }
+        }
+        #endregion
+
         #region 菜单 （属性）
 
         public static List<SystemMenu> SystemMenuProperty
@@ -163,6 +184,27 @@ namespace Sxxy_FrameworkArt.Common
 
         #endregion
 
+        #region 当前用户（属性）
+        public LoginUserInfo LoginUserInfo
+        {
+            get
+            {
+                if (Session == null || Session["UserInfo"] == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return Session["UserInfo"] as LoginUserInfo;
+                }
+            }
+            set
+            {
+                Session["UserInfo"] = value;
+            }
+        }
+        #endregion
+
         protected T CreateViewModel<T>(long? ID = null, IEnumerable<long> IDs = null, Expression<Func<T, object>> values = null, bool passInit = false) where T : BaseViewModel
         {
             SetValuesParser p = new SetValuesParser();
@@ -184,5 +226,223 @@ namespace Sxxy_FrameworkArt.Common
 
             return baseViewModel;
         }
+
+        #region  执行
+        // 在调用操作方法前调用
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (LoginUserInfo == null)
+            {
+                var isStaticPublic = filterContext.ActionDescriptor.IsDefined(typeof(PublicAttribute), false) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(PublicAttribute), false);
+                if (isStaticPublic == false)
+                {
+                    var isPublic = SystemMenuProperty
+                        .Where(x => x.Url != null
+                                    && x.Url.ToLower() == "/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower() + "/" + filterContext.ActionDescriptor.ActionName
+                                    && x.IsPublic == true)
+                        .FirstOrDefault();
+                    if (isPublic == null)
+                    {
+                        try
+                        {
+                            HttpCookie cookie = filterContext.HttpContext.Request.Cookies.Get(CookiePre + "FFLastPage");
+                            string url = "";
+                            if (cookie == null || string.IsNullOrEmpty(cookie.Value))
+                            {
+                                url = MainDomain + "/Home/PopUpIndex/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + filterContext.HttpContext.Request.Url.LocalPath.ToString());
+                            }
+                            else
+                            {
+                                url = MainDomain + "/Home/PopUpIndex/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + cookie.Value);
+                            }
+                            filterContext.Result = Content("<script>window.top.location.href = '" + url + "';</script>");
+                        }
+                        catch { }
+                        return;
+                    }
+                }
+            }
+            foreach (var item in filterContext.ActionParameters)
+            {
+                if (item.Value is BaseViewModel)
+                {
+                    var model = item.Value as BaseViewModel;
+                    model.Session = this.Session;
+                    model.Dc = this._dc;
+                    model.ModelStateDictionarys = this.ModelState;
+                    //model.Cache = HttpRuntime.Cache;
+                    model.InSideFormCollection = new FormCollection(this.HttpContext.Request.Form);
+                    //如果ViewModel T继承自IBaseBatchVM<BaseVM>，则自动为其中的ListVM和EditModel初始化数据
+                    //if (model is IBaseBatchVM<BaseVM>)
+                    //{
+                    //    var temp = model as IBaseBatchVM<BaseVM>;
+                    //    if (temp.ListVM != null)
+                    //    {
+                    //        temp.ListVM.CopyContext(model);
+                    //        temp.ListVM.IDs = temp.IDs == null ? new List<long>() : temp.IDs.ToList();
+                    //        temp.ListVM.SearcherMode = ListVMSearchModeEnum.Batch;
+                    //    }
+                    //    if (temp.LinkedVM != null)
+                    //    {
+                    //        temp.LinkedVM.CopyContext(model);
+                    //    }
+                    //    if (temp.ListVM != null)
+                    //    {
+                    //        temp.ListVM.GridActions = new List<GridAction>();
+                    //        //绑定ListVM的OnAfterInitList事件，当ListVM的InitList完成时，自动将操作列移除
+                    //        temp.ListVM.OnAfterInitList += (self) =>
+                    //        {
+                    //            self.RemoveActionColumn();
+                    //            if (temp.ErrorMessage.Count > 0)
+                    //            {
+                    //                self.AddErrorColumn((item2, value) => { return temp.ErrorMessage[item2.ID]; });
+                    //            }
+                    //        };
+                    //        if (temp.ListVM.Searcher != null)
+                    //        {
+                    //            BaseSearcher searcher = temp.ListVM.Searcher;
+                    //            searcher.CopyContext(model);
+                    //            //searcher.DoReInit();
+                    //        }
+                    //    }
+                    //}
+                    //if (model is IBaseMasterDetailsVM<IBaseCRUDVM<BasePoco>, IBasePagedListVM<BasePoco, BaseSearcher>>)
+                    //{
+                    //    var temp = model as IBaseMasterDetailsVM<IBaseCRUDVM<BasePoco>, IBasePagedListVM<BasePoco, BaseSearcher>>;
+                    //    if (temp.ListVM != null)
+                    //    {
+                    //        temp.ListVM.CopyContext(model);
+                    //        temp.ListVM.SearcherMode = ListVMSearchModeEnum.MasterDetail;
+                    //        if (temp.ListVM.Searcher != null)
+                    //        {
+                    //            BaseSearcher searcher = temp.ListVM.Searcher;
+                    //            searcher.CopyContext(model);
+                    //            //searcher.DoReInit();
+                    //        }
+                    //    }
+                    //    if (temp.MasterVM != null)
+                    //    {
+                    //        temp.MasterVM.CopyContext(model);
+                    //    }
+                    //}
+                    //if (model is IBasePagedListVM<BasePoco, BaseSearcher>)
+                    //{
+                    //    BaseSearcher searcher = (model as IBasePagedListVM<BasePoco, BaseSearcher>).Searcher;
+                    //    searcher.CopyContext(model);
+                    //    if (filterContext.HttpContext.Request.HttpMethod == "POST")
+                    //    {
+                    //        if (Request.Form["SaveInCookie"] != null && Request.Form["SaveInCookie"].ToLower() == "true")
+                    //        {
+                    //            Type searcherType = searcher.GetType();
+                    //            var pros = searcherType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance).ToList();
+                    //            pros.Add(searcherType.GetProperty("IsValid"));
+                    //            foreach (var pro in pros)
+                    //            {
+                    //                var propertyType = pro.PropertyType;
+                    //                object val = pro.GetValue(searcher);
+                    //                string name = CookiePre + "`Searcher" + "`" + model.VMFullName + "`" + pro.Name;
+                    //                string valText = "`";
+                    //                if (val != null)
+                    //                {
+                    //                    if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(List<>))
+                    //                    {
+                    //                        valText = "`" + (val as IList).ToSpratedString() + "`";
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        if (val.ToString() != "")
+                    //                        {
+                    //                            valText = val.ToString();
+                    //                        }
+                    //                    }
+                    //                }
+                    //                HttpCookie cookie = new HttpCookie(name, valText);
+                    //                cookie.Expires = DateTime.Today.AddYears(10);
+                    //                Response.Cookies.Add(cookie);
+                    //            }
+                    //        }
+                    //        searcher.IsPostBack = true;
+                    //    }
+                    //    searcher.DoReInit();
+                    //}
+                    //if (model is IBaseImport<BaseTemplateVM>)
+                    //{
+                    //    var template = (model as IBaseImport<BaseTemplateVM>).Template;
+                    //    template.CopyContext(model);
+                    //}
+                    //SetReInit(ModelState, model);
+                }
+            }
+            base.OnActionExecuting(filterContext);
+        }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            if (filterContext.Result is PartialViewResult || filterContext.ActionDescriptor.ActionName == "Test")
+            {
+                var isPublic = filterContext.ActionDescriptor.IsDefined(typeof(PublicAttribute), false) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(PublicAttribute), false);
+
+                if (isPublic == false)
+                {
+                    var pub = SystemMenuProperty
+                        .Where(x => x.Url != null
+                                    && x.Url.ToLower() == "/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower() + "/" + filterContext.ActionDescriptor.ActionName
+                                    && x.IsPublic == true)
+                        .FirstOrDefault();
+                    if (pub != null)
+                    {
+                        isPublic = true;
+                    }
+                }
+                string url = "";
+                string script = "";
+//                if (filterContext.ActionDescriptor.IsDefined(typeof(PopUpAttribute), false) || isPublic == true)
+//                {
+//                    url = "/Home/PopUpIndex/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
+//                    if (filterContext.HttpContext.Request.QueryString != null && filterContext.HttpContext.Request.QueryString.Count > 0)
+//                    {
+//                        url += "?" + filterContext.HttpContext.Request.QueryString.ToSpratedString("&");
+//                    }
+//                }
+//                else
+//                {
+//                    url = "/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
+//                }
+//                script = @"
+//<script>
+//    var url = '" + url + @"';
+//    if (typeof mainwindow == 'undefined' && typeof popupwindow == 'undefined')
+//    { 
+//        window.location.href = url;
+//    }
+//</script>
+//";
+                filterContext.HttpContext.Response.Write(script);
+                BaseViewModel viewModel = null;
+                if (filterContext.Result is PartialViewResult)
+                {
+                    viewModel = (filterContext.Result as PartialViewResult).ViewData.Model as BaseViewModel;
+                }
+                //自动为所有PartialView加上最外层的Div
+                if (viewModel != null)
+                {
+                    //如果Action中没有标记PureHtml，则自动调用FF_InitView方法来自动加入主Panel
+                    //如果标记了PureHtml则只填加Div，不做Extjs的其它处理。如果标记了PureHtml的方法中报错，框架会转向/Error/Show方法，而这个方法中是需要Extjs处理的，所以也需要判断
+                    //if (filterContext.ActionDescriptor.IsDefined(typeof(PureHtmlAttribute), false) == false || (filterContext.Result is PartialViewResult && ((PartialViewResult)filterContext.Result).Model is ErrorVM))
+                    //{
+                    //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\" class=\"x-hide-display\">");
+                    //    filterContext.HttpContext.Response.Write(string.Format("<script>FF_InitView('{0}');</script>" + Environment.NewLine, model == null ? "" : model.ViewDivID));
+                    //}
+                    //else
+                    //{
+                    //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\">");
+                    //}
+                }
+            }
+            base.OnActionExecuted(filterContext);
+        }
+
+        #endregion
+
     }
 }

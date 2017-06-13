@@ -92,7 +92,7 @@ namespace Sxxy_FrameworkArt.DataAccess.Migrations
             //SystemMenu companyList = GetMenu(allModules, null, "FrameworkCompany", "Index", new List<SystemRole> { adminRole }, null, 2);
             //SystemMenu departmentList = GetMenu(allModules, null, "FrameworkDepartment", "Index", new List<SystemRole> { adminRole }, null, 3);
             //SystemMenu roleList = GetMenu(allModules, "Admin", "FrameworkRole", "Index", new List<SystemRole> { adminRole }, null, 4);
-            //SystemMenu userList = GetMenu(allModules, null, "FrameworkUser", "Index", new List<SystemRole> { adminRole }, null, 5);
+            SystemMenu userList = GetMenu(allModules, null, "SystemUser", "Index", new List<SystemRole> { adminRole }, null, 5);
             SystemMenu menuList = GetMenu(allModules, null, "SystemMenu", "Index", new List<SystemRole> { adminRole }, null, 6);
             //SystemMenu dpList = GetMenu(allModules, "Admin", "DataPrivilege", "Index", new List<SystemRole> { adminRole }, null, 7);
             //SystemMenu domainList = GetMenu(allModules, "Admin", "FrameworkDomain", "Index", new List<SystemRole> { adminRole }, null, 8);
@@ -103,7 +103,7 @@ namespace Sxxy_FrameworkArt.DataAccess.Migrations
                 dataContext.Set<SystemMenu>().Add(GetMenuFromAction(exp, false, new List<SystemRole> { adminRole }, null));
             }
             //systemManagement.Children.AddRange(new SystemMenu[] { logList, companyList, departmentList, roleList, userList, menuList, dpList, domainList });
-            systemManagement.Children.AddRange(new SystemMenu[] { menuList });
+            systemManagement.Children.AddRange(new SystemMenu[] { menuList, userList });
             #endregion
 
             dataContext.Set<SystemMenu>().Add(systemManagement);

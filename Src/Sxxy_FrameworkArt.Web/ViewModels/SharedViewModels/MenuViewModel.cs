@@ -50,7 +50,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels
             v.ShowOnMenu = item.ShowOnMenu;
             v.ParentId = item.ParentId;
             v.Url = item.Url;
-
+            v.PageName = item.PageName;
             //递归调用本函数，复制子节点
             v.Children = new List<SystemMenu>();
             if (item.Children != null)
@@ -163,8 +163,6 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels
                 menus.Remove(remove);
             }
         }
-
-
         public string RutenMenuHtml()
         {
             List<TreeItem> tree;
@@ -185,11 +183,35 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels
                     if (childrensItem.ChildrensItems != null)
                     {
                         sb.Append("<li class=\"treeview\">");
+                        sb.Append("<a href=\"#\">");
                     }
+                    else
+                    {
+                        sb.Append("<li>");
+                        sb.Append($"<a href=\"{childrensItem.Url}\">");
+                    }
+                    sb.Append("<i class=\"fa fa-files-o\"></i>");
+                    sb.Append($"<span>{childrensItem.Title}</span>");
+                    // 提示容器
+                    //  <span class="pull-right-container">
+                    //    <span class="label label-primary pull-right">4</span> //表示数字
+                    //    <small class="label pull-right bg-green">new</small>  //表示字母
+                    //  </span>
+                    sb.Append("</a>");
+                    if (childrensItem.ChildrensItems != null)
+                    {
+                        sb.Append("<ul class=\"treeview-menu\">");
+                        foreach (var childrensItemChildrensItem in childrensItem.ChildrensItems)
+                        {
+                            sb.Append(
+                                $"<li><a href=\"{childrensItemChildrensItem.Url}\"><i class=\"fa fa-circle-o\"></i>{childrensItemChildrensItem.Title}</a></li>");
+                        }
+                        sb.Append("</ul>");
+                    }
+                    sb.Append("</li>");
                 }
             }
-
-            return "";
+            return sb.ToString();
         }
     }
 }

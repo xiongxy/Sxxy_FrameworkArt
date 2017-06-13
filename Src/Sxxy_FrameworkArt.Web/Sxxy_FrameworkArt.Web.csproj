@@ -163,6 +163,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\SharedViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\System\SystemUserViewModels\SystemUserListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />

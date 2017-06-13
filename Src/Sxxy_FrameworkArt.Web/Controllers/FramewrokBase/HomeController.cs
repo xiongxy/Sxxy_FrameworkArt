@@ -15,15 +15,16 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
         [ControllerOrActionDescription("初始页")]
         public ActionResult Index()
         {
-            var v = SystemMenuProperty;
             return View();
         }
-
+        [HttpGet]
         public ActionResult LeftMenu()
         {
             var vm = CreateViewModel<MenuViewModel>();
             var str = vm.RutenMenuHtml();
             return Content(str);
         }
+
+     
     }
 }
