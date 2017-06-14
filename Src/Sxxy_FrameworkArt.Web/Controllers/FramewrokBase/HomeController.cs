@@ -15,7 +15,8 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
         [ControllerOrActionDescription("初始页")]
         public ActionResult Index()
         {
-            return View();
+            var vm = CreateViewModel<LayoutViewModel>();
+            return View(vm);
         }
         [HttpGet]
         public ActionResult LeftMenu()
@@ -24,7 +25,12 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             var str = vm.RutenMenuHtml();
             return Content(str);
         }
-
-     
+        [HttpGet]
+        public ActionResult RouteGuidance()
+        {
+            var vm = CreateViewModel<RouteGuidanceViewModel>();
+            //var str = vm.RutenMenuHtml();
+            return Content("");
+        }
     }
 }

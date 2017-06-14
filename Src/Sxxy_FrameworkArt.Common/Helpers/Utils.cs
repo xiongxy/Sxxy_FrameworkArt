@@ -266,5 +266,21 @@ namespace Sxxy_FrameworkArt.Common.Helpers
             }
             return systemModules;
         }
+
+        public static IController GetErrorController()
+        {
+            var vv =
+                Type.GetType(
+                    "Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers.ErrorController,Sxxy_FrameworkArt.Web");
+
+            var vvv =
+                Type.GetType(
+                        "Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers.ErrorController,Sxxy_FrameworkArt.Web")
+                    .GetConstructor(Type.EmptyTypes)
+                    .Invoke(null);
+
+
+            return Type.GetType("Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers.ErrorController,Sxxy_FrameworkArt.Web").GetConstructor(Type.EmptyTypes).Invoke(null) as IErrorController;
+        }
     }
 }

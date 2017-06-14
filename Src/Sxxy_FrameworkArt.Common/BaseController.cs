@@ -234,12 +234,14 @@ namespace Sxxy_FrameworkArt.Common
         // 在调用操作方法前调用
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            //获取当前访问的模块记录到BaseController
             var vvv = filterContext.ActionDescriptor.ControllerDescriptor.ControllerType;
             object[] objs = vvv.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), true);
             this.NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName;
-            return;
+
             if (LoginUserInfo == null)
             {
+                //判断当前访问路由是否标记公共标签
                 var isStaticPublic = filterContext.ActionDescriptor.IsDefined(typeof(PublicAttribute), false) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(PublicAttribute), false);
                 if (isStaticPublic == false)
                 {
@@ -252,16 +254,17 @@ namespace Sxxy_FrameworkArt.Common
                     {
                         try
                         {
-                            HttpCookie cookie = filterContext.HttpContext.Request.Cookies.Get(CookiePre + "FFLastPage");
-                            string url = "";
-                            if (cookie == null || string.IsNullOrEmpty(cookie.Value))
-                            {
-                                url = MainDomain + "/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + filterContext.HttpContext.Request.Url.LocalPath.ToString());
-                            }
-                            else
-                            {
-                                url = MainDomain + "/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + cookie.Value);
-                            }
+                            //HttpCookie cookie = filterContext.HttpContext.Request.Cookies.Get(CookiePre + "FFLastPage");
+                            //string url = "";
+                            //if (cookie == null || string.IsNullOrEmpty(cookie.Value))
+                            //{
+                            //    url = MainDomain + "/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + filterContext.HttpContext.Request.Url.LocalPath.ToString());
+                            //}
+                            //else
+                            //{
+                            //    url = MainDomain + "/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + cookie.Value);
+                            //}
+                            var url = MainDomain + "/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + filterContext.HttpContext.Request.Url.LocalPath.ToString());
                             filterContext.Result = Content("<script>window.top.location.href = '" + url + "';</script>");
                         }
                         catch { }

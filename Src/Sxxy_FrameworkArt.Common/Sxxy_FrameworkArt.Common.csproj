@@ -89,6 +89,7 @@
     <Compile Include="BaseListViewModel.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="Binders\StringBinder.cs" />
+    <Compile Include="IErrorController.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Filters\ActionLogFilter.cs" />
     <Compile Include="Filters\ErrorFilter.cs" />

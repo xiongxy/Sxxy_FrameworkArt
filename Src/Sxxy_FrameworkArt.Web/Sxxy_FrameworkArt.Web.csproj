@@ -153,6 +153,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\CoreWebAPI\Controllers\ErrorController.cs" />
+    <Compile Include="Areas\CoreWebAPI\CoreWebAPIAreaRegistration.cs" />
+    <Compile Include="Areas\CoreWebAPI\ViewModels\ErrorViewModels\ErrorViewModel.cs" />
     <Compile Include="Controllers\FramewrokBase\HomeController.cs" />
     <Compile Include="Controllers\FramewrokBase\LoginController.cs" />
     <Compile Include="Controllers\FramewrokBase\SystemMenuController.cs" />
@@ -162,7 +165,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\SharedViewModels\LayoutViewModel.cs" />
     <Compile Include="ViewModels\SharedViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\SharedViewModels\RouteGuidanceViewModel.cs" />
     <Compile Include="ViewModels\System\SystemUserViewModels\SystemUserListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +426,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
+    <Folder Include="Areas\CoreWebAPI\Models\" />
+    <Folder Include="Areas\CoreWebAPI\Views\Error\" />
+    <Folder Include="Areas\CoreWebAPI\Views\Shared\" />
     <Folder Include="Content\Assembly\Table\extensions\" />
     <Folder Include="Content\Assembly\Table\images\" />
     <Folder Include="Models\" />
@@ -610,6 +618,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\BootstrapRouteGuidance.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_RouteGuidance.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\CoreWebAPI\Views\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\ErrorPage.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

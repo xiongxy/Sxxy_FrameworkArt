@@ -60,7 +60,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels
         public string LoginUserValidate(string code, string pwd)
         {
             string msg = "";
-            SystemUser user = Dc.Set<SystemUser>().FirstOrDefault(x => x.Code.ToLower() == Code.ToLower());
+            SystemUser user = Dc.Set<SystemUser>().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
             if (user == null)//用户名错误
             {
                 msg = "用户名或密码错误";

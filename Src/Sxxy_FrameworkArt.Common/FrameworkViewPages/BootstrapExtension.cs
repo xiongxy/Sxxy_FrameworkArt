@@ -18,7 +18,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             {
                 ModulName = modeulName
             };
-            var rv = html.InnerHelper.Editor("", "BootstrapRouteGuidance", new { obj = obj });
+            var rv = html.InnerHelper.Editor("", "BootstrapRouteGuidance", new { obj });
             return rv;
         }
 
