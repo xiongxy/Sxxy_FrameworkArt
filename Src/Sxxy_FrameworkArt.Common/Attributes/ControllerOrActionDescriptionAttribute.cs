@@ -14,12 +14,15 @@ namespace Sxxy_FrameworkArt.Common.Attributes
     {
         public string DisplayName { get; set; }
 
+        public string Remark { get; set; }
+
         public ControllerOrActionDescriptionAttribute()
         {
         }
-        public ControllerOrActionDescriptionAttribute(string displayName)
+        public ControllerOrActionDescriptionAttribute(string displayName, string remark = null)
         {
             DisplayName = displayName;
+            Remark = remark;
         }
 
     }

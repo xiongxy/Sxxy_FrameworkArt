@@ -10,5 +10,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
     {
         public string ModulName { get; set; }
 
+        public string ModulRemark { get; set; }
     }
 }

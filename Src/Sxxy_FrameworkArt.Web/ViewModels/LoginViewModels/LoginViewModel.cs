@@ -15,6 +15,8 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels
         public string LoginBtn = "登录";
         public string Code { get; set; }
         public string Password { get; set; }
+        //重定向
+        public string Redirect { get; set; }
         /// <summary>
         /// 进行登录
         /// </summary>
@@ -36,23 +38,23 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels
 
             var roleIDs = user.Roles.Select(x => x.Id).ToList();
             //查找登录用户的数据权限
-            var dpris = Dc.Set<DataPrivilege>()
-                .Where(x => x.UserId == user.Id && x.DomainId == null)
-                .ToList();
+            //var dpris = Dc.Set<DataPrivilege>()
+            //    .Where(x => x.UserId == user.Id && x.DomainId == null)
+            //    .ToList();
             //生成并返回登录用户信息
             LoginUserInfo rv = new LoginUserInfo();
             rv.Id = user.Id;
             rv.Code = user.Code;
             rv.Name = user.Name;
             rv.Roles = user.Roles;
-            rv.DataPrivileges = dpris;
+            //rv.DataPrivileges = dpris;
             if (IgnorePris == false)
             {
                 //查找登录用户的页面权限
-                var pris = Dc.Set<FunctionPrivilege>()
-                    .Where(x => x.UserId == user.Id || (x.RoleId != null && roleIDs.Contains(x.RoleId)))
-                    .ToList();
-                rv.FunctionPrivileges = pris;
+                //var pris = Dc.Set<FunctionPrivilege>()
+                //    .Where(x => x.UserId == user.Id || (x.RoleId != null && roleIDs.Contains(x.RoleId)))
+                //    .ToList();
+                //rv.FunctionPrivileges = pris;
             }
             return rv;
         }

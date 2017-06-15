@@ -12,11 +12,12 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
     public static class BootstrapExtension
     {
 
-        public static MvcHtmlString RouteGuidance<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string modeulName)
+        public static MvcHtmlString RouteGuidance<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string modulName, string modulRemark = null)
         {
             Bootstrap.BootstrapRouteGuidance obj = new Bootstrap.BootstrapRouteGuidance()
             {
-                ModulName = modeulName
+                ModulName = modulName,
+                ModulRemark = modulRemark,
             };
             var rv = html.InnerHelper.Editor("", "BootstrapRouteGuidance", new { obj });
             return rv;

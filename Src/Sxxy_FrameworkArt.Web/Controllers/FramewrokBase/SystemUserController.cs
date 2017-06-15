@@ -9,7 +9,7 @@ using Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels;
 
 namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
 {
-    [ControllerOrActionDescription("系统用户管理")]
+    [ControllerOrActionDescription("系统用户管理", "")]
     public class SystemUserController : BaseController
     {
         // GET: SystemUser

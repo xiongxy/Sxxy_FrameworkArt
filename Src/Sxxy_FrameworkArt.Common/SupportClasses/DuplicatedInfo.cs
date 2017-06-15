@@ -155,6 +155,7 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
                     {
                         left = Expression.Call(left, typeof(String).GetMethod("Trim", Type.EmptyTypes));
                     }
+                    typeof(String).GetMethod("Trim", Type.EmptyTypes).Invoke("",null);
                     //使用当前循环的中间表的数据获取字段的值
                     object vv = SubFieldExp.Compile().Invoke(li);
                     //如果值为空则跳过

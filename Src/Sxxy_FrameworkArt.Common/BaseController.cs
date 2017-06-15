@@ -205,7 +205,7 @@ namespace Sxxy_FrameworkArt.Common
         }
         #endregion
 
-        public string NowControllerName { get; set; }
+        public NowControllerInfo NowController { get; set; }
 
 
         protected T CreateViewModel<T>(long? ID = null, IEnumerable<long> IDs = null, Expression<Func<T, object>> values = null, bool passInit = false) where T : BaseViewModel
@@ -226,7 +226,7 @@ namespace Sxxy_FrameworkArt.Common
             baseViewModel.InSideFormCollection = HttpContext == null
                 ? new FormCollection()
                 : new FormCollection(this.HttpContext.Request.Form);
-            baseViewModel.NowControllerName = this.NowControllerName;
+            baseViewModel.NowController = this.NowController;
             return baseViewModel;
         }
 
@@ -237,7 +237,11 @@ namespace Sxxy_FrameworkArt.Common
             //获取当前访问的模块记录到BaseController
             var vvv = filterContext.ActionDescriptor.ControllerDescriptor.ControllerType;
             object[] objs = vvv.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), true);
-            this.NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName;
+            NowController = new NowControllerInfo
+            {
+                NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName,
+                NowControllerRemark = (objs[0] as ControllerOrActionDescriptionAttribute).Remark
+            };
 
             if (LoginUserInfo == null)
             {
@@ -246,10 +250,9 @@ namespace Sxxy_FrameworkArt.Common
                 if (isStaticPublic == false)
                 {
                     var isPublic = SystemMenuProperty
-                        .Where(x => x.Url != null
+                        .FirstOrDefault(x => x.Url != null
                                     && x.Url.ToLower() == "/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower() + "/" + filterContext.ActionDescriptor.ActionName
-                                    && x.IsPublic == true)
-                        .FirstOrDefault();
+                                    && x.IsPublic == true);
                     if (isPublic == null)
                     {
                         try
@@ -264,7 +267,7 @@ namespace Sxxy_FrameworkArt.Common
                             //{
                             //    url = MainDomain + "/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + cookie.Value);
                             //}
-                            var url = MainDomain + "/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + filterContext.HttpContext.Request.Url.LocalPath.ToString());
+                            var url = MainDomain + "/Login/Index?rd=" + HttpUtility.UrlEncode(filterContext.HttpContext.Request.Url.LocalPath);
                             filterContext.Result = Content("<script>window.top.location.href = '" + url + "';</script>");
                         }
                         catch { }

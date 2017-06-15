@@ -13,8 +13,7 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
         public ActionResult Index()
         {
             var vm = CreateViewModel<LoginViewModel>();
-            var vvv = Request;
-            var vvvv = Request["rd"];
+            vm.Redirect = Request["rd"];
             if (IsQuickDebug)
             {
                 vm.Code = "admin";
@@ -30,21 +29,17 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             {
                 return PartialView(vm);
             }
+            LoginUserInfo = user;
+            var url = "";
+            if (!string.IsNullOrEmpty(vm.Redirect))
+            {
+                url = vm.Redirect;
+            }
             else
             {
-                LoginUserInfo = user;
-                string url = "";
-                //if (!string.IsNullOrEmpty(vm.Redirect))
-                //{
-                //    url = vm.Redirect;
-                //}
-                //else
-                //{
                 url = "/";
-
-                return Content("<script>window.location.replace('" + HttpUtility.UrlDecode(url) + "');</script>");
             }
-            return PartialView(vm);
+            return Content("<script>window.location.replace('" + HttpUtility.UrlDecode(url) + "');</script>");
         }
         [HttpGet]
         public JsonResult ValidateLoginUser(string code, string msg)
