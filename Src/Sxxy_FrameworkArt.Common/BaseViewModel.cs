@@ -94,5 +94,29 @@ namespace Sxxy_FrameworkArt.Common
             List<ValidationResult> rv = new List<ValidationResult>();
             return rv;
         }
+
+        /// <summary>
+        /// InitVM完成后触发的事件
+        /// </summary>
+        public event Action<BaseViewModel> OnAfterInit;
+        /// <summary>
+        /// ReInitVM完成后触发的事件
+        /// </summary>
+        public event Action<BaseViewModel> OnAfterReInit;
+
+        public void DoInit()
+        {
+            InitVM();
+            if (OnAfterInit != null)
+            {
+                OnAfterInit(this);
+            }
+        }
+        /// <summary>
+        /// 初始化ViewModel，框架会在创建VM实例之后自动调用本函数
+        /// </summary>
+        protected virtual void InitVM()
+        {
+        }
     }
 }

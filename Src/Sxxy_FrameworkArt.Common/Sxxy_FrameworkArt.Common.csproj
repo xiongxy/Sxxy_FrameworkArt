@@ -88,6 +88,7 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="BaseCRUDViewModel.cs" />
     <Compile Include="BaseListViewModel.cs" />
+    <Compile Include="BaseSearcher.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="Binders\StringBinder.cs" />
     <Compile Include="Helpers\Extensions\PagedListExtension.cs" />

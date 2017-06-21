@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Sxxy_FrameworkArt.Common.Helpers;
 using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Common.SupportClasses
@@ -83,6 +84,12 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
 
     public class GridColumn<T> : IGridColumn<T> where T : BaseEntity
     {
+
+        public GridColumn(Expression<Func<T, object>> columnExp)
+        {
+            this.ColumnExp = columnExp;
+        }
+
         public List<IGridColumn<T>> BottomChildren
         {
             get
@@ -99,18 +106,7 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
             }
         }
 
-        public Expression<Func<T, object>> ColumnExp
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Expression<Func<T, object>> ColumnExp { get; set; }
 
         public bool Flex
         {
@@ -180,17 +176,29 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
             }
         }
 
+        private string _title { get; set; }
+
         public string Title
         {
             get
             {
-                throw new NotImplementedException();
+                if (_title == null)
+                {
+                    return GetTitle();
+                }
+                return _title;
             }
+            set { _title = value; }
+        }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
+        /// <summary>
+        /// 获取标题内容
+        /// </summary>
+        /// <returns></returns>
+        private string GetTitle()
+        {
+            string str = PropertyHelper.GetPropertyDisplayName(this.ColumnExp);
+            return str ?? "";
         }
 
         public int? Width

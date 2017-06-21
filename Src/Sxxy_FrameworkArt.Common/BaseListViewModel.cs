@@ -9,9 +9,14 @@ namespace Sxxy_FrameworkArt.Common
 {
     public interface IBaseListViewModel<out TModel, out TSearch>
     {
+        TSearch Searcher { get; }
     }
     public class BaseListViewModel<TModel, TSearch> : BaseViewModel, IBaseListViewModel<TModel, TSearch>
     {
+        BaseListViewModel()
+        {
+        }
+
         /// <summary>
         /// 初始化ListVM，继承的类应该重载这个函数来设定数据的列和动作
         /// </summary>
@@ -19,7 +24,6 @@ namespace Sxxy_FrameworkArt.Common
         {
             _listColumns = new List<IGridColumn<TModel>>();
         }
-
         private List<IGridColumn<TModel>> _listColumns;
         /// <summary>
         /// 数据列
@@ -31,7 +35,7 @@ namespace Sxxy_FrameworkArt.Common
                 //如果没有列信息，则调用Init方法
                 if (_listColumns == null)
                 {
-                    DoInitListVM();
+                    DoInitListViewModel();
                 }
                 if (_listColumns.Where(x => x.Title.ToLower() == "id").FirstOrDefault() == null)
                 {
@@ -52,11 +56,12 @@ namespace Sxxy_FrameworkArt.Common
                 _listColumns = value;
             }
         }
+        public TSearch Searcher { get; set; }
         public event Action<IBaseListViewModel<TModel, TSearch>> OnAfterInitList;
         /// <summary>
         /// 调用InitListVM并触发OnAfterInitList事件
         /// </summary>
-        public void DoInitListVM()
+        public void DoInitListViewModel()
         {
             InitListViewModel();
             if (OnAfterInitList != null)

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Sxxy_FrameworkArt.Common;
+using Sxxy_FrameworkArt.Common.Helpers.Extensions;
+using Sxxy_FrameworkArt.Common.SupportClasses;
+using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
 {
@@ -14,14 +17,36 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
         public SystemUserListViewModel()
         {
         }
-
+        /// <summary>
+        /// 初始化页面显示列表
+        /// </summary>
+        protected override void InitListViewModel()
+        {
+            List<IGridColumn<SystemUserListView>> listColumns = new List<IGridColumn<SystemUserListView>>();
+            listColumns.Add(this.MakeGridColumn(x => x.Code));
+            listColumns.Add(this.MakeGridColumn(x => x.Name));
+            listColumns.Add(this.MakeGridColumn(x => x.Email));
+            ListColumns = listColumns;
+        }
     }
 
-    public class SystemUserListView
+    public class SystemUserListView : BaseEntity
     {
+        /// <summary>
+        /// 编码(用户名)
+        /// </summary>
+        public string Code { get; set; }
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { get; set; }
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        public string Name { get; set; }
     }
 
-    public class SystemUserSearcher
+    public class SystemUserSearcher : BaseSearcher
     {
     }
 }

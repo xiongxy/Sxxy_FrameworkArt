@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Sxxy_FrameworkArt.Common.Attributes;
+using Sxxy_FrameworkArt.Common.Helpers.Extensions;
 using Sxxy_FrameworkArt.Common.SupportClasses;
+using Sxxy_FrameworkArt.Models;
 using Sxxy_FrameworkArt.Models.SystemEntity;
 
 namespace Sxxy_FrameworkArt.Common
@@ -227,6 +229,16 @@ namespace Sxxy_FrameworkArt.Common
                 ? new FormCollection()
                 : new FormCollection(this.HttpContext.Request.Form);
             baseViewModel.NowController = this.NowController;
+            //如果当前的viewModel 继承的是IBaseListViewModel，则初始化Searcher并调用Searcher的InitVM方法
+            if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
+            {
+
+                var vv = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
+                BaseSearcher baseSearcher = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
+                baseSearcher.CopyContext(baseViewModel);
+                baseSearcher.DoInit();
+            }
+            baseViewModel.DoInit();
             return baseViewModel;
         }
 
