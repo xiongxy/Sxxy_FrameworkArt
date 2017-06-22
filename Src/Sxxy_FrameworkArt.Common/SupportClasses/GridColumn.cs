@@ -90,92 +90,23 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
             this.ColumnExp = columnExp;
         }
 
-        public List<IGridColumn<T>> BottomChildren
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public List<IGridColumn<T>> BottomChildren { get; set; }
 
-        public List<IGridColumn<T>> Children
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public List<IGridColumn<T>> Children { get; set; }
 
         public Expression<Func<T, object>> ColumnExp { get; set; }
 
-        public bool Flex
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+        public bool Flex { get; set; }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Func<T, dynamic, object> Format { get; set; }
 
-        public Func<T, dynamic, object> Format
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+        public bool IsAllowMultiLine { get; set; }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool IsNeedGroup { get; set; }
 
-        public bool IsAllowMultiLine
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+        public int MaxChildrenCount { get; set; }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool IsNeedGroup
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int MaxChildrenCount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int MaxLevel
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        public int MaxLevel { get; set; }
         private string _title { get; set; }
 
         public string Title
@@ -201,32 +132,21 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
             return str ?? "";
         }
 
-        public int? Width
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int? Width { get; set; }
 
         public Color GetBackGroundColor(T source)
         {
-            throw new NotImplementedException();
+            return Color.Coral;
         }
 
         public Color GetForeGroundColor(T source)
         {
-            throw new NotImplementedException();
+            return Color.Coral;
         }
 
         public MvcHtmlString GetText(T source)
         {
-            throw new NotImplementedException();
+            return new MvcHtmlString("");
         }
     }
 }
