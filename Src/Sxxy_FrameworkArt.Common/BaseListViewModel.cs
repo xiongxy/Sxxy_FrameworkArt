@@ -3,20 +3,96 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap;
+using Sxxy_FrameworkArt.Common.Helpers;
 using Sxxy_FrameworkArt.Common.SupportClasses;
+using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Common
 {
     public interface IBaseListViewModel<out TModel, out TSearch>
     {
+        /// <summary>
+        /// 获取列信息的数据
+        /// </summary>
+        /// <returns>Json格式的列信息</returns>
+        string GetColumnsJson();
         TSearch Searcher { get; }
+        List<BootStrapTableColumn> GetColumnsObj();
     }
-    public class BaseListViewModel<TModel, TSearch> : BaseViewModel, IBaseListViewModel<TModel, TSearch>
+    public class BaseListViewModel<TModel, TSearch> : BaseViewModel, IBaseListViewModel<TModel, TSearch> where TModel : BaseEntity where TSearch : BaseSearcher
     {
-        BaseListViewModel()
+        public BaseListViewModel()
         {
+            //初始化搜索条件
+            //Searcher = typeof(TSearch).GetConstructor(Type.EmptyTypes).Invoke(null) as TSearch;
+            Searcher = Activator.CreateInstance(typeof(TSearch)) as TSearch;
         }
 
+        #region 获取列信息
+        /// <summary>
+        /// 获取列信息的数据
+        /// </summary>
+        /// <returns>Json格式的列信息</returns>
+        public string GetColumnsJson()
+        {
+            int count = 0;
+            //调用递归函数
+            return GetColumnsJson(ref count);
+        }
+
+        private string GetColumnsJson(ref int count, List<IGridColumn<TModel>> basecols = null)
+        {
+            StringBuilder sb = new StringBuilder();
+            var cols = basecols;
+            if (cols == null)
+            {
+                cols = this.ListColumns;
+            }
+            //循环所有列
+            for (int i = 0; i < cols.Count; i++)
+            {
+                var col = cols[i];
+                //获取列字段的类型
+                Type ptype = null;
+                if (col.ColumnExp != null)
+                {
+                    ptype = PropertyHelper.GetPropertyInfo(col.ColumnExp).PropertyType;
+                }
+                //如果有子列，则递归调用自己，生成json
+                if (col.Children != null && col.Children.Count > 0)
+                {
+
+                }
+                else
+                {
+                    sb.Append("[{\"Title\":" + col.Title + "");
+                }
+                if (i < cols.Count - 1)
+                {
+                    sb.Append("},");
+                }
+                else
+                {
+                    sb.Append("}");
+                }
+            }
+            sb.Append("]");
+            return sb.ToString();
+        }
+
+        public List<BootStrapTableColumn> GetColumnsObj()
+        {
+            List<BootStrapTableColumn> list = new List<BootStrapTableColumn>();
+            foreach (var itemListColumn in ListColumns)
+            {
+                BootStrapTableColumn v = new BootStrapTableColumn();
+                v.Title = itemListColumn.Title;
+                list.Add(v);
+            }
+            return list;
+        }
+        #endregion
         /// <summary>
         /// 初始化ListVM，继承的类应该重载这个函数来设定数据的列和动作
         /// </summary>
@@ -63,7 +139,7 @@ namespace Sxxy_FrameworkArt.Common
         /// </summary>
         public void DoInitListViewModel()
         {
-            InitListViewModel();
+            this.InitListViewModel();
             if (OnAfterInitList != null)
             {
                 OnAfterInitList(this);
