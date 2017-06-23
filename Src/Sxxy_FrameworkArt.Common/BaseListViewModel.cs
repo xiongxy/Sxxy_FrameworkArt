@@ -120,7 +120,36 @@ namespace Sxxy_FrameworkArt.Common
         #region 获取数据信息
         public string GetDataJson()
         {
-            return "";
+            DoSearch();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+
+            for (int i = 0; i < EntityList.Count; i++)
+            {
+                sb.Append(GetSingleDataJson(EntityList[i]));
+                if (i < EntityList.Count - 1)
+                {
+                    sb.Append(",");
+                }
+            }
+        
+            sb.Append("]");
+            return sb.ToString();
+        }
+        public string GetSingleDataJson(TModel model)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            for (int i = 0; i < ListColumns.Count; i++)
+            {
+                sb.Append($"{PropertyHelper.GetPropertyName(ListColumns[i].ColumnExp)}:\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
+                if (i < ListColumns.Count - 1)
+                {
+                    sb.Append(",");
+                }
+            }
+            sb.Append("}");
+            return sb.ToString();
         }
         public string GetDataHtml()
         {
@@ -132,7 +161,6 @@ namespace Sxxy_FrameworkArt.Common
             }
             return sb.ToString();
         }
-
         public string GetSingleDataHtml(TModel model)
         {
             StringBuilder sb = new StringBuilder();
@@ -144,7 +172,6 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("</tr>");
             return sb.ToString();
         }
-
         private void DoSearch()
         {
             IOrderedQueryable<TModel> query = null;

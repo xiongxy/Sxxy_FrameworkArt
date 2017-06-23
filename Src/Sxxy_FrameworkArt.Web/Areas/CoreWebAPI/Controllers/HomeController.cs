@@ -21,7 +21,7 @@ namespace Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers
             {
                 StringBuilder sb = new StringBuilder();
                 result.ContentType = "text";
-                result.Content= vm.GetDataHtml();
+                result.Content= vm.GetDataJson();
             }
             return result;
         }
