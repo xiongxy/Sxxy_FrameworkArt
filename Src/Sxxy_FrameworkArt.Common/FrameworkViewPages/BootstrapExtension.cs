@@ -109,30 +109,38 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", "BootstrapRouteGuidance", new { obj });
             return rv;
         }
+
         /// <summary>
         /// TableFor 生成一个表格给予使用
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="html"></param>
         /// <param name="fieldExp"></param>
+        /// <param name="isLoadData">第一次是否加载数据，默认是True</param>
         /// <returns></returns>
-        public static MvcHtmlString TableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp)
+        public static MvcHtmlString TableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, bool isLoadData = true)
         {
             var v = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
             BootStrapTable obj = new BootStrapTable();
             obj.TableId = Guid.NewGuid().ToString();
             obj.ColumnsJson = v.GetColumnsJson();
             obj.BootStrapTableColumns = v.GetColumnsObj();
+            obj.IsLoadData = isLoadData;
+            obj.ViewModel = v.GetType().FullName+","+v.GetType().Assembly.FullName.Substring(0, v.GetType().Assembly.FullName.IndexOf(",", StringComparison.Ordinal));
             var rv = html.InnerHelper.Editor("", "BootstrapTable", new { obj });
             return rv;
         }
-
-        public static MvcHtmlString TextField<TViewModel>(
-            this BootstrapHtmlHelper<TViewModel> html,
-            Expression<Func<TViewModel, object>> fieldExp,
-            string labelText = null,
-            string inputType = "text",
-            string description = null)
+        /// <summary>
+        /// TextField 生成一个带Lable标签的文本框
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="fieldExp"></param>
+        /// <param name="labelText">标签名</param>
+        /// <param name="inputType">标签类型，默认text</param>
+        /// <param name="description">文本框默认内容（虚）</param>
+        /// <returns></returns>
+        public static MvcHtmlString TextField<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, object>> fieldExp, string labelText = null, string inputType = "text", string description = null)
         {
             PropertyInfo pi = PropertyHelper.GetPropertyInfo(fieldExp);
             string label = PropertyHelper.GetPropertyDisplayName(pi, labelText);
@@ -143,7 +151,19 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", "BootStrapTextField", new { obj });
             return rv;
         }
-
+        /// <summary>
+        /// 生成一个搜索面板，SearcherPanel
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        public static MvcHtmlString SearcherPanel<TViewModel>(this BootstrapHtmlHelper<TViewModel> html)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<button type=\"submit\" class=\"btn btn-info pull-right\">Submit</button>");
+            html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
+            return new MvcHtmlString("");
+        }
     }
     public enum BootStarpBoxLayout
     {

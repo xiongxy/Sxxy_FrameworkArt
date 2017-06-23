@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,23 @@ namespace Sxxy_FrameworkArt.Common
         /// </summary>
         /// <returns>Json格式的列信息</returns>
         string GetColumnsJson();
-        TSearch Searcher { get; }
+        /// <summary>
+        /// 获取列信息的数据
+        /// </summary>
+        /// <returns>对象格式的列信息</returns>
         List<BootStrapTableColumn> GetColumnsObj();
+        /// <summary>
+        /// 获取数据以Json形式返回
+        /// </summary>
+        /// <returns></returns>
+        string GetDataJson();
+        /// <summary>
+        /// 获取数据以HTML编码形式返回
+        /// </summary>
+        /// <returns></returns>
+        string GetDataHtml();
+        TSearch Searcher { get; }
+
     }
     public class BaseListViewModel<TModel, TSearch> : BaseViewModel, IBaseListViewModel<TModel, TSearch> where TModel : BaseEntity where TSearch : BaseSearcher
     {
@@ -29,6 +45,13 @@ namespace Sxxy_FrameworkArt.Common
             Searcher = Activator.CreateInstance(typeof(TSearch)) as TSearch;
         }
 
+        public List<TModel> EntityList { get; set; }
+
+
+        /// <summary>
+        /// 查询模式
+        /// </summary>
+        public SearcherTypeEnum SearcherType { get; set; }
         #region 获取列信息
         /// <summary>
         /// 获取列信息的数据
@@ -93,6 +116,58 @@ namespace Sxxy_FrameworkArt.Common
             return list;
         }
         #endregion
+
+        #region 获取数据信息
+        public string GetDataJson()
+        {
+            return "";
+        }
+        public string GetDataHtml()
+        {
+            DoSearch();
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in EntityList)
+            {
+                sb.Append(GetSingleDataHtml(item));
+            }
+            return sb.ToString();
+        }
+
+        public string GetSingleDataHtml(TModel model)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<tr role=\"row\" class=\"odd\">");
+            foreach (var itemListColumn in ListColumns)
+            {
+                sb.Append($"<td textfiled=\"{PropertyHelper.GetPropertyName(itemListColumn.ColumnExp)}\">{itemListColumn.ColumnExp.Compile()(model)}</td>");
+            }
+            sb.Append("</tr>");
+            return sb.ToString();
+        }
+
+        private void DoSearch()
+        {
+            IOrderedQueryable<TModel> query = null;
+            //根据搜索模式调用不同的函数
+            switch (SearcherType)
+            {
+                case SearcherTypeEnum.Search:
+                    query = GetSearchQuery();
+                    break;
+                default:
+                    query = GetSearchQuery();
+                    break;
+            }
+            EntityList = query.AsNoTracking().ToList();
+        }
+
+        #endregion
+
+        public virtual IOrderedQueryable<TModel> GetSearchQuery()
+        {
+            return Dc.Set<TModel>().OrderByDescending(x => x.Id);
+        }
+
         /// <summary>
         /// 初始化ListVM，继承的类应该重载这个函数来设定数据的列和动作
         /// </summary>
@@ -146,4 +221,7 @@ namespace Sxxy_FrameworkArt.Common
             }
         }
     }
+
+    public enum SearcherTypeEnum
+    { Search }
 }

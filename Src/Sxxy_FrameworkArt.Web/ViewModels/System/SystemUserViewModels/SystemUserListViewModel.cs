@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.Ajax.Utilities;
 using Sxxy_FrameworkArt.Common;
 using Sxxy_FrameworkArt.Common.Helpers.Extensions;
 using Sxxy_FrameworkArt.Common.SupportClasses;
 using Sxxy_FrameworkArt.Models;
+using Sxxy_FrameworkArt.Models.SystemEntity;
 
 namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
 {
@@ -28,6 +30,21 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
             listColumns.Add(this.MakeGridColumn(x => x.Name));
             listColumns.Add(this.MakeGridColumn(x => x.Email));
             ListColumns = listColumns;
+        }
+
+        public override IOrderedQueryable<SystemUserListView> GetSearchQuery()
+        {
+            var query = Dc.Set<SystemUser>()
+                .Select(x => new SystemUserListView
+                {
+                    Code = x.Code,
+                    Email = x.Email,
+                    Name = x.Name,
+                    CreateTime = x.CreateTime
+                })
+                .OrderByDescending(x => x.CreateTime);
+            var v = query.ToList();
+            return query;
         }
     }
 
