@@ -223,6 +223,9 @@ namespace Sxxy_FrameworkArt.Common
         public BaseViewModel CreateViewModel(Type ViewModelType, long? ID = null, IEnumerable<long> IDs = null,
             Dictionary<string, object> values = null, bool passInit = false)
         {
+            var ctor = ViewModelType.GetConstructor(Type.EmptyTypes);
+            BaseViewModel rv = ctor.Invoke(null) as BaseViewModel;
+
             var v = Activator.CreateInstance(ViewModelType);
             BaseViewModel baseViewModel = (BaseViewModel)v;
             baseViewModel.Dc = this.Dc;
@@ -232,14 +235,14 @@ namespace Sxxy_FrameworkArt.Common
                 : new FormCollection(this.HttpContext.Request.Form);
             baseViewModel.NowController = this.NowController;
             //如果当前的viewModel 继承的是IBaseListViewModel，则初始化Searcher并调用Searcher的InitVM方法
-            if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
-            {
-                var vv = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
-                BaseSearcher baseSearcher = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
-                baseSearcher.CopyContext(baseViewModel);
-                baseSearcher.DoInit();
-            }
-            baseViewModel.DoInit();
+            //if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
+            //{
+            //    var vv = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
+            //    BaseSearcher baseSearcher = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
+            //    baseSearcher.CopyContext(baseViewModel);
+            //    baseSearcher.DoInit();
+            //}
+            //baseViewModel.DoInit();
             return baseViewModel;
         }
 
@@ -248,16 +251,16 @@ namespace Sxxy_FrameworkArt.Common
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             //获取当前访问的模块记录到BaseController
-            var vvv = filterContext.ActionDescriptor.ControllerDescriptor.ControllerType;
-            object[] objs = vvv.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), true);
-            if (objs.Length > 0)
-            {
-                NowController = new NowControllerInfo
-                {
-                    NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName,
-                    NowControllerRemark = (objs[0] as ControllerOrActionDescriptionAttribute).Remark
-                };
-            }
+            //var vvv = filterContext.ActionDescriptor.ControllerDescriptor.ControllerType;
+            //object[] objs = vvv.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), true);
+            //if (objs.Length > 0)
+            //{
+            //    NowController = new NowControllerInfo
+            //    {
+            //        NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName,
+            //        NowControllerRemark = (objs[0] as ControllerOrActionDescriptionAttribute).Remark
+            //    };
+            //}
             if (LoginUserInfo == null)
             {
                 //判断当前访问路由是否标记公共标签
@@ -290,16 +293,16 @@ namespace Sxxy_FrameworkArt.Common
                     }
                 }
             }
-            foreach (var item in filterContext.ActionParameters)
-            {
-                if (item.Value is BaseViewModel)
-                {
-                    var model = item.Value as BaseViewModel;
-                    model.Session = this.Session;
-                    model.Dc = this._dc;
-                    model.ModelStateDictionarys = this.ModelState;
-                    //model.Cache = HttpRuntime.Cache;
-                    model.InSideFormCollection = new FormCollection(this.HttpContext.Request.Form);
+            //foreach (var item in filterContext.ActionParameters)
+            //{
+                //if (item.Value is BaseViewModel)
+                //{
+                //    var model = item.Value as BaseViewModel;
+                //    model.Session = this.Session;
+                //    model.Dc = this._dc;
+                //    model.ModelStateDictionarys = this.ModelState;
+                //    //model.Cache = HttpRuntime.Cache;
+                //    model.InSideFormCollection = new FormCollection(this.HttpContext.Request.Form);
                     //如果ViewModel T继承自IBaseBatchVM<BaseVM>，则自动为其中的ListVM和EditModel初始化数据
                     //if (model is IBaseBatchVM<BaseVM>)
                     //{
@@ -399,74 +402,74 @@ namespace Sxxy_FrameworkArt.Common
                     //    template.CopyContext(model);
                     //}
                     //SetReInit(ModelState, model);
-                }
-            }
+                //}
+            //}
             base.OnActionExecuting(filterContext);
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if (filterContext.Result is PartialViewResult || filterContext.ActionDescriptor.ActionName == "Test")
-            {
-                var isPublic = filterContext.ActionDescriptor.IsDefined(typeof(PublicAttribute), false) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(PublicAttribute), false);
+            //if (filterContext.Result is PartialViewResult || filterContext.ActionDescriptor.ActionName == "Test")
+            //{
+            //    var isPublic = filterContext.ActionDescriptor.IsDefined(typeof(PublicAttribute), false) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(PublicAttribute), false);
 
-                if (isPublic == false)
-                {
-                    var pub = SystemMenuProperty
-                        .Where(x => x.Url != null
-                                    && x.Url.ToLower() == "/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower() + "/" + filterContext.ActionDescriptor.ActionName
-                                    && x.IsPublic == true)
-                        .FirstOrDefault();
-                    if (pub != null)
-                    {
-                        isPublic = true;
-                    }
-                }
-                string url = "";
-                string script = "";
-                //                if (filterContext.ActionDescriptor.IsDefined(typeof(PopUpAttribute), false) || isPublic == true)
-                //                {
-                //                    url = "/Home/PopUpIndex/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
-                //                    if (filterContext.HttpContext.Request.QueryString != null && filterContext.HttpContext.Request.QueryString.Count > 0)
-                //                    {
-                //                        url += "?" + filterContext.HttpContext.Request.QueryString.ToSpratedString("&");
-                //                    }
-                //                }
-                //                else
-                //                {
-                //                    url = "/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
-                //                }
-                //                script = @"
-                //<script>
-                //    var url = '" + url + @"';
-                //    if (typeof mainwindow == 'undefined' && typeof popupwindow == 'undefined')
-                //    { 
-                //        window.location.href = url;
-                //    }
-                //</script>
-                //";
-                filterContext.HttpContext.Response.Write(script);
-                BaseViewModel viewModel = null;
-                if (filterContext.Result is PartialViewResult)
-                {
-                    viewModel = (filterContext.Result as PartialViewResult).ViewData.Model as BaseViewModel;
-                }
-                //自动为所有PartialView加上最外层的Div
-                if (viewModel != null)
-                {
-                    //如果Action中没有标记PureHtml，则自动调用FF_InitView方法来自动加入主Panel
-                    //如果标记了PureHtml则只填加Div，不做Extjs的其它处理。如果标记了PureHtml的方法中报错，框架会转向/Error/Show方法，而这个方法中是需要Extjs处理的，所以也需要判断
-                    //if (filterContext.ActionDescriptor.IsDefined(typeof(PureHtmlAttribute), false) == false || (filterContext.Result is PartialViewResult && ((PartialViewResult)filterContext.Result).Model is ErrorVM))
-                    //{
-                    //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\" class=\"x-hide-display\">");
-                    //    filterContext.HttpContext.Response.Write(string.Format("<script>FF_InitView('{0}');</script>" + Environment.NewLine, model == null ? "" : model.ViewDivID));
-                    //}
-                    //else
-                    //{
-                    //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\">");
-                    //}
-                }
-            }
+            //    if (isPublic == false)
+            //    {
+            //        var pub = SystemMenuProperty
+            //            .Where(x => x.Url != null
+            //                        && x.Url.ToLower() == "/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower() + "/" + filterContext.ActionDescriptor.ActionName
+            //                        && x.IsPublic == true)
+            //            .FirstOrDefault();
+            //        if (pub != null)
+            //        {
+            //            isPublic = true;
+            //        }
+            //    }
+            //    string url = "";
+            //    string script = "";
+            //    //                if (filterContext.ActionDescriptor.IsDefined(typeof(PopUpAttribute), false) || isPublic == true)
+            //    //                {
+            //    //                    url = "/Home/PopUpIndex/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
+            //    //                    if (filterContext.HttpContext.Request.QueryString != null && filterContext.HttpContext.Request.QueryString.Count > 0)
+            //    //                    {
+            //    //                        url += "?" + filterContext.HttpContext.Request.QueryString.ToSpratedString("&");
+            //    //                    }
+            //    //                }
+            //    //                else
+            //    //                {
+            //    //                    url = "/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
+            //    //                }
+            //    //                script = @"
+            //    //<script>
+            //    //    var url = '" + url + @"';
+            //    //    if (typeof mainwindow == 'undefined' && typeof popupwindow == 'undefined')
+            //    //    { 
+            //    //        window.location.href = url;
+            //    //    }
+            //    //</script>
+            //    //";
+            //    filterContext.HttpContext.Response.Write(script);
+            //    BaseViewModel viewModel = null;
+            //    if (filterContext.Result is PartialViewResult)
+            //    {
+            //        viewModel = (filterContext.Result as PartialViewResult).ViewData.Model as BaseViewModel;
+            //    }
+            //    //自动为所有PartialView加上最外层的Div
+            //    if (viewModel != null)
+            //    {
+            //        //如果Action中没有标记PureHtml，则自动调用FF_InitView方法来自动加入主Panel
+            //        //如果标记了PureHtml则只填加Div，不做Extjs的其它处理。如果标记了PureHtml的方法中报错，框架会转向/Error/Show方法，而这个方法中是需要Extjs处理的，所以也需要判断
+            //        //if (filterContext.ActionDescriptor.IsDefined(typeof(PureHtmlAttribute), false) == false || (filterContext.Result is PartialViewResult && ((PartialViewResult)filterContext.Result).Model is ErrorVM))
+            //        //{
+            //        //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\" class=\"x-hide-display\">");
+            //        //    filterContext.HttpContext.Response.Write(string.Format("<script>FF_InitView('{0}');</script>" + Environment.NewLine, model == null ? "" : model.ViewDivID));
+            //        //}
+            //        //else
+            //        //{
+            //        //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\">");
+            //        //}
+            //    }
+            //}
             base.OnActionExecuted(filterContext);
         }
 

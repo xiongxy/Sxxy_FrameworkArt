@@ -18,7 +18,6 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
         /// </summary>
         public SystemUserListViewModel()
         {
-            var v = GetType().Assembly.FullName;
         }
         /// <summary>
         /// 初始化页面显示列表
@@ -29,6 +28,8 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
             listColumns.Add(this.MakeGridColumn(x => x.Code));
             listColumns.Add(this.MakeGridColumn(x => x.Name));
             listColumns.Add(this.MakeGridColumn(x => x.Email));
+            //ListColumns.Add(this.MakeGridColumn(x => x.Id));
+            ListColumns.Add(this.MakeGridColumn(x => x.CreateTime));
             ListColumns = listColumns;
         }
 
@@ -37,6 +38,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
             var query = Dc.Set<SystemUser>()
                 .Select(x => new SystemUserListView
                 {
+                    Id = x.Id,
                     Code = x.Code,
                     Email = x.Email,
                     Name = x.Name,

@@ -18,7 +18,7 @@ namespace Sxxy_FrameworkArt.Common.Helpers.Extensions
         /// <typeparam name="TSearch"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static GridColumn<TModel> MakeGridColumn<TModel, TSearch>(this IBaseListViewModel<TModel, TSearch> self, Expression<Func<TModel, object>> columnExp) where TModel : BaseEntity
+        public static GridColumn<TModel> MakeGridColumn<TModel, TSearch>(this IBaseListViewModel<TModel, TSearch> self, Expression<Func<TModel, object>> columnExp) where TModel : BaseEntity where TSearch : BaseSearcher
         {
             GridColumn<TModel> gridColumn = new GridColumn<TModel>(columnExp);
             return gridColumn;

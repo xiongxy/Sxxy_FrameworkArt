@@ -11,7 +11,8 @@ using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Common
 {
-    public interface IBaseListViewModel<out TModel, out TSearch>
+    public interface IBaseListViewModel<out TModel, out TSearch> where TModel : BaseEntity
+        where TSearch : BaseSearcher
     {
         /// <summary>
         /// 获取列信息的数据
@@ -40,9 +41,10 @@ namespace Sxxy_FrameworkArt.Common
     {
         public BaseListViewModel()
         {
+            EntityList = new List<TModel>();
             //初始化搜索条件
-            //Searcher = typeof(TSearch).GetConstructor(Type.EmptyTypes).Invoke(null) as TSearch;
-            Searcher = Activator.CreateInstance(typeof(TSearch)) as TSearch;
+            Searcher = typeof(TSearch).GetConstructor(Type.EmptyTypes).Invoke(null) as TSearch;
+            //Searcher = Activator.CreateInstance(typeof(TSearch)) as TSearch;
         }
 
         public List<TModel> EntityList { get; set; }
@@ -83,14 +85,14 @@ namespace Sxxy_FrameworkArt.Common
                     ptype = PropertyHelper.GetPropertyInfo(col.ColumnExp).PropertyType;
                 }
                 //如果有子列，则递归调用自己，生成json
-                if (col.Children != null && col.Children.Count > 0)
-                {
+                //if (col.Children != null && col.Children.Count > 0)
+                //{
 
-                }
-                else
-                {
-                    sb.Append("[{\"Title\":" + col.Title + "");
-                }
+                //}
+                //else
+                //{
+                    //sb.Append("[{\"Title\":" + col.Title + "");
+                //}
                 if (i < cols.Count - 1)
                 {
                     sb.Append("},");
@@ -110,7 +112,7 @@ namespace Sxxy_FrameworkArt.Common
             foreach (var itemListColumn in ListColumns)
             {
                 BootStrapTableColumn v = new BootStrapTableColumn();
-                v.Title = itemListColumn.Title;
+                //v.Title = itemListColumn.Title;
                 list.Add(v);
             }
             return list;
@@ -122,9 +124,13 @@ namespace Sxxy_FrameworkArt.Common
         {
             DoSearch();
             StringBuilder sb = new StringBuilder();
-            sb.Append("[");
-
-            for (int i = 0; i < EntityList.Count; i++)
+            var count = EntityList.Count;
+            sb.Append("{");
+            sb.Append($"\"draw\":1,");
+            sb.Append($"\"recordsTotal\":{count},");
+            sb.Append($"\"recordsFiltered\":{count},");
+            sb.Append("\"data\":[");
+            for (int i = 0; i < count; i++)
             {
                 sb.Append(GetSingleDataJson(EntityList[i]));
                 if (i < EntityList.Count - 1)
@@ -132,8 +138,7 @@ namespace Sxxy_FrameworkArt.Common
                     sb.Append(",");
                 }
             }
-        
-            sb.Append("]");
+            sb.Append("]}");
             return sb.ToString();
         }
         public string GetSingleDataJson(TModel model)
@@ -142,7 +147,7 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("{");
             for (int i = 0; i < ListColumns.Count; i++)
             {
-                sb.Append($"{PropertyHelper.GetPropertyName(ListColumns[i].ColumnExp)}:\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
+                sb.Append($"\"{PropertyHelper.GetPropertyName(ListColumns[i].ColumnExp)}\":\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
                 if (i < ListColumns.Count - 1)
                 {
                     sb.Append(",");
@@ -187,14 +192,12 @@ namespace Sxxy_FrameworkArt.Common
             }
             EntityList = query.AsNoTracking().ToList();
         }
-
         #endregion
 
         public virtual IOrderedQueryable<TModel> GetSearchQuery()
         {
             return Dc.Set<TModel>().OrderByDescending(x => x.Id);
         }
-
         /// <summary>
         /// 初始化ListVM，继承的类应该重载这个函数来设定数据的列和动作
         /// </summary>
@@ -202,6 +205,7 @@ namespace Sxxy_FrameworkArt.Common
         {
             _listColumns = new List<IGridColumn<TModel>>();
         }
+
         private List<IGridColumn<TModel>> _listColumns;
         /// <summary>
         /// 数据列
@@ -215,18 +219,18 @@ namespace Sxxy_FrameworkArt.Common
                 {
                     DoInitListViewModel();
                 }
-                if (_listColumns.Where(x => x.Title.ToLower() == "id").FirstOrDefault() == null)
-                {
-                    //如果是QuickDebug模式，则显示ID列，否则将ID列隐藏
-                    if (BaseController.IsQuickDebug == true)
-                    {
-                        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 50));
-                    }
-                    else
-                    {
-                        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 0));
-                    }
-                }
+                //if (_listColumns.Where(x => x.Title.ToLower() == "id").FirstOrDefault() == null)
+                //{
+                //    //如果是QuickDebug模式，则显示ID列，否则将ID列隐藏
+                //    if (BaseController.IsQuickDebug == true)
+                //    {
+                //        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 50));
+                //    }
+                //    else
+                //    {
+                //        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 0));
+                //    }
+                //}
                 return _listColumns;
             }
             set
@@ -235,17 +239,17 @@ namespace Sxxy_FrameworkArt.Common
             }
         }
         public TSearch Searcher { get; set; }
-        public event Action<IBaseListViewModel<TModel, TSearch>> OnAfterInitList;
+        //public event Action<IBaseListViewModel<TModel, TSearch>> OnAfterInitList;
         /// <summary>
         /// 调用InitListVM并触发OnAfterInitList事件
         /// </summary>
         public void DoInitListViewModel()
         {
-            this.InitListViewModel();
-            if (OnAfterInitList != null)
-            {
-                OnAfterInitList(this);
-            }
+            InitListViewModel();
+            //if (OnAfterInitList != null)
+            //{
+            //    OnAfterInitList(this);
+            //}
         }
     }
 

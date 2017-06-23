@@ -4,11 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sxxy_FrameworkArt.Models
 {
-    public class TopBaseEntity
+    [Serializable]
+    public abstract class TopBaseEntity
     {
         private Guid _id;
+
         [Key]
-        public Guid Id
+        public virtual Guid Id
         {
             get
             {
@@ -27,7 +29,7 @@ namespace Sxxy_FrameworkArt.Models
     /// <summary>
     /// Entity 的基类，所有的entity对象都应该继承这个类，这样会使所有的Entity 对应的数据表都有一个主键
     /// </summary>
-    public class BaseEntity : TopBaseEntity
+    public abstract class BaseEntity : TopBaseEntity
     {
         /// <summary>
         /// 创建时间
@@ -49,7 +51,7 @@ namespace Sxxy_FrameworkArt.Models
     /// <summary>
     /// Entity 的基类，不需要物理删除的都应该继承这个类，这样会使所有的Entity 对应的数据表都有一个IsValid
     /// </summary>
-    public class PersistEntity : BaseEntity
+    public abstract class PersistEntity : BaseEntity
     {
         /// <summary>
         /// 是否有效
