@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\CoreWebAPI\Controllers\ErrorController.cs" />
+    <Compile Include="Areas\CoreWebAPI\Controllers\HomeController.cs" />
     <Compile Include="Areas\CoreWebAPI\CoreWebAPIAreaRegistration.cs" />
     <Compile Include="Areas\CoreWebAPI\ViewModels\ErrorViewModels\ErrorViewModel.cs" />
     <Compile Include="Controllers\FramewrokBase\HomeController.cs" />
@@ -428,6 +429,7 @@
     <Folder Include="App_Start\" />
     <Folder Include="Areas\CoreWebAPI\Models\" />
     <Folder Include="Areas\CoreWebAPI\Views\Error\" />
+    <Folder Include="Areas\CoreWebAPI\Views\Home\" />
     <Folder Include="Areas\CoreWebAPI\Views\Shared\" />
     <Folder Include="Content\Assembly\Table\extensions\" />
     <Folder Include="Content\Assembly\Table\images\" />
@@ -633,6 +635,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\Sxxy.pubxml" />
+    <Content Include="Views\Shared\EditorTemplates\BootStrapTextField.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

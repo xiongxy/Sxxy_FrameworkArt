@@ -94,10 +94,10 @@ namespace Sxxy_FrameworkArt.Common
             }
         }
 
-        protected void Application_Error()
-        {
-            var exception = Server.GetLastError();
+        //protected void Application_Error()
+        //{
+        //    //var exception = Server.GetLastError();
 
-        }
+        //}
     }
 }

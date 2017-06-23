@@ -209,7 +209,10 @@ namespace Sxxy_FrameworkArt.Common
 
         public NowControllerInfo NowController { get; set; }
 
-
+        protected BaseViewModel CreateViewModel(string VmFullName, long? ID = null, IEnumerable<long> IDs = null, bool passInit = false)
+        {
+            return CreateViewModel(Type.GetType(VmFullName), ID, IDs, null, passInit || IDs != null);
+        }
         protected T CreateViewModel<T>(long? ID = null, IEnumerable<long> IDs = null, Expression<Func<T, object>> values = null, bool passInit = false) where T : BaseViewModel
         {
             SetValuesParser p = new SetValuesParser();
@@ -221,7 +224,6 @@ namespace Sxxy_FrameworkArt.Common
             Dictionary<string, object> values = null, bool passInit = false)
         {
             var v = Activator.CreateInstance(ViewModelType);
-            //var vv = ViewModelType.GetConstructor(Type.EmptyTypes).Invoke(null);
             BaseViewModel baseViewModel = (BaseViewModel)v;
             baseViewModel.Dc = this.Dc;
             baseViewModel.ModelStateDictionarys = this.ModelState;
@@ -232,7 +234,6 @@ namespace Sxxy_FrameworkArt.Common
             //如果当前的viewModel 继承的是IBaseListViewModel，则初始化Searcher并调用Searcher的InitVM方法
             if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
             {
-
                 var vv = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
                 BaseSearcher baseSearcher = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
                 baseSearcher.CopyContext(baseViewModel);
@@ -249,12 +250,14 @@ namespace Sxxy_FrameworkArt.Common
             //获取当前访问的模块记录到BaseController
             var vvv = filterContext.ActionDescriptor.ControllerDescriptor.ControllerType;
             object[] objs = vvv.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), true);
-            NowController = new NowControllerInfo
+            if (objs.Length > 0)
             {
-                NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName,
-                NowControllerRemark = (objs[0] as ControllerOrActionDescriptionAttribute).Remark
-            };
-
+                NowController = new NowControllerInfo
+                {
+                    NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName,
+                    NowControllerRemark = (objs[0] as ControllerOrActionDescriptionAttribute).Remark
+                };
+            }
             if (LoginUserInfo == null)
             {
                 //判断当前访问路由是否标记公共标签

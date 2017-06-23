@@ -6,11 +6,7 @@
         return;
     }
 }
-<!-- Content Header (Page header) -->
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
+<div class="box">
                 <div class="box-header">
                     <h3 class="box-title">@obj.TableName</h3>
                 </div>
@@ -18,38 +14,56 @@
                 <div class="box-body">
                     <table id="@obj.TableId" class="table table-bordered table-hover">
                         <thead>
-                        <tr>
-                            @{
-                                foreach (var item in obj.BootStrapTableColumns)
-                                {
-                                    <th>@item.Title</th>
+                            <tr>
+                                @{
+                                    foreach (var item in obj.BootStrapTableColumns)
+                                    {
+                                        <th>@item.Title</th>
+                                    }
                                 }
-                            }
-                        </tr>
+                            </tr>
                         </thead>
                         <tbody>
-                        <!-- 内容 ，需要使用Ajax 获取数据 -->
+                            <!-- 内容 ，需要使用Ajax 获取数据 -->
+                            <script>
+                                //$(function () {
+                                //    debugger;
+                                //    $.ajax({
+                                //        url: "/WebApi/Home/GetTableData",
+                                //        type: "post",
+                                //        dataType: "text",
+                                //        success: function(data) {
+                                //            alert(data);
+                                //        }
+                                //    });
+                                //});
+                                $(function () {
+                                    $.ajax({
+                                        url: "/WebApi/Home/GetTableData",
+                                        data:{"viewModelFullName":""},
+                                        type: "POST",
+                                        dataType: "text",
+                                        success: function (data) {
+                                            alert(data);
+                                        }
+                                    });
+                                })
+                            </script>
                         </tbody>
                         <tfoot>
-                        <tr>
-                            @{
-                                foreach (var item in obj.BootStrapTableColumns)
-                                {
-                                    <th>@item.Title</th>
+                            <tr>
+                                @{
+                                    foreach (var item in obj.BootStrapTableColumns)
+                                    {
+                                        <th>@item.Title</th>
+                                    }
                                 }
-                            }
-                        </tr>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
                 <!-- /.box-body -->
             </div>
-            <!-- /.box -->
-        </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
-</section>
 <script>
     $(function () {
         $('#@obj.TableId').DataTable({

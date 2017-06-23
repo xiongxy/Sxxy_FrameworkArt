@@ -17,7 +17,7 @@ namespace Sxxy_FrameworkArt.Web.Areas.CoreWebAPI
             context.MapRoute(
                 "WebApi_default",
                 "WebApi/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { id = UrlParameter.Optional }
             );
         }
     }

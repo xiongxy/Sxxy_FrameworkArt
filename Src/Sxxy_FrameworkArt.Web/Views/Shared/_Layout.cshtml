@@ -318,7 +318,9 @@
             <!-- Content Header (Page header) -->
             @Bootstrap.RouteGuidance(Model.NowController.NowControllerName, Model.NowController.NowControllerRemark)
             <!-- Main content -->
-            @RenderBody()
+            <section class="content">
+                @RenderBody()
+            </section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->

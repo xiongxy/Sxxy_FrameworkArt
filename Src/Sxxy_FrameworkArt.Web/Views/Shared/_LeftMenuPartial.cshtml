@@ -1,13 +1,11 @@
 ﻿<ul class="sidebar-menu"></ul>
 <script>
     $(function () {
-        debugger;
         $.ajax({
             url: "/Home/LeftMenu?ran=" + Math.random(),
             type: "GET",
             dataType: "text",
             success: function (data) {
-                debugger;
                 $(".sidebar-menu").append(data);
             }
         });

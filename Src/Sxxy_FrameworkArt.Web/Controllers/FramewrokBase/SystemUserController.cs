@@ -15,7 +15,6 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
         // GET: SystemUser
         public ActionResult Index()
         {
-            SystemUserListViewModel bb = new SystemUserListViewModel();
             var vm = CreateViewModel<SystemUserListViewModel>();
             return View(vm);
         }

@@ -1,0 +1,11 @@
+﻿@{
+    var obj = ViewData["obj"] as BootstrapTextField;
+    if (obj == null)
+    {
+        return;
+    }
+}
+<div class="form-group form-inline">
+    <label for="exampleInputEmail1">@obj.LableText</label>
+    <input type="@obj.InputType" class="form-control" id="exampleInputEmail1" placeholder="@obj.Description">
+</div>

@@ -16,6 +16,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
         /// </summary>
         public SystemUserListViewModel()
         {
+            var v = GetType().Assembly.FullName;
         }
         /// <summary>
         /// 初始化页面显示列表
@@ -48,5 +49,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
 
     public class SystemUserSearcher : BaseSearcher
     {
+        public string Code { get; set; }
+        public string Email { get; set; }
     }
 }

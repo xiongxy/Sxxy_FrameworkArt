@@ -91,6 +91,8 @@
     <Compile Include="BaseSearcher.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="Binders\StringBinder.cs" />
+    <Compile Include="FrameworkViewPages\Bootstrap\BootstrapTextField.cs" />
+    <Compile Include="FrameworkViewPages\Bootstrap\BootStrapUsingCodeBlock.cs" />
     <Compile Include="FrameworkViewPages\Bootstrap\BootStrapTable.cs" />
     <Compile Include="Helpers\Extensions\PagedListExtension.cs" />
     <Compile Include="IErrorController.cs" />
