@@ -18,7 +18,7 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
         /// <summary>
         /// 列标题
         /// </summary>
-        //string Title { get; set; }
+        string Title { get; set; }
         ///// <summary>
         ///// 是否需要分组
         ///// </summary>
@@ -110,20 +110,20 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
         //public int MaxChildrenCount { get; set; }
 
         //public int MaxLevel { get; set; }
-        //private string _title { get; set; }
+      private string _title { get; set; }
 
-        //public string Title
-        //{
-        //    get
-        //    {
-        //        if (_title == null)
-        //        {
-        //            return GetTitle();
-        //        }
-        //        return _title;
-        //    }
-        //    set { _title = value; }
-        //}
+        public string Title
+        {
+            get
+            {
+                if (_title == null)
+                {
+                    return GetTitle();
+                }
+                return _title;
+            }
+            set { _title = value; }
+        }
 
         /// <summary>
         /// 获取标题内容

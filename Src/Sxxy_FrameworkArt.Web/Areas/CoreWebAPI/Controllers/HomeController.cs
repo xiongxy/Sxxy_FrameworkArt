@@ -13,7 +13,7 @@ namespace Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers
     public class HomeController : BaseController
     {
         [HttpPost]
-        public ContentResult GetTableData(string viewModelFullName)
+        public ContentResult GetTableData(string viewModelFullName, int draw)
         {
             var result = new ContentResult();
             var vm = CreateViewModel(viewModelFullName) as IBaseListViewModel<BaseEntity, BaseSearcher>;
@@ -21,7 +21,7 @@ namespace Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers
             {
                 StringBuilder sb = new StringBuilder();
                 result.ContentType = "text";
-                result.Content= vm.GetDataJson();
+                result.Content = vm.GetDataJson(draw);
             }
             return result;
         }

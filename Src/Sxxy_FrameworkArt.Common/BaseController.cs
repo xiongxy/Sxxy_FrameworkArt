@@ -235,14 +235,14 @@ namespace Sxxy_FrameworkArt.Common
                 : new FormCollection(this.HttpContext.Request.Form);
             baseViewModel.NowController = this.NowController;
             //如果当前的viewModel 继承的是IBaseListViewModel，则初始化Searcher并调用Searcher的InitVM方法
-            //if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
-            //{
-            //    var vv = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
-            //    BaseSearcher baseSearcher = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
-            //    baseSearcher.CopyContext(baseViewModel);
-            //    baseSearcher.DoInit();
-            //}
-            //baseViewModel.DoInit();
+            if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
+            {
+                var vv = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
+                BaseSearcher baseSearcher = (baseViewModel as IBaseListViewModel<BaseEntity, BaseSearcher>).Searcher;
+                baseSearcher.CopyContext(baseViewModel);
+                baseSearcher.DoInit();
+            }
+            baseViewModel.DoInit();
             return baseViewModel;
         }
 
@@ -251,16 +251,16 @@ namespace Sxxy_FrameworkArt.Common
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             //获取当前访问的模块记录到BaseController
-            //var vvv = filterContext.ActionDescriptor.ControllerDescriptor.ControllerType;
-            //object[] objs = vvv.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), true);
-            //if (objs.Length > 0)
-            //{
-            //    NowController = new NowControllerInfo
-            //    {
-            //        NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName,
-            //        NowControllerRemark = (objs[0] as ControllerOrActionDescriptionAttribute).Remark
-            //    };
-            //}
+            var vvv = filterContext.ActionDescriptor.ControllerDescriptor.ControllerType;
+            object[] objs = vvv.GetCustomAttributes(typeof(ControllerOrActionDescriptionAttribute), true);
+            if (objs.Length > 0)
+            {
+                NowController = new NowControllerInfo
+                {
+                    NowControllerName = (objs[0] as ControllerOrActionDescriptionAttribute).DisplayName,
+                    NowControllerRemark = (objs[0] as ControllerOrActionDescriptionAttribute).Remark
+                };
+            }
             if (LoginUserInfo == null)
             {
                 //判断当前访问路由是否标记公共标签
@@ -295,114 +295,114 @@ namespace Sxxy_FrameworkArt.Common
             }
             //foreach (var item in filterContext.ActionParameters)
             //{
-                //if (item.Value is BaseViewModel)
-                //{
-                //    var model = item.Value as BaseViewModel;
-                //    model.Session = this.Session;
-                //    model.Dc = this._dc;
-                //    model.ModelStateDictionarys = this.ModelState;
-                //    //model.Cache = HttpRuntime.Cache;
-                //    model.InSideFormCollection = new FormCollection(this.HttpContext.Request.Form);
-                    //如果ViewModel T继承自IBaseBatchVM<BaseVM>，则自动为其中的ListVM和EditModel初始化数据
-                    //if (model is IBaseBatchVM<BaseVM>)
-                    //{
-                    //    var temp = model as IBaseBatchVM<BaseVM>;
-                    //    if (temp.ListVM != null)
-                    //    {
-                    //        temp.ListVM.CopyContext(model);
-                    //        temp.ListVM.IDs = temp.IDs == null ? new List<long>() : temp.IDs.ToList();
-                    //        temp.ListVM.SearcherMode = ListVMSearchModeEnum.Batch;
-                    //    }
-                    //    if (temp.LinkedVM != null)
-                    //    {
-                    //        temp.LinkedVM.CopyContext(model);
-                    //    }
-                    //    if (temp.ListVM != null)
-                    //    {
-                    //        temp.ListVM.GridActions = new List<GridAction>();
-                    //        //绑定ListVM的OnAfterInitList事件，当ListVM的InitList完成时，自动将操作列移除
-                    //        temp.ListVM.OnAfterInitList += (self) =>
-                    //        {
-                    //            self.RemoveActionColumn();
-                    //            if (temp.ErrorMessage.Count > 0)
-                    //            {
-                    //                self.AddErrorColumn((item2, value) => { return temp.ErrorMessage[item2.ID]; });
-                    //            }
-                    //        };
-                    //        if (temp.ListVM.Searcher != null)
-                    //        {
-                    //            BaseSearcher searcher = temp.ListVM.Searcher;
-                    //            searcher.CopyContext(model);
-                    //            //searcher.DoReInit();
-                    //        }
-                    //    }
-                    //}
-                    //if (model is IBaseMasterDetailsVM<IBaseCRUDVM<BasePoco>, IBasePagedListVM<BasePoco, BaseSearcher>>)
-                    //{
-                    //    var temp = model as IBaseMasterDetailsVM<IBaseCRUDVM<BasePoco>, IBasePagedListVM<BasePoco, BaseSearcher>>;
-                    //    if (temp.ListVM != null)
-                    //    {
-                    //        temp.ListVM.CopyContext(model);
-                    //        temp.ListVM.SearcherMode = ListVMSearchModeEnum.MasterDetail;
-                    //        if (temp.ListVM.Searcher != null)
-                    //        {
-                    //            BaseSearcher searcher = temp.ListVM.Searcher;
-                    //            searcher.CopyContext(model);
-                    //            //searcher.DoReInit();
-                    //        }
-                    //    }
-                    //    if (temp.MasterVM != null)
-                    //    {
-                    //        temp.MasterVM.CopyContext(model);
-                    //    }
-                    //}
-                    //if (model is IBasePagedListVM<BasePoco, BaseSearcher>)
-                    //{
-                    //    BaseSearcher searcher = (model as IBasePagedListVM<BasePoco, BaseSearcher>).Searcher;
-                    //    searcher.CopyContext(model);
-                    //    if (filterContext.HttpContext.Request.HttpMethod == "POST")
-                    //    {
-                    //        if (Request.Form["SaveInCookie"] != null && Request.Form["SaveInCookie"].ToLower() == "true")
-                    //        {
-                    //            Type searcherType = searcher.GetType();
-                    //            var pros = searcherType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance).ToList();
-                    //            pros.Add(searcherType.GetProperty("IsValid"));
-                    //            foreach (var pro in pros)
-                    //            {
-                    //                var propertyType = pro.PropertyType;
-                    //                object val = pro.GetValue(searcher);
-                    //                string name = CookiePre + "`Searcher" + "`" + model.VMFullName + "`" + pro.Name;
-                    //                string valText = "`";
-                    //                if (val != null)
-                    //                {
-                    //                    if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(List<>))
-                    //                    {
-                    //                        valText = "`" + (val as IList).ToSpratedString() + "`";
-                    //                    }
-                    //                    else
-                    //                    {
-                    //                        if (val.ToString() != "")
-                    //                        {
-                    //                            valText = val.ToString();
-                    //                        }
-                    //                    }
-                    //                }
-                    //                HttpCookie cookie = new HttpCookie(name, valText);
-                    //                cookie.Expires = DateTime.Today.AddYears(10);
-                    //                Response.Cookies.Add(cookie);
-                    //            }
-                    //        }
-                    //        searcher.IsPostBack = true;
-                    //    }
-                    //    searcher.DoReInit();
-                    //}
-                    //if (model is IBaseImport<BaseTemplateVM>)
-                    //{
-                    //    var template = (model as IBaseImport<BaseTemplateVM>).Template;
-                    //    template.CopyContext(model);
-                    //}
-                    //SetReInit(ModelState, model);
-                //}
+            //if (item.Value is BaseViewModel)
+            //{
+            //    var model = item.Value as BaseViewModel;
+            //    model.Session = this.Session;
+            //    model.Dc = this._dc;
+            //    model.ModelStateDictionarys = this.ModelState;
+            //    //model.Cache = HttpRuntime.Cache;
+            //    model.InSideFormCollection = new FormCollection(this.HttpContext.Request.Form);
+            //如果ViewModel T继承自IBaseBatchVM<BaseVM>，则自动为其中的ListVM和EditModel初始化数据
+            //if (model is IBaseBatchVM<BaseVM>)
+            //{
+            //    var temp = model as IBaseBatchVM<BaseVM>;
+            //    if (temp.ListVM != null)
+            //    {
+            //        temp.ListVM.CopyContext(model);
+            //        temp.ListVM.IDs = temp.IDs == null ? new List<long>() : temp.IDs.ToList();
+            //        temp.ListVM.SearcherMode = ListVMSearchModeEnum.Batch;
+            //    }
+            //    if (temp.LinkedVM != null)
+            //    {
+            //        temp.LinkedVM.CopyContext(model);
+            //    }
+            //    if (temp.ListVM != null)
+            //    {
+            //        temp.ListVM.GridActions = new List<GridAction>();
+            //        //绑定ListVM的OnAfterInitList事件，当ListVM的InitList完成时，自动将操作列移除
+            //        temp.ListVM.OnAfterInitList += (self) =>
+            //        {
+            //            self.RemoveActionColumn();
+            //            if (temp.ErrorMessage.Count > 0)
+            //            {
+            //                self.AddErrorColumn((item2, value) => { return temp.ErrorMessage[item2.ID]; });
+            //            }
+            //        };
+            //        if (temp.ListVM.Searcher != null)
+            //        {
+            //            BaseSearcher searcher = temp.ListVM.Searcher;
+            //            searcher.CopyContext(model);
+            //            //searcher.DoReInit();
+            //        }
+            //    }
+            //}
+            //if (model is IBaseMasterDetailsVM<IBaseCRUDVM<BasePoco>, IBasePagedListVM<BasePoco, BaseSearcher>>)
+            //{
+            //    var temp = model as IBaseMasterDetailsVM<IBaseCRUDVM<BasePoco>, IBasePagedListVM<BasePoco, BaseSearcher>>;
+            //    if (temp.ListVM != null)
+            //    {
+            //        temp.ListVM.CopyContext(model);
+            //        temp.ListVM.SearcherMode = ListVMSearchModeEnum.MasterDetail;
+            //        if (temp.ListVM.Searcher != null)
+            //        {
+            //            BaseSearcher searcher = temp.ListVM.Searcher;
+            //            searcher.CopyContext(model);
+            //            //searcher.DoReInit();
+            //        }
+            //    }
+            //    if (temp.MasterVM != null)
+            //    {
+            //        temp.MasterVM.CopyContext(model);
+            //    }
+            //}
+            //if (model is IBasePagedListVM<BasePoco, BaseSearcher>)
+            //{
+            //    BaseSearcher searcher = (model as IBasePagedListVM<BasePoco, BaseSearcher>).Searcher;
+            //    searcher.CopyContext(model);
+            //    if (filterContext.HttpContext.Request.HttpMethod == "POST")
+            //    {
+            //        if (Request.Form["SaveInCookie"] != null && Request.Form["SaveInCookie"].ToLower() == "true")
+            //        {
+            //            Type searcherType = searcher.GetType();
+            //            var pros = searcherType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance).ToList();
+            //            pros.Add(searcherType.GetProperty("IsValid"));
+            //            foreach (var pro in pros)
+            //            {
+            //                var propertyType = pro.PropertyType;
+            //                object val = pro.GetValue(searcher);
+            //                string name = CookiePre + "`Searcher" + "`" + model.VMFullName + "`" + pro.Name;
+            //                string valText = "`";
+            //                if (val != null)
+            //                {
+            //                    if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(List<>))
+            //                    {
+            //                        valText = "`" + (val as IList).ToSpratedString() + "`";
+            //                    }
+            //                    else
+            //                    {
+            //                        if (val.ToString() != "")
+            //                        {
+            //                            valText = val.ToString();
+            //                        }
+            //                    }
+            //                }
+            //                HttpCookie cookie = new HttpCookie(name, valText);
+            //                cookie.Expires = DateTime.Today.AddYears(10);
+            //                Response.Cookies.Add(cookie);
+            //            }
+            //        }
+            //        searcher.IsPostBack = true;
+            //    }
+            //    searcher.DoReInit();
+            //}
+            //if (model is IBaseImport<BaseTemplateVM>)
+            //{
+            //    var template = (model as IBaseImport<BaseTemplateVM>).Template;
+            //    template.CopyContext(model);
+            //}
+            //SetReInit(ModelState, model);
+            //}
             //}
             base.OnActionExecuting(filterContext);
         }

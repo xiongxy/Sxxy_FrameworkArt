@@ -1,4 +1,4 @@
-﻿@*@model Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels.SystemUserListViewModel
+﻿@model Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels.SystemUserListViewModel
     @using (Bootstrap.PageLayout_BeginRow())
     {
         using (Bootstrap.PageLayout_BeginColumn())
@@ -29,50 +29,5 @@
         {
             @Bootstrap.TableFor(x => x)
         }
-    }*@
-<link href="~/Content/Assembly/Table/dataTables.bootstrap.css" rel="stylesheet" />
-<script src="~/Content/Assembly/Table/jquery.dataTables.min.js"></script>
-<script src="~/Content/Assembly/Table/dataTables.bootstrap.min.js"></script>
-@using (Bootstrap.PageLayout_BeginRow())
-{
-    using (Bootstrap.PageLayout_BeginColumn())
-    {
-        <table id="example" class="table table-bordered table-hover" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                </tr>
-            </tfoot>
-        </table>
     }
-}
-<script>
-    $(document).ready(function () {
-        $('#example').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "/WebApi/Home/GetTableData",
-                "type": "POST",
-                "data": { "viewModelFullName": "Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels.SystemUserListViewModel,Sxxy_FrameworkArt.Web" }
-            },
-            "columns": [
-                { "data": "Id" },
-                { "data": "Code" },
-                { "data": "Name" },
-                { "data": "Email" }
-            ]
-        });
-    });
-</script>
+

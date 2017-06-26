@@ -28,7 +28,7 @@ namespace Sxxy_FrameworkArt.Common
         /// 获取数据以Json形式返回
         /// </summary>
         /// <returns></returns>
-        string GetDataJson();
+        string GetDataJson(int draw);
         /// <summary>
         /// 获取数据以HTML编码形式返回
         /// </summary>
@@ -91,7 +91,7 @@ namespace Sxxy_FrameworkArt.Common
                 //}
                 //else
                 //{
-                    //sb.Append("[{\"Title\":" + col.Title + "");
+                //sb.Append("[{\"Title\":" + col.Title + "");
                 //}
                 if (i < cols.Count - 1)
                 {
@@ -112,7 +112,7 @@ namespace Sxxy_FrameworkArt.Common
             foreach (var itemListColumn in ListColumns)
             {
                 BootStrapTableColumn v = new BootStrapTableColumn();
-                //v.Title = itemListColumn.Title;
+                v.Title = itemListColumn.Title;
                 list.Add(v);
             }
             return list;
@@ -120,19 +120,19 @@ namespace Sxxy_FrameworkArt.Common
         #endregion
 
         #region 获取数据信息
-        public string GetDataJson()
+        public string GetDataJson(int draw)
         {
             DoSearch();
             StringBuilder sb = new StringBuilder();
             var count = EntityList.Count;
             sb.Append("{");
-            sb.Append($"\"draw\":1,");
+            sb.Append($"\"draw\":{draw},");
             sb.Append($"\"recordsTotal\":{count},");
             sb.Append($"\"recordsFiltered\":{count},");
             sb.Append("\"data\":[");
             for (int i = 0; i < count; i++)
             {
-                sb.Append(GetSingleDataJson(EntityList[i]));
+                sb.Append(GetSingleDataJsonArray(EntityList[i]));
                 if (i < EntityList.Count - 1)
                 {
                     sb.Append(",");
@@ -141,7 +141,7 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("]}");
             return sb.ToString();
         }
-        public string GetSingleDataJson(TModel model)
+        public string GetSingleDataJsonNorml(TModel model)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
@@ -154,6 +154,21 @@ namespace Sxxy_FrameworkArt.Common
                 }
             }
             sb.Append("}");
+            return sb.ToString();
+        }
+        public string GetSingleDataJsonArray(TModel model)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+            for (int i = 0; i < ListColumns.Count; i++)
+            {
+                sb.Append($"\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
+                if (i < ListColumns.Count - 1)
+                {
+                    sb.Append(",");
+                }
+            }
+            sb.Append("]");
             return sb.ToString();
         }
         public string GetDataHtml()

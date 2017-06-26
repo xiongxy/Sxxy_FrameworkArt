@@ -28,8 +28,8 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
             listColumns.Add(this.MakeGridColumn(x => x.Code));
             listColumns.Add(this.MakeGridColumn(x => x.Name));
             listColumns.Add(this.MakeGridColumn(x => x.Email));
-            //ListColumns.Add(this.MakeGridColumn(x => x.Id));
-            ListColumns.Add(this.MakeGridColumn(x => x.CreateTime));
+            listColumns.Add(this.MakeGridColumn(x => x.Id));
+            listColumns.Add(this.MakeGridColumn(x => x.CreateTime));
             ListColumns = listColumns;
         }
 
