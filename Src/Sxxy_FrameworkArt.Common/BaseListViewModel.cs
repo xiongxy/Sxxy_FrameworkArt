@@ -28,7 +28,7 @@ namespace Sxxy_FrameworkArt.Common
         /// 获取数据以Json形式返回
         /// </summary>
         /// <returns></returns>
-        string GetDataJson(int draw);
+        string GetDataJson();
         /// <summary>
         /// 获取数据以HTML编码形式返回
         /// </summary>
@@ -48,7 +48,6 @@ namespace Sxxy_FrameworkArt.Common
         }
 
         public List<TModel> EntityList { get; set; }
-
 
         /// <summary>
         /// 查询模式
@@ -120,13 +119,13 @@ namespace Sxxy_FrameworkArt.Common
         #endregion
 
         #region 获取数据信息
-        public string GetDataJson(int draw)
+        public string GetDataJson()
         {
             DoSearch();
             StringBuilder sb = new StringBuilder();
             var count = EntityList.Count;
             sb.Append("{");
-            sb.Append($"\"draw\":{draw},");
+            sb.Append($"\"draw\":{1},");
             sb.Append($"\"recordsTotal\":{count},");
             sb.Append($"\"recordsFiltered\":{count},");
             sb.Append("\"data\":[");

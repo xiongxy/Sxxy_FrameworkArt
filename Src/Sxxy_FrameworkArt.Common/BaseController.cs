@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Sxxy_FrameworkArt.Common.Attributes;
+using Sxxy_FrameworkArt.Common.Helpers;
 using Sxxy_FrameworkArt.Common.Helpers.Extensions;
 using Sxxy_FrameworkArt.Common.SupportClasses;
 using Sxxy_FrameworkArt.Models;
@@ -473,6 +474,33 @@ namespace Sxxy_FrameworkArt.Common
             base.OnActionExecuted(filterContext);
         }
 
+        #endregion
+
+        #region 更新model
+        /// <summary>
+        /// 模拟MVC将FormCollection的值赋给ViewModel的相应字段的过程
+        /// </summary>
+        /// <param name="vm">ViewModel</param>
+        /// <param name="fc">FormCollection</param>
+        /// <returns>成功返回True，失败返回False</returns>
+        public bool RedoUpdateModel(object vm, FormCollection fc, string prefix = null)
+        {
+            try
+            {
+                //获取viewmodel的类型
+                Type vmType = vm.GetType();
+                //循环FormCollection
+                foreach (var item in fc.AllKeys)
+                {
+                    PropertyHelper.SetPropertyValue(vm, item, fc.GetValue(item).RawValue, prefix, true);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
 
     }

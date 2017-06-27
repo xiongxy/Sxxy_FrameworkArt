@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.SqlServer.Server;
 using Sxxy_FrameworkArt.Common;
+using Sxxy_FrameworkArt.Common.SupportClasses;
 using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers
@@ -13,15 +14,16 @@ namespace Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers
     public class HomeController : BaseController
     {
         [HttpPost]
-        public ContentResult GetTableData(string viewModelFullName, int draw)
+        public ContentResult GetTableData(string viewModelFullName, FormCollection fc)
         {
             var result = new ContentResult();
-            var vm = CreateViewModel(viewModelFullName) as IBaseListViewModel<BaseEntity, BaseSearcher>;
+            var vm = CreateViewModel(VmFullName: viewModelFullName, passInit: true) as IBaseListViewModel<BaseEntity, BaseSearcher>;
+            RedoUpdateModel(vm, fc);
             if (vm != null)
             {
                 StringBuilder sb = new StringBuilder();
                 result.ContentType = "text";
-                result.Content = vm.GetDataJson(draw);
+                result.Content = vm.GetDataJson();
             }
             return result;
         }

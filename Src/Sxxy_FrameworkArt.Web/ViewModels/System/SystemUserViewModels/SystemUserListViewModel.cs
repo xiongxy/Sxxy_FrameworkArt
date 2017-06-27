@@ -25,11 +25,11 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
         protected override void InitListViewModel()
         {
             List<IGridColumn<SystemUserListView>> listColumns = new List<IGridColumn<SystemUserListView>>();
+            listColumns.Add(this.MakeGridColumn(x => x.Id));
+            listColumns.Add(this.MakeGridColumn(x => x.CreateTime));
             listColumns.Add(this.MakeGridColumn(x => x.Code));
             listColumns.Add(this.MakeGridColumn(x => x.Name));
             listColumns.Add(this.MakeGridColumn(x => x.Email));
-            listColumns.Add(this.MakeGridColumn(x => x.Id));
-            listColumns.Add(this.MakeGridColumn(x => x.CreateTime));
             ListColumns = listColumns;
         }
 
