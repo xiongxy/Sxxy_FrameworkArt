@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Common.Helpers
 {
@@ -245,11 +246,7 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                     fproperty.SetValue(temp, value, null);
                 }
 
-                bool isArray = false;
-                if (value != null && value.GetType().IsArray == true)
-                {
-                    isArray = true;
-                }
+                bool isArray = value != null && value.GetType().IsArray == true;
 
                 if (stringBasedValue == true)
                 {
@@ -362,6 +359,99 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                 }
             }
             return val;
+        }
+
+
+
+
+
+
+
+
+        public static void SetPropertyValue(object source, string property, object value, bool stringBasedValue = false)
+        {
+            #region 针对于source 是 ViewModel
+
+            var isViewModel = typeof(IBaseListViewModel<BaseEntity, BaseSearcher>).IsAssignableFrom(source.GetType());
+            //var isViewModel = source.GetType().IsAssignableFrom(typeof(IBaseListViewModel<BaseEntity, BaseSearcher>));
+            if (isViewModel)
+            {
+                property = property == "length" ? "Searcher.PageSize" : property;
+                property = property == "start" ? "Searcher.StartRow" : property;
+            }
+            #endregion
+
+
+            //是否属于xxxx.xxxx格式
+            List<string> v = new List<string>();
+            if (property.Contains('.'))
+            {
+                v.AddRange(property.Split('.'));
+            }
+            else
+            {
+                v.Add(property);
+            }
+            var temp = source;
+            var tempType = source.GetType();
+            for (int i = 0; i < v.Count - 1; i++)
+            {
+                var pro = tempType.GetProperty(v[i]);
+                if (pro != null)
+                {
+                    var va = pro.GetValue(temp, null);
+                    if (va != null)
+                    {
+                        temp = va;
+                    }
+                    else
+                    {
+                        var newInstance = va.GetType().GetConstructor(Type.EmptyTypes).Invoke(null);
+                        pro.SetValue(temp, newInstance, null);
+                        temp = newInstance;
+                    }
+                    tempType = pro.PropertyType;
+                }
+            }
+            var fproperty = tempType.GetProperty(v.Last());
+            if (fproperty == null)
+            {
+                return;
+            }
+            bool isArray = value.GetType().IsArray;
+            if (stringBasedValue)
+            {
+                var propertyType = fproperty.PropertyType;
+                if (propertyType.IsGenericType)
+                {
+                }
+                else
+                {
+                    if (isArray)
+                    {
+                        var a = (value as object[]);
+                        if (a != null && a.Length == 1)
+                        {
+                            value = a[0];
+                        }
+                    }
+                    object val = ConvertValue(value, fproperty.PropertyType);
+                    if (val is string)
+                    {
+                        val = val.ToString().Replace("\\", "/");
+                    }
+                    fproperty.SetValue(temp, val, null);
+                }
+            }
+            else
+            {
+                if (value is string)
+                {
+                    value = value.ToString().Replace("\\", "/");
+                }
+                fproperty.SetValue(temp, value, null);
+            }
+
         }
     }
 }

@@ -492,7 +492,10 @@ namespace Sxxy_FrameworkArt.Common
                 //循环FormCollection
                 foreach (var item in fc.AllKeys)
                 {
-                    PropertyHelper.SetPropertyValue(vm, item, fc.GetValue(item).RawValue, prefix, true);
+                    if (item == "start")
+                    {
+                    }
+                    PropertyHelper.SetPropertyValue(vm, item, fc.GetValue(item).RawValue, true);
                 }
                 return true;
             }

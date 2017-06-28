@@ -32,7 +32,10 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
             listColumns.Add(this.MakeGridColumn(x => x.Email));
             ListColumns = listColumns;
         }
-
+        /// <summary>
+        /// 查询计划
+        /// </summary>
+        /// <returns></returns>
         public override IOrderedQueryable<SystemUserListView> GetSearchQuery()
         {
             var query = Dc.Set<SystemUser>()
@@ -44,12 +47,11 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
                     Name = x.Name,
                     CreateTime = x.CreateTime
                 })
-                .OrderByDescending(x => x.CreateTime);
+                .OrderBy(x => x.CreateTime);
             var v = query.ToList();
             return query;
         }
     }
-
     public class SystemUserListView : BaseEntity
     {
         /// <summary>
@@ -65,7 +67,6 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
         /// </summary>
         public string Name { get; set; }
     }
-
     public class SystemUserSearcher : BaseSearcher
     {
         public string Code { get; set; }

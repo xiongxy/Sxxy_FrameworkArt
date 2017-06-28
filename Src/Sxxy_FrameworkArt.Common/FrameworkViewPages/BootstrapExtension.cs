@@ -109,7 +109,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", "BootstrapRouteGuidance", new { obj });
             return rv;
         }
-
         /// <summary>
         /// TableFor 生成一个表格给予使用
         /// </summary>

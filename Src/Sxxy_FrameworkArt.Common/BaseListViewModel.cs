@@ -35,24 +35,82 @@ namespace Sxxy_FrameworkArt.Common
         /// <returns></returns>
         string GetDataHtml();
         TSearch Searcher { get; }
+        /// <summary>
+        /// 是否需要分页
+        /// </summary>
+        bool NeedPage { get; set; }
+
 
     }
     public class BaseListViewModel<TModel, TSearch> : BaseViewModel, IBaseListViewModel<TModel, TSearch> where TModel : BaseEntity where TSearch : BaseSearcher
     {
+        /// <summary>
+        /// 默认构造函数
+        /// </summary>
         public BaseListViewModel()
         {
+            NeedPage = true;
+            length = 10;
             EntityList = new List<TModel>();
             //初始化搜索条件
-            Searcher = typeof(TSearch).GetConstructor(Type.EmptyTypes).Invoke(null) as TSearch;
-            //Searcher = Activator.CreateInstance(typeof(TSearch)) as TSearch;
+            //Searcher = typeof(TSearch).GetConstructor(Type.EmptyTypes).Invoke(null) as TSearch;
+            Searcher = Activator.CreateInstance(typeof(TSearch)) as TSearch;
         }
-
+        #region 属性
+        /// <summary>
+        /// 搜索信息
+        /// </summary>
+        public TSearch Searcher { get; set; }
+        /// <summary>
+        /// 获取的数据
+        /// </summary>
         public List<TModel> EntityList { get; set; }
-
         /// <summary>
         /// 查询模式
         /// </summary>
         public SearcherTypeEnum SearcherType { get; set; }
+        private List<IGridColumn<TModel>> _listColumns;
+        /// <summary>
+        /// 数据列
+        /// </summary>
+        public List<IGridColumn<TModel>> ListColumns
+        {
+            get
+            {
+                //如果没有列信息，则调用Init方法
+                if (_listColumns == null)
+                {
+                    DoInitListViewModel();
+                }
+                //if (_listColumns.Where(x => x.Title.ToLower() == "id").FirstOrDefault() == null)
+                //{
+                //    //如果是QuickDebug模式，则显示ID列，否则将ID列隐藏
+                //    if (BaseController.IsQuickDebug == true)
+                //    {
+                //        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 50));
+                //    }
+                //    else
+                //    {
+                //        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 0));
+                //    }
+                //}
+                return _listColumns;
+            }
+            set
+            {
+                _listColumns = value;
+            }
+        }
+        /// <summary>
+        /// 是否需要分页
+        /// </summary>
+        public bool NeedPage { get; set; }
+        /// <summary>
+        /// 每行页数
+        /// </summary>
+        public int length { get; set; }
+        public int draw { get; set; }
+        #endregion
         #region 获取列信息
         /// <summary>
         /// 获取列信息的数据
@@ -64,7 +122,6 @@ namespace Sxxy_FrameworkArt.Common
             //调用递归函数
             return GetColumnsJson(ref count);
         }
-
         private string GetColumnsJson(ref int count, List<IGridColumn<TModel>> basecols = null)
         {
             StringBuilder sb = new StringBuilder();
@@ -104,7 +161,10 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("]");
             return sb.ToString();
         }
-
+        /// <summary>
+        /// 获取列信息的数据
+        /// </summary>
+        /// <returns>Json格式的列信息</returns>
         public List<BootStrapTableColumn> GetColumnsObj()
         {
             List<BootStrapTableColumn> list = new List<BootStrapTableColumn>();
@@ -117,7 +177,6 @@ namespace Sxxy_FrameworkArt.Common
             return list;
         }
         #endregion
-
         #region 获取数据信息
         public string GetDataJson()
         {
@@ -125,9 +184,9 @@ namespace Sxxy_FrameworkArt.Common
             StringBuilder sb = new StringBuilder();
             var count = EntityList.Count;
             sb.Append("{");
-            sb.Append($"\"draw\":{1},");
-            sb.Append($"\"recordsTotal\":{count},");
-            sb.Append($"\"recordsFiltered\":{count},");
+            sb.Append($"\"draw\":{draw},");
+            sb.Append($"\"recordsTotal\":{Searcher.TotalRecords},");
+            sb.Append($"\"recordsFiltered\":{Searcher.TotalRecords},");
             sb.Append("\"data\":[");
             for (int i = 0; i < count; i++)
             {
@@ -204,10 +263,17 @@ namespace Sxxy_FrameworkArt.Common
                     query = GetSearchQuery();
                     break;
             }
-            EntityList = query.AsNoTracking().ToList();
+            if (NeedPage && Searcher.PageSize != -1)
+            {
+                Searcher.TotalRecords = query.Count();
+                EntityList = query.Skip(Searcher.StartRow).Take(Searcher.PageSize).AsNoTracking().ToList();
+            }
+            else
+            {
+                EntityList = query.AsNoTracking().ToList();
+            }
         }
         #endregion
-
         public virtual IOrderedQueryable<TModel> GetSearchQuery()
         {
             return Dc.Set<TModel>().OrderByDescending(x => x.Id);
@@ -219,54 +285,19 @@ namespace Sxxy_FrameworkArt.Common
         {
             _listColumns = new List<IGridColumn<TModel>>();
         }
-
-        private List<IGridColumn<TModel>> _listColumns;
-        /// <summary>
-        /// 数据列
-        /// </summary>
-        public List<IGridColumn<TModel>> ListColumns
-        {
-            get
-            {
-                //如果没有列信息，则调用Init方法
-                if (_listColumns == null)
-                {
-                    DoInitListViewModel();
-                }
-                //if (_listColumns.Where(x => x.Title.ToLower() == "id").FirstOrDefault() == null)
-                //{
-                //    //如果是QuickDebug模式，则显示ID列，否则将ID列隐藏
-                //    if (BaseController.IsQuickDebug == true)
-                //    {
-                //        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 50));
-                //    }
-                //    else
-                //    {
-                //        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 0));
-                //    }
-                //}
-                return _listColumns;
-            }
-            set
-            {
-                _listColumns = value;
-            }
-        }
-        public TSearch Searcher { get; set; }
-        //public event Action<IBaseListViewModel<TModel, TSearch>> OnAfterInitList;
+        public event Action<IBaseListViewModel<TModel, TSearch>> OnAfterInitList;
         /// <summary>
         /// 调用InitListVM并触发OnAfterInitList事件
         /// </summary>
         public void DoInitListViewModel()
         {
             InitListViewModel();
-            //if (OnAfterInitList != null)
-            //{
-            //    OnAfterInitList(this);
-            //}
+            if (OnAfterInitList != null)
+            {
+                OnAfterInitList(this);
+            }
         }
     }
-
     public enum SearcherTypeEnum
     { Search }
 }
