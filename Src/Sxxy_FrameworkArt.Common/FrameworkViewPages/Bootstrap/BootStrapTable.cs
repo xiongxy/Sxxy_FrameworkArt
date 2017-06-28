@@ -34,9 +34,19 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
         /// </summary>
         public List<BootStrapTableColumn> BootStrapTableColumns { get; set; }
         public string ActionsJson { get; set; }
+        /// <summary>
+        /// 搜索字段
+        /// </summary>
+        public List<BootStrapTableSearcherFields> BootStrapTableSearcherFields { get; set; }
+
     }
 
     public class BootStrapTableColumn
+    {
+        public string Title { get; set; }
+    }
+
+    public class BootStrapTableSearcherFields
     {
         public string Title { get; set; }
     }

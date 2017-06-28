@@ -360,28 +360,17 @@ namespace Sxxy_FrameworkArt.Common.Helpers
             }
             return val;
         }
-
-
-
-
-
-
-
-
         public static void SetPropertyValue(object source, string property, object value, bool stringBasedValue = false)
         {
             #region 针对于source 是 ViewModel
-
-            var isViewModel = typeof(IBaseListViewModel<BaseEntity, BaseSearcher>).IsAssignableFrom(source.GetType());
-            //var isViewModel = source.GetType().IsAssignableFrom(typeof(IBaseListViewModel<BaseEntity, BaseSearcher>));
+            var isViewModel = source is IBaseListViewModel<BaseEntity, BaseSearcher>;
             if (isViewModel)
             {
                 property = property == "length" ? "Searcher.PageSize" : property;
                 property = property == "start" ? "Searcher.StartRow" : property;
+                property = property == "draw" ? "Searcher.Draw" : property;
             }
             #endregion
-
-
             //是否属于xxxx.xxxx格式
             List<string> v = new List<string>();
             if (property.Contains('.'))
@@ -451,7 +440,6 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                 }
                 fproperty.SetValue(temp, value, null);
             }
-
         }
     }
 }

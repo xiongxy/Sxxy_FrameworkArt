@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap;
@@ -106,7 +103,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
                 ModulName = modulName,
                 ModulRemark = modulRemark,
             };
-            var rv = html.InnerHelper.Editor("", "BootstrapRouteGuidance", new { obj });
+            var rv = html.InnerHelper.Editor("", $"BootstrapRouteGuidance", new { obj });
             return rv;
         }
         /// <summary>
@@ -120,13 +117,20 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         public static MvcHtmlString TableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, bool isLoadData = true)
         {
             var v = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
+            var propertyInfos = v.Searcher.GetType().GetProperties(System.Reflection.BindingFlags.DeclaredOnly | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            List<BootStrapTableSearcherFields> list = new List<BootStrapTableSearcherFields>();
+            foreach (var item in propertyInfos)
+            {
+                list.Add(new BootStrapTableSearcherFields() { Title = item.Name });
+            }
             BootStrapTable obj = new BootStrapTable();
             obj.TableId = Guid.NewGuid().ToString();
             obj.ColumnsJson = v.GetColumnsJson();
             obj.BootStrapTableColumns = v.GetColumnsObj();
             obj.IsLoadData = isLoadData;
-            obj.ViewModel = v.GetType().FullName+","+v.GetType().Assembly.FullName.Substring(0, v.GetType().Assembly.FullName.IndexOf(",", StringComparison.Ordinal));
-            var rv = html.InnerHelper.Editor("", "BootstrapTable", new { obj });
+            obj.ViewModel = v.GetType().FullName + "," + v.GetType().Assembly.FullName.Substring(0, v.GetType().Assembly.FullName.IndexOf(",", StringComparison.Ordinal));
+            obj.BootStrapTableSearcherFields = list;
+            var rv = html.InnerHelper.Editor("", $"BootstrapTable", new { obj });
             return rv;
         }
         /// <summary>
@@ -143,11 +147,13 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         {
             PropertyInfo pi = PropertyHelper.GetPropertyInfo(fieldExp);
             string label = PropertyHelper.GetPropertyDisplayName(pi, labelText);
-            BootstrapTextField obj = new BootstrapTextField();
-            obj.LableText = label;
-            obj.InputType = inputType;
-            obj.Description = description;
-            var rv = html.InnerHelper.Editor("", "BootStrapTextField", new { obj });
+            BootstrapTextField obj = new BootstrapTextField
+            {
+                LableText = label,
+                InputType = inputType,
+                Description = description
+            };
+            var rv = html.InnerHelper.Editor("", $"BootStrapTextField", new { obj });
             return rv;
         }
         /// <summary>

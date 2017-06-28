@@ -184,7 +184,7 @@ namespace Sxxy_FrameworkArt.Common
             StringBuilder sb = new StringBuilder();
             var count = EntityList.Count;
             sb.Append("{");
-            sb.Append($"\"draw\":{draw},");
+            sb.Append($"\"draw\":{Searcher.Draw},");
             sb.Append($"\"recordsTotal\":{Searcher.TotalRecords},");
             sb.Append($"\"recordsFiltered\":{Searcher.TotalRecords},");
             sb.Append("\"data\":[");
