@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
@@ -67,23 +68,37 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             return mf;
         }
         #endregion
+
         /// <summary>
         /// 表单开始
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="html"></param>
         /// <param name="title">表单页面显示标题,默认为无</param>
+        /// <param name="showSearch">是否展现搜索功能</param>
         /// <returns></returns>
-        public static BootStrapForm BeginForm<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string title = "")
+        public static BootStrapForm BeginForm<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string title = "", bool showSearch = true)
         {
             StringBuilder sb = new StringBuilder();
             var vm = html.InnerHelper.ViewData.Model as BaseViewModel;
             var formTitle = "";//表单名称
-            sb.Append("<div class=\"box box-primary\">");
-            sb.Append("<div class=\"box-header with-border\">");
-            sb.Append("<h3 class=\"box-title\">" + formTitle + "</h3>");
-            sb.Append("</div>");
-            sb.Append("<form role=\"form\">");
+            sb.Append("<div class=\"box box-danger\">");//.box默认有一个顶部颜色，与 .box-default（灰色）相同，.box-success（绿色），.box-warning（黄色），.box-danger（红色）等可覆盖默认的颜色样式
+            if (title != "")
+            {
+                sb.Append("<div class=\"box-header with-border\">");
+                sb.Append("<h3 class=\"box-title\">" + formTitle + "</h3>");
+                sb.Append("</div>");
+            }
+            if (showSearch)
+            {
+                sb.Append("<div class=\"box-header with-border\">");
+                sb.Append(" <a class=\"btn btn-app\" onclick=\"javascript:objTable.ajax.reload();\">");
+                sb.Append("<i class=\"fa fa-search\"></i>search</a>");
+                sb.Append("</div>");
+            }
+            sb.Append("<div class=\"box-body\">");
+            sb.Append("<div class=\"col-md-12\">");
+            sb.Append("<form class=\"form-inline\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             BootStrapForm mf = new BootStrapForm(html.InnerHelper.ViewContext);
             return mf;
@@ -124,13 +139,40 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
                 list.Add(new BootStrapTableSearcherFields() { Title = item.Name });
             }
             BootStrapTable obj = new BootStrapTable();
-            obj.TableId = Guid.NewGuid().ToString();
+            obj.TableId = (html.InnerHelper.ViewData.Model as BaseViewModel).ViewModelId.ToString();
             obj.ColumnsJson = v.GetColumnsJson();
             obj.BootStrapTableColumns = v.GetColumnsObj();
             obj.IsLoadData = isLoadData;
             obj.ViewModel = v.GetType().FullName + "," + v.GetType().Assembly.FullName.Substring(0, v.GetType().Assembly.FullName.IndexOf(",", StringComparison.Ordinal));
             obj.BootStrapTableSearcherFields = list;
             var rv = html.InnerHelper.Editor("", $"BootstrapTable", new { obj });
+            return rv;
+        }
+        /// <summary>
+        /// TreeTableFor 生成一个树形表格给予使用
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="fieldExp"></param>
+        /// <param name="isLoadData">第一次是否加载数据，默认是True</param>
+        /// <returns></returns>
+        public static MvcHtmlString TreeTableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, bool isLoadData = true)
+        {
+            var v = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
+            var propertyInfos = v.Searcher.GetType().GetProperties(System.Reflection.BindingFlags.DeclaredOnly | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            List<BootStrapTableSearcherFields> list = new List<BootStrapTableSearcherFields>();
+            foreach (var item in propertyInfos)
+            {
+                list.Add(new BootStrapTableSearcherFields() { Title = item.Name });
+            }
+            BootStrapTreeTable obj = new BootStrapTreeTable();
+            obj.TableId = (html.InnerHelper.ViewData.Model as BaseViewModel).ViewModelId.ToString();
+            obj.ColumnsJson = v.GetColumnsJson();
+            obj.BootStrapTableColumns = v.GetColumnsObj();
+            obj.IsLoadData = isLoadData;
+            obj.ViewModel = v.GetType().FullName + "," + v.GetType().Assembly.FullName.Substring(0, v.GetType().Assembly.FullName.IndexOf(",", StringComparison.Ordinal));
+            obj.BootStrapTableSearcherFields = list;
+            var rv = html.InnerHelper.Editor("", $"BootstrapTreeTable", new { obj });
             return rv;
         }
         /// <summary>
@@ -146,12 +188,14 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         public static MvcHtmlString TextField<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, object>> fieldExp, string labelText = null, string inputType = "text", string description = null)
         {
             PropertyInfo pi = PropertyHelper.GetPropertyInfo(fieldExp);
+            var vm = html.InnerHelper.ViewData.Model as BaseViewModel;
             string label = PropertyHelper.GetPropertyDisplayName(pi, labelText);
             BootstrapTextField obj = new BootstrapTextField
             {
                 LableText = label,
                 InputType = inputType,
-                Description = description
+                Description = description,
+                InputId = label + "txt" + "_" + (vm == null ? "" : vm.ViewModelId.ToString())
             };
             var rv = html.InnerHelper.Editor("", $"BootStrapTextField", new { obj });
             return rv;

@@ -14,8 +14,26 @@ namespace Sxxy_FrameworkArt.Common
     /// <summary>
     /// 所有ViewModel的基类，提供了基本的功能
     /// </summary>
-    public class BaseViewModel : IValidatableObject
+    public abstract class BaseViewModel : IValidatableObject
     {
+        private Guid _viewModelId;
+        public Guid ViewModelId
+        {
+            get
+            {
+                if (_viewModelId == Guid.Empty)
+                {
+                    _viewModelId = Guid.NewGuid();
+                }
+                return _viewModelId;
+            }
+            set
+            {
+                _viewModelId = value;
+            }
+
+        }
+
         private IDataContext _dc;
         /// <summary>
         /// 数据库环境
@@ -35,9 +53,7 @@ namespace Sxxy_FrameworkArt.Common
                 _dc = value;
             }
         }
-
         public NowControllerInfo NowController { get; set; }
-
         /// <summary>
         /// 菜单(属性)
         /// </summary>
@@ -94,7 +110,6 @@ namespace Sxxy_FrameworkArt.Common
             List<ValidationResult> rv = new List<ValidationResult>();
             return rv;
         }
-
         /// <summary>
         /// InitVM完成后触发的事件
         /// </summary>
@@ -103,7 +118,6 @@ namespace Sxxy_FrameworkArt.Common
         /// ReInitVM完成后触发的事件
         /// </summary>
         public event Action<BaseViewModel> OnAfterReInit;
-
         public void DoInit()
         {
             InitVM();

@@ -16,7 +16,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
         }
         public void Dispose()
         {
-            _viewContext.Writer.WriteLine("</form></div>");
+            _viewContext.Writer.WriteLine("</form></div></div></div>");
         }
     }
     public class BootStrapRow : IDisposable

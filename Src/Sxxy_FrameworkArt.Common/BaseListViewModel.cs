@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap;
 using Sxxy_FrameworkArt.Common.Helpers;
+using Sxxy_FrameworkArt.Common.Helpers.Extensions;
 using Sxxy_FrameworkArt.Common.SupportClasses;
 using Sxxy_FrameworkArt.Models;
 
@@ -34,6 +35,11 @@ namespace Sxxy_FrameworkArt.Common
         /// </summary>
         /// <returns></returns>
         string GetDataHtml();
+        /// <summary>
+        /// 获取树形数据以HTML编码形式返回
+        /// </summary>
+        /// <returns></returns>
+        string GetTreeDataJson();
         TSearch Searcher { get; }
         /// <summary>
         /// 是否需要分页
@@ -272,6 +278,43 @@ namespace Sxxy_FrameworkArt.Common
             {
                 EntityList = query.AsNoTracking().ToList();
             }
+        }
+        public string GetTreeDataJson()
+        {
+            DoSearch();
+            StringBuilder sb = new StringBuilder();
+            var count = EntityList.Count;
+            sb.Append("{");
+            sb.Append($"\"draw\":{Searcher.Draw},");
+            sb.Append($"\"recordsTotal\":{Searcher.TotalRecords},");
+            sb.Append($"\"recordsFiltered\":{Searcher.TotalRecords},");
+            sb.Append("\"data\":[");
+            for (int i = 0; i < count; i++)
+            {
+                sb.Append(GetTreeSingleDataJsonArray(EntityList[i]));
+                if (i < EntityList.Count - 1)
+                {
+                    sb.Append(",");
+                }
+            }
+            sb.Append("]}");
+            return sb.ToString();
+        }
+
+        private string GetTreeSingleDataJsonArray(TModel model)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            for (int i = 0; i < ListColumns.Count; i++)
+            {
+                sb.Append($"\"{PropertyHelper.GetPropertyName(ListColumns[i].ColumnExp)}\":\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
+                if (i < ListColumns.Count - 1)
+                {
+                    sb.Append(",");
+                }
+            }
+            sb.Append("}");
+            return sb.ToString();
         }
         #endregion
         public virtual IOrderedQueryable<TModel> GetSearchQuery()

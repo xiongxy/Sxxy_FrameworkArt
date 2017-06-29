@@ -27,5 +27,20 @@ namespace Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers
             }
             return result;
         }
+
+        [HttpPost]
+        public ContentResult GetTreeTableData(string viewModelFullName, FormCollection fc)
+        {
+            var result = new ContentResult();
+            var vm = CreateViewModel(VmFullName: viewModelFullName, passInit: true) as IBaseListViewModel<BaseEntity, BaseSearcher>;
+            RedoUpdateModel(vm, fc);
+            if (vm != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                result.ContentType = "text";
+                result.Content = vm.GetTreeDataJson();
+            }
+            return result;
+        }
     }
 }

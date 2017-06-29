@@ -1,32 +1,16 @@
 ﻿@model Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels.SystemUserListViewModel
-    @using (Bootstrap.PageLayout_BeginRow())
+@using (Bootstrap.PageLayout_BeginRow())
+{
+    using (Bootstrap.PageLayout_BeginColumn())
     {
-        using (Bootstrap.PageLayout_BeginColumn())
+        using (Bootstrap.BeginForm())
         {
-            using (Bootstrap.BeginForm())
-            {
-                using (Bootstrap.PageLayout_BeginBox(BootStarpBoxLayout.Body))
-                {
-                    using (Bootstrap.PageLayout_BeginRow())
-                    {
-                        using (Bootstrap.PageLayout_BeginColumn(3))
-                        {
-                            @Bootstrap.TextField(x => x.Searcher.Code)
-                        }
-                        using (Bootstrap.PageLayout_BeginColumn(3))
-                        {
-                            @Bootstrap.TextField(x => x.Searcher.Email)
-                        }
-                    }
-                }
-                using (Bootstrap.PageLayout_BeginBox(BootStarpBoxLayout.Body))
-                {
-                    @Bootstrap.SearcherPanel()
-                }
-            }
-        }
-        using (Bootstrap.PageLayout_BeginColumn())
-        {
-            @Bootstrap.TableFor(x => x)
+            @Bootstrap.TextField(x => x.Searcher.Code)
+            @Bootstrap.TextField(x => x.Searcher.Email)
         }
     }
+    using (Bootstrap.PageLayout_BeginColumn())
+    {
+        @Bootstrap.TableFor(x => x)
+    }
+}

@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
 @{
-    var obj = ViewData["obj"] as BootStrapTable;
+    var obj = ViewData["obj"] as BootStrapTreeTable;
     if (obj == null)
     {
         return;
@@ -14,7 +14,7 @@
     <div class="box-body">
         <table id="Table_@obj.TableId" viewModel="@obj.ViewModel" class="table table-bordered table-hover">
             <thead>
-                <tr>
+                <tr><th>ParentId</th>
                     @{
                         foreach (var item in obj.BootStrapTableColumns)
                         {
@@ -27,7 +27,7 @@
                 <!-- 内容 ，需要使用Ajax 获取数据 -->
             </tbody>
             <tfoot>
-                <tr>
+                <tr><th>ParentId</th>
                     @{
                         foreach (var item in obj.BootStrapTableColumns)
                         {
@@ -53,9 +53,9 @@
             processing: true,
             serverSide: true,
             ajax: {
-                "url": "/WebApi/Home/GetTableData",
+                "url": "/WebApi/Home/GetTreeTableData",
                 "type": "POST",
-                "data": function(d) {
+                "data": function (d) {
                     d.viewModelFullName = "@obj.ViewModel";
                     var searcherField = "";
                     searcherField += "{";
@@ -63,17 +63,31 @@
                     {
                         var tableId = item.Title + "txt_" + obj.TableId;
                         @:if ($("#@tableId").length > 0) { searcherField += "\"@item.Title\":\"" + $("#@tableId").val() + "\"" };
-                        @:searcherField += ",";
-                    }
+                                            @:searcherField += ",";
+                                        }
                     searcherField = searcherField.substr(0, searcherField.length - 1);
                     searcherField += "}";
                     d.searcher = searcherField;
                 }
-            }
-            ,
+            },
             initComplete: function () {
 
-            }
+            },
+            rowCallback: function (row, data, displayIndex) {//行定义
+                debugger;
+                if (data.ParentId != "0") {
+                    $(row).attr("class", "text-c treegrid-" + data.PowerId + " treegrid-parent-" + data.ParentId);
+                } else {
+                    $(row).attr("class", "text-c treegrid-" + data.PowerId);
+                }
+            },
+            columns: [
+                { "data": "ParentId" },
+                @foreach (var item in obj.BootStrapTableColumns)
+                {
+                      @:{ "data": "@item.Title" },
+                }
+            ]
         });
     });
 </script>

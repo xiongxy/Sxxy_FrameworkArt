@@ -169,6 +169,7 @@
     <Compile Include="ViewModels\SharedViewModels\LayoutViewModel.cs" />
     <Compile Include="ViewModels\SharedViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\SharedViewModels\RouteGuidanceViewModel.cs" />
+    <Compile Include="ViewModels\System\SystemMenuViewModels\SystemMenuListViewModel.cs" />
     <Compile Include="ViewModels\System\SystemUserViewModels\SystemUserListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -636,6 +637,7 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\Sxxy.pubxml" />
     <Content Include="Views\Shared\EditorTemplates\BootStrapTextField.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BootStrapTreeTable.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
