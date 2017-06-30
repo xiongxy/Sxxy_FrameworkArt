@@ -25,5 +25,19 @@ namespace Sxxy_FrameworkArt.Common.Helpers.Extensions
             GridColumn<TModel> gridColumn = new GridColumn<TModel>(columnExp, isShow);
             return gridColumn;
         }
+
+        /// <summary>
+        /// 制作表格操作列
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TSearch"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static GridColumn<TModel> MakeGridActionColumn<TModel, TSearch>(this IBaseListViewModel<TModel, TSearch> self, string title = null) where TModel : BaseEntity where TSearch : BaseSearcher
+        {
+            GridActionColumn<TModel> gridActionColumn = new GridActionColumn<TModel>(title);
+            return gridActionColumn;
+        }
     }
 }

@@ -45,6 +45,7 @@ namespace Sxxy_FrameworkArt.Common
         /// 是否需要分页
         /// </summary>
         bool NeedPage { get; set; }
+        List<GridAction> GridActions { get; set; }
 
 
     }
@@ -56,13 +57,13 @@ namespace Sxxy_FrameworkArt.Common
         public BaseListViewModel()
         {
             NeedPage = true;
-            length = 10;
             EntityList = new List<TModel>();
             //初始化搜索条件
-            //Searcher = typeof(TSearch).GetConstructor(Type.EmptyTypes).Invoke(null) as TSearch;
             Searcher = Activator.CreateInstance(typeof(TSearch)) as TSearch;
         }
         #region 属性
+        public List<GridAction> GridActions { get; set; }
+
         /// <summary>
         /// 搜索信息
         /// </summary>
@@ -88,18 +89,6 @@ namespace Sxxy_FrameworkArt.Common
                 {
                     DoInitListViewModel();
                 }
-                //if (_listColumns.Where(x => x.Title.ToLower() == "id").FirstOrDefault() == null)
-                //{
-                //    //如果是QuickDebug模式，则显示ID列，否则将ID列隐藏
-                //    if (BaseController.IsQuickDebug == true)
-                //    {
-                //        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 50));
-                //    }
-                //    else
-                //    {
-                //        //_listColumns.Insert(0, this.MakeGridColumn(x => x.ID, null, "ID", Width: 0));
-                //    }
-                //}
                 return _listColumns;
             }
             set
@@ -111,11 +100,6 @@ namespace Sxxy_FrameworkArt.Common
         /// 是否需要分页
         /// </summary>
         public bool NeedPage { get; set; }
-        /// <summary>
-        /// 每行页数
-        /// </summary>
-        public int length { get; set; }
-        public int draw { get; set; }
         #endregion
         #region 获取列信息
         /// <summary>
@@ -226,10 +210,18 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("[");
             for (int i = 0; i < ListColumns.Count; i++)
             {
-                sb.Append($"\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
-                if (i < ListColumns.Count - 1)
+                if (ListColumns[i] is GridActionColumn<TModel>)
                 {
-                    sb.Append(",");
+                    sb.Append("\"<a class='glyphicon glyphicon-pencil' style='font-size:20px;color:black;margin-left:10px;'></a>");
+                    sb.Append("<a class='glyphicon glyphicon-trash' style='font-size:20px;color:black;;margin-left:10px;'></a>\"");
+                }
+                else
+                {
+                    sb.Append($"\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
+                    if (i < ListColumns.Count - 1)
+                    {
+                        sb.Append(",");
+                    }
                 }
             }
             sb.Append("]");
@@ -300,7 +292,6 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("]}");
             return sb.ToString();
         }
-
         private string GetTreeSingleDataJsonArray(TModel model)
         {
             StringBuilder sb = new StringBuilder();

@@ -30,7 +30,9 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
             listColumns.Add(this.MakeGridColumn(x => x.Code));
             listColumns.Add(this.MakeGridColumn(x => x.Name));
             listColumns.Add(this.MakeGridColumn(x => x.Email));
+            listColumns.Add(this.MakeGridActionColumn());
             ListColumns = listColumns;
+            GridActions = new List<GridAction>();
         }
         /// <summary>
         /// 查询计划

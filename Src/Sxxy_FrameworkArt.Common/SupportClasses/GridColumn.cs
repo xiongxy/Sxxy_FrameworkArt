@@ -11,7 +11,6 @@ using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Common.SupportClasses
 {
-
     public interface IGridColumn<T>
     {
         #region 属性 Properties
@@ -83,14 +82,13 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
         //System.Drawing.Color GetBackGroundColor(T source);
         #endregion
     }
-
     public class GridColumn<T> : IGridColumn<T> where T : BaseEntity
     {
         public GridColumn()
         {
 
         }
-        public GridColumn(Expression<Func<T, object>> columnExp,bool isShow)
+        public GridColumn(Expression<Func<T, object>> columnExp, bool isShow)
         {
             this.ColumnExp = columnExp;
             this.IsShow = isShow;
@@ -158,5 +156,20 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
         //{
         //    return new MvcHtmlString("");
         //}
+    }
+
+    public class GridActionColumn<T> : GridColumn<T> where T : BaseEntity
+    {
+        public GridActionColumn(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                this.Title = "Action";
+            }
+            else
+            {
+                this.Title = title;
+            }
+        }
     }
 }

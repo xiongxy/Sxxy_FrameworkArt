@@ -171,6 +171,7 @@
     <Compile Include="ViewModels\SharedViewModels\RouteGuidanceViewModel.cs" />
     <Compile Include="ViewModels\System\SystemMenuViewModels\SystemMenuListViewModel.cs" />
     <Compile Include="ViewModels\System\SystemUserViewModels\SystemUserListViewModel.cs" />
+    <Compile Include="ViewModels\System\SystemUserViewModels\SystemUserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Assembly\Table\dataTables.bootstrap.css" />
@@ -644,6 +645,7 @@
     <None Include="Properties\PublishProfiles\Sxxy.pubxml" />
     <Content Include="Views\Shared\EditorTemplates\BootStrapTextField.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\BootStrapTreeTable.cshtml" />
+    <Content Include="Views\SystemUser\Create.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

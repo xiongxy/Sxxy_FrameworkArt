@@ -112,6 +112,7 @@
     <Compile Include="SupportClasses\DataPrivilegeInfo.cs" />
     <Compile Include="SupportClasses\DuplicatedInfo.cs" />
     <Compile Include="SupportClasses\ExpressionVisitors.cs" />
+    <Compile Include="SupportClasses\GridAction.cs" />
     <Compile Include="SupportClasses\GridColumn.cs" />
     <Compile Include="SupportClasses\IAreaRegistration.cs" />
     <Compile Include="SupportClasses\LoginUserInfo.cs" />

@@ -18,5 +18,10 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             var vm = CreateViewModel<SystemUserListViewModel>();
             return View(vm);
         }
+        public ActionResult Create()
+        {
+            var vm = CreateViewModel<SystemUserViewModel>();
+            return View(vm);
+        }
     }
 }

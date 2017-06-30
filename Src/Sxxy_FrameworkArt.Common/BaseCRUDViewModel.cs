@@ -55,7 +55,7 @@ namespace Sxxy_FrameworkArt.Common
         void CopyContext(BaseViewModel vm);
     }
 
-    class BaseCrudViewModel<TModel> : BaseViewModel, IBaseCrudViewModel<TModel> where TModel : BaseEntity
+    public class BaseCrudViewModel<TModel> : BaseViewModel, IBaseCrudViewModel<TModel> where TModel : BaseEntity
 
     {
         public TModel Entity { get; set; }
