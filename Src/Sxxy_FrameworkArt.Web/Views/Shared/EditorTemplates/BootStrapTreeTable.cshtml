@@ -14,7 +14,7 @@
     <div class="box-body">
         <table id="Table_@obj.TableId" viewModel="@obj.ViewModel" class="table table-bordered table-hover">
             <thead>
-                <tr><th>ParentId</th>
+                <tr>
                     @{
                         foreach (var item in obj.BootStrapTableColumns)
                         {
@@ -27,7 +27,7 @@
                 <!-- 内容 ，需要使用Ajax 获取数据 -->
             </tbody>
             <tfoot>
-                <tr><th>ParentId</th>
+                <tr>
                     @{
                         foreach (var item in obj.BootStrapTableColumns)
                         {
@@ -63,34 +63,46 @@
                     {
                         var tableId = item.Title + "txt_" + obj.TableId;
                         @:if ($("#@tableId").length > 0) { searcherField += "\"@item.Title\":\"" + $("#@tableId").val() + "\"" };
-                                            @:searcherField += ",";
-                                        }
+                        @:searcherField += ",";
+                    }
                     searcherField = searcherField.substr(0, searcherField.length - 1);
                     searcherField += "}";
                     d.searcher = searcherField;
                 }
             },
             initComplete: function () {
-
+                debugger;
+                $('#Table_@obj.TableId').treegrid();
+            },
+            drawCallback: function (settings) {
+                debugger;
+                $('#Table_@obj.TableId').treegrid();
             },
             rowCallback: function (row, data, displayIndex) {//行定义
                 debugger;
-                if (data.ParentId != "0") {
-                    $(row).attr("class", "text-c treegrid-" + data.PowerId + " treegrid-parent-" + data.ParentId);
-                } else {
-                    $(row).attr("class", "text-c treegrid-" + data.PowerId);
+                if (data.ParentId !== "") {
+                    $(row).attr("class", "text-c treegrid-" + data.Id + " treegrid-parent-" + data.ParentId);
+                }
+                else {
+                    $(row).attr("class", "text-c treegrid-" + data.Id);
                 }
             },
             columns: [
-                { "data": "ParentId" },
                 @foreach (var item in obj.BootStrapTableColumns)
                 {
-                      @:{ "data": "@item.Title" },
+                    @:{ "data": "@item.Title" },
                 }
             ]
         });
     });
 </script>
+<script>
+    @*$(function() {
+        $('#Table_@obj.TableId').treegrid();
+    })*@
+</script>
 <link href="~/Content/Assembly/Table/dataTables.bootstrap.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/Assembly/TreeTable/css/jquery.treegrid.css">
 <script src="~/Content/Assembly/Table/jquery.dataTables.min.js"></script>
 <script src="~/Content/Assembly/Table/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="~/Content/Assembly/TreeTable/js/jquery.treegrid.js"></script>

@@ -22,6 +22,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemMenuViewModels
             listColumns.Add(this.MakeGridColumn(x => x.ModuleName));
             listColumns.Add(this.MakeGridColumn(x => x.FolderOnly));
             listColumns.Add(this.MakeGridColumn(x => x.IsInherit));
+            listColumns.Add(this.MakeGridColumn(x => x.ParentId, false));
             listColumns.Add(this.MakeGridColumn(x => x.CreateTime));
             ListColumns = listColumns;
         }

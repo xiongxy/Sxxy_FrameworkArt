@@ -181,6 +181,12 @@
     <Content Include="Content\Assembly\Table\jquery.dataTables.min.css" />
     <Content Include="Content\Assembly\Table\jquery.dataTables.min.js" />
     <Content Include="Content\Assembly\Table\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\Assembly\TreeTable\css\jquery.treegrid.css" />
+    <Content Include="Content\Assembly\TreeTable\img\collapse.png" />
+    <Content Include="Content\Assembly\TreeTable\img\expand.png" />
+    <Content Include="Content\Assembly\TreeTable\img\file.png" />
+    <Content Include="Content\Assembly\TreeTable\img\folder.png" />
+    <Content Include="Content\Assembly\TreeTable\js\jquery.treegrid.js" />
     <Content Include="Content\css\AdminLTE.css" />
     <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\alt\AdminLTE-bootstrap-social.css" />

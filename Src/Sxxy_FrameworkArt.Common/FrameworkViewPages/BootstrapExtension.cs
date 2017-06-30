@@ -81,12 +81,11 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         {
             StringBuilder sb = new StringBuilder();
             var vm = html.InnerHelper.ViewData.Model as BaseViewModel;
-            var formTitle = "";//表单名称
             sb.Append("<div class=\"box box-danger\">");//.box默认有一个顶部颜色，与 .box-default（灰色）相同，.box-success（绿色），.box-warning（黄色），.box-danger（红色）等可覆盖默认的颜色样式
             if (title != "")
             {
                 sb.Append("<div class=\"box-header with-border\">");
-                sb.Append("<h3 class=\"box-title\">" + formTitle + "</h3>");
+                sb.Append("<h3 class=\"box-title\">" + title + "</h3>");
                 sb.Append("</div>");
             }
             if (showSearch)

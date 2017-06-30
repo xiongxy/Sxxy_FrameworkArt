@@ -59,6 +59,8 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
         ///// 最下层列
         ///// </summary>
         //List<IGridColumn<T>> BottomChildren { get; }
+
+        bool IsShow { get; set; }
         #endregion
         #region 方法 Function
         ///// <summary>
@@ -88,11 +90,12 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
         {
 
         }
-        public GridColumn(Expression<Func<T, object>> columnExp)
+        public GridColumn(Expression<Func<T, object>> columnExp,bool isShow)
         {
             this.ColumnExp = columnExp;
+            this.IsShow = isShow;
         }
-        
+        public bool IsShow { get; set; }
         //public List<IGridColumn<T>> BottomChildren { get; set; }
 
         //public List<IGridColumn<T>> Children { get; set; }
@@ -110,7 +113,7 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
         //public int MaxChildrenCount { get; set; }
 
         //public int MaxLevel { get; set; }
-      private string _title { get; set; }
+        private string _title { get; set; }
 
         public string Title
         {
