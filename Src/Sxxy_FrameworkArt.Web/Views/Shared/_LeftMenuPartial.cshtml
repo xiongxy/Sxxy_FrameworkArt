@@ -5,8 +5,12 @@
             url: "/Home/LeftMenu?ran=" + Math.random(),
             type: "GET",
             dataType: "text",
+            async: false,
             success: function (data) {
                 $(".sidebar-menu").append(data);
+            },
+            complete: function (data) {
+        
             }
         });
     })

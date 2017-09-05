@@ -44,7 +44,7 @@
     var objTable;
     $(function () {
         objTable = $('#Table_@obj.TableId').DataTable({
-            paging: true,
+            paging: false,
             lengthChange: true,
             searching: false,
             ordering: true,
@@ -71,15 +71,12 @@
                 }
             },
             initComplete: function () {
-                debugger;
                 $('#Table_@obj.TableId').treegrid();
             },
             drawCallback: function (settings) {
-                debugger;
-                $('#Table_@obj.TableId').treegrid();
+                //$('#Table_@obj.TableId').treegrid();
             },
             rowCallback: function (row, data, displayIndex) {//行定义
-                debugger;
                 if (data.ParentId !== "") {
                     $(row).attr("class", "text-c treegrid-" + data.Id + " treegrid-parent-" + data.ParentId);
                 }
@@ -88,6 +85,7 @@
                 }
             },
             columns: [
+                // ReSharper disable once ElidedTrailingElement
                 @foreach (var item in obj.BootStrapTableColumns)
                 {
                     @:{ "data": "@item.Title" },
@@ -95,11 +93,6 @@
             ]
         });
     });
-</script>
-<script>
-    @*$(function() {
-        $('#Table_@obj.TableId').treegrid();
-    })*@
 </script>
 <link href="~/Content/Assembly/Table/dataTables.bootstrap.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/Assembly/TreeTable/css/jquery.treegrid.css">

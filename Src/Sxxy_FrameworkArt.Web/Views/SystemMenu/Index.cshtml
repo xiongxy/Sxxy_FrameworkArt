@@ -3,14 +3,6 @@
 {
     using (Bootstrap.PageLayout_BeginColumn())
     {
-        using (Bootstrap.BeginForm())
-        {
-            @*@Bootstrap.TextField(x => x.Searcher.Code)
-            @Bootstrap.TextField(x => x.Searcher.Email)*@
-        }
-    }
-    using (Bootstrap.PageLayout_BeginColumn())
-    {
         @Bootstrap.TreeTableFor(x => x)
     }
 }

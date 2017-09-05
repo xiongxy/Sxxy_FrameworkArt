@@ -188,7 +188,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels
                     else
                     {
                         sb.Append("<li>");
-                        sb.Append($"<a href=\"{childrensItem.Url}\">");
+                        sb.Append($"<a href=\"/#{childrensItem.Url}\">");
                     }
                     sb.Append("<i class=\"fa fa-files-o\"></i>");
                     sb.Append($"<span>{childrensItem.Title}</span>");
@@ -204,7 +204,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels
                         foreach (var childrensItemChildrensItem in childrensItem.ChildrensItems)
                         {
                             sb.Append(
-                                $"<li><a href=\"{childrensItemChildrensItem.Url}\"><i class=\"fa fa-circle-o\"></i>{childrensItemChildrensItem.Title}</a></li>");
+                                $"<li><a href=\"/#{childrensItemChildrensItem.Url}\"><i class=\"fa fa-circle-o\"></i>{childrensItemChildrensItem.Title}</a></li>");
                         }
                         sb.Append("</ul>");
                     }

@@ -410,67 +410,44 @@ namespace Sxxy_FrameworkArt.Common
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            //if (filterContext.Result is PartialViewResult || filterContext.ActionDescriptor.ActionName == "Test")
-            //{
-            //    var isPublic = filterContext.ActionDescriptor.IsDefined(typeof(PublicAttribute), false) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(PublicAttribute), false);
-
-            //    if (isPublic == false)
-            //    {
-            //        var pub = SystemMenuProperty
-            //            .Where(x => x.Url != null
-            //                        && x.Url.ToLower() == "/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower() + "/" + filterContext.ActionDescriptor.ActionName
-            //                        && x.IsPublic == true)
-            //            .FirstOrDefault();
-            //        if (pub != null)
-            //        {
-            //            isPublic = true;
-            //        }
-            //    }
-            //    string url = "";
-            //    string script = "";
-            //    //                if (filterContext.ActionDescriptor.IsDefined(typeof(PopUpAttribute), false) || isPublic == true)
-            //    //                {
-            //    //                    url = "/Home/PopUpIndex/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
-            //    //                    if (filterContext.HttpContext.Request.QueryString != null && filterContext.HttpContext.Request.QueryString.Count > 0)
-            //    //                    {
-            //    //                        url += "?" + filterContext.HttpContext.Request.QueryString.ToSpratedString("&");
-            //    //                    }
-            //    //                }
-            //    //                else
-            //    //                {
-            //    //                    url = "/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
-            //    //                }
-            //    //                script = @"
-            //    //<script>
-            //    //    var url = '" + url + @"';
-            //    //    if (typeof mainwindow == 'undefined' && typeof popupwindow == 'undefined')
-            //    //    { 
-            //    //        window.location.href = url;
-            //    //    }
-            //    //</script>
-            //    //";
-            //    filterContext.HttpContext.Response.Write(script);
-            //    BaseViewModel viewModel = null;
-            //    if (filterContext.Result is PartialViewResult)
-            //    {
-            //        viewModel = (filterContext.Result as PartialViewResult).ViewData.Model as BaseViewModel;
-            //    }
-            //    //自动为所有PartialView加上最外层的Div
-            //    if (viewModel != null)
-            //    {
-            //        //如果Action中没有标记PureHtml，则自动调用FF_InitView方法来自动加入主Panel
-            //        //如果标记了PureHtml则只填加Div，不做Extjs的其它处理。如果标记了PureHtml的方法中报错，框架会转向/Error/Show方法，而这个方法中是需要Extjs处理的，所以也需要判断
-            //        //if (filterContext.ActionDescriptor.IsDefined(typeof(PureHtmlAttribute), false) == false || (filterContext.Result is PartialViewResult && ((PartialViewResult)filterContext.Result).Model is ErrorVM))
-            //        //{
-            //        //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\" class=\"x-hide-display\">");
-            //        //    filterContext.HttpContext.Response.Write(string.Format("<script>FF_InitView('{0}');</script>" + Environment.NewLine, model == null ? "" : model.ViewDivID));
-            //        //}
-            //        //else
-            //        //{
-            //        //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\">");
-            //        //}
-            //    }
-            //}
+            //filterContext.HttpContext.Response.Write("<div id=\"vvvvvv\" style=\"height:100%;\" class=\"x-hide-display\"></div>");
+            if (filterContext.Result is PartialViewResult || filterContext.ActionDescriptor.ActionName == "Test")
+            {
+                var isPublic = filterContext.ActionDescriptor.IsDefined(typeof(PublicAttribute), false) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(PublicAttribute), false);
+                string script = "";
+                string url = "";
+                url = "/#/" + filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + filterContext.ActionDescriptor.ActionName;
+                //script = @"
+                //<script>
+                //    var url = '" + url + @"';
+                //    if (typeof mainwindow == 'undefined' && typeof popupwindow == 'undefined')
+                //    { 
+                //        window.location.href = url;
+                //    }
+                //</script>
+                //";
+                filterContext.HttpContext.Response.Write(script);
+                BaseViewModel viewModel = null;
+                if (filterContext.Result is PartialViewResult)
+                {
+                    viewModel = (filterContext.Result as PartialViewResult).ViewData.Model as BaseViewModel;
+                }
+                //自动为所有PartialView加上最外层的Div
+                if (viewModel != null)
+                {
+                    //如果Action中没有标记PureHtml，则自动调用FF_InitView方法来自动加入主Panel
+                    //如果标记了PureHtml则只填加Div，不做Extjs的其它处理。如果标记了PureHtml的方法中报错，框架会转向/Error/Show方法，而这个方法中是需要Extjs处理的，所以也需要判断
+                    //if (filterContext.ActionDescriptor.IsDefined(typeof(PureHtmlAttribute), false) == false || (filterContext.Result is PartialViewResult && ((PartialViewResult)filterContext.Result).Model is ErrorVM))
+                    //{
+                    //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\" class=\"x-hide-display\">");
+                    //    filterContext.HttpContext.Response.Write(string.Format("<script>FF_InitView('{0}');</script>" + Environment.NewLine, model == null ? "" : model.ViewDivID));
+                    //}
+                    //else
+                    //{
+                    //    filterContext.HttpContext.Response.Write("<div id=\"" + model.ViewDivID + "\" style=\"height:100%;\">");
+                    //}
+                }
+            }
             base.OnActionExecuted(filterContext);
         }
 

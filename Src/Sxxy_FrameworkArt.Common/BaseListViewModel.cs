@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap;
 using Sxxy_FrameworkArt.Common.Helpers;
 using Sxxy_FrameworkArt.Common.Helpers.Extensions;
@@ -275,7 +277,9 @@ namespace Sxxy_FrameworkArt.Common
         {
             DoSearch();
             StringBuilder sb = new StringBuilder();
+            StringBuilder tempsb = new StringBuilder();
             var count = EntityList.Count;
+            GetTreeDataReordering();
             sb.Append("{");
             sb.Append($"\"draw\":{Searcher.Draw},");
             sb.Append($"\"recordsTotal\":{Searcher.TotalRecords},");
@@ -291,6 +295,31 @@ namespace Sxxy_FrameworkArt.Common
             }
             sb.Append("]}");
             return sb.ToString();
+        }
+        public void GetTreeDataReordering()
+        {
+            IEnumerable<dynamic> temp = EntityList;
+            EntityList = new List<TModel>();
+            if (temp != null)
+            {
+                //最上级的数据
+                var v = temp.Where(x => x.ParentId == null).ToList();
+                foreach (var item in v)
+                {
+                    EntityList.Add(item);
+                    GetTreeDataReorderingRecursion(temp, item);
+                }
+            }
+        }
+
+        public void GetTreeDataReorderingRecursion(IEnumerable<dynamic> temp, dynamic thisObjects)
+        {
+            var v1 = temp.Where(x => x.ParentId == thisObjects.Id).ToList();
+            foreach (var item in v1)
+            {
+                EntityList.Add(item);
+                GetTreeDataReorderingRecursion(temp, item);
+            }
         }
         private string GetTreeSingleDataJsonArray(TModel model)
         {

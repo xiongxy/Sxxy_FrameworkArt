@@ -16,12 +16,12 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
         public ActionResult Index()
         {
             var vm = CreateViewModel<SystemUserListViewModel>();
-            return View(vm);
+            return PartialView(vm);
         }
         public ActionResult Create()
         {
             var vm = CreateViewModel<SystemUserViewModel>();
-            return View(vm);
+            return PartialView(vm);
         }
     }
 }

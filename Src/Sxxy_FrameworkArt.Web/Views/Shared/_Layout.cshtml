@@ -13,20 +13,22 @@
     <script src="~/Content/lib/jquery/dist/jquery.js"></script>
     <script src="~/Content/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/Content/js/app.js"></script>
+    <script>
+        $(function () {
+            var hash = window.location.hash;
+            if (hash != null && hash != "") {
+                hash = hash.replace("#", "");
+                $('.content').load(hash, function (response, status, xhr) {
+                });
+            }
+        })
+    </script>
 </head>
-
-
-
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="#" class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>A</b>LT</span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Admin</b>LTE</span>
-            </a>
+            @Html.Partial("_LayoutLogo");
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
@@ -501,5 +503,21 @@
         immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div>
+    <script>
+        $(function () {
+            var list = $(".sidebar-menu li a");
+            for (var i = 0; i < list.length; i++) {
+                var vv = list[i];
+                list[i].onclick = function () {
+                    hash = $(this).attr("href");
+                    if (hash != null && hash != "") {
+                        hash = hash.replace("/#", "");
+                        $('.content').load(hash, function (response, status, xhr) {
+                        });
+                    }
+                }
+            }
+        })
+    </script>
 </body>
 </html>

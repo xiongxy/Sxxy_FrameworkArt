@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Sxxy_FrameworkArt.Common;
 using Sxxy_FrameworkArt.Common.Attributes;
 using Sxxy_FrameworkArt.Web.ViewModels.System.SystemMenuViewModels;
@@ -16,7 +12,7 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
         public ActionResult Index()
         {
             var vm = CreateViewModel<SystemMenuListViewModel>();
-            return View(vm);
+            return PartialView(vm);
         }
     }
 }
