@@ -3,7 +3,7 @@
 {
     using (Bootstrap.PageLayout_BeginColumn())
     {
-        using (Bootstrap.BeginForm())
+        using (Bootstrap.SearcherPanel(x => x))
         {
             @Bootstrap.TextField(x => x.Searcher.Code)
             @Bootstrap.TextField(x => x.Searcher.Email)

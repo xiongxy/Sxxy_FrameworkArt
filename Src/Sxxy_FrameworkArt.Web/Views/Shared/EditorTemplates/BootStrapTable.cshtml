@@ -16,7 +16,7 @@
             <thead>
                 <tr>
                     @{
-                        foreach (var item in obj.BootStrapTableColumns)
+                        foreach (var item in obj.BootStrapTableColumnsObj)
                         {
                             <th>@item.Title</th>
                         }
@@ -29,7 +29,7 @@
             <tfoot>
                 <tr>
                     @{
-                        foreach (var item in obj.BootStrapTableColumns)
+                        foreach (var item in obj.BootStrapTableColumnsObj)
                         {
                             <th>@item.Title</th>
                         }
@@ -59,7 +59,7 @@
                     d.viewModelFullName = "@obj.ViewModel";
                     var searcherField = "";
                     searcherField += "{";
-                    @foreach (var item in obj.BootStrapTableSearcherFields)
+                    @foreach (var item in obj.BootStrapTableSearcherFieldsObj)
                     {
                         var tableId = item.Title + "txt_" + obj.TableId;
                         @:if ($("#@tableId").length > 0) { searcherField += "\"@item.Title\":\"" + $("#@tableId").val() + "\"" };
@@ -72,7 +72,8 @@
             }
             ,
             initComplete: function () {
-
+                $("#toolbar").append("<a href='https://github.com/ssy341/datatables-cn/issues/new' " +
+                    "class='btn btn-primary btn-sm'>我也要提问</a>");
             }
         });
     });

@@ -24,22 +24,23 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
         /// 表格针对的viewModel
         /// </summary>
         public string ViewModel { get; set; }
-        public string FieldsJson { get; set; }
         /// <summary>
         /// 列信息Json格式
         /// </summary>
-        public string ColumnsJson { get; set; }
+        public string BootStrapTableColumnsJson { get; set; }
         /// <summary>
         /// 列信息对象格式
         /// </summary>
-        public List<BootStrapTableColumn> BootStrapTableColumns { get; set; }
+        public List<BootStrapTableColumn> BootStrapTableColumnsObj { get; set; }
+        /// <summary>
+        /// 动作信息json格式
+        /// </summary>
         public string ActionsJson { get; set; }
         /// <summary>
-        /// 搜索字段
+        /// 搜索信息对象格式
         /// </summary>
-        public List<BootStrapTableSearcherFields> BootStrapTableSearcherFields { get; set; }
+        public List<BootStrapTableSearcherFields> BootStrapTableSearcherFieldsObj { get; set; }
 
-        public string JsObjectName { get; set; }
 
     }
     public class BootStrapTreeTable
@@ -69,14 +70,14 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
         /// 列信息对象格式
         /// </summary>
         public List<BootStrapTableColumn> BootStrapTableColumns { get; set; }
+        /// <summary>
+        /// 动作信息json格式
+        /// </summary>
         public string ActionsJson { get; set; }
         /// <summary>
         /// 搜索字段
         /// </summary>
         public List<BootStrapTableSearcherFields> BootStrapTableSearcherFields { get; set; }
-
-        public string JsObjectName { get; set; }
-
     }
     public class BootStrapTableColumn
     {

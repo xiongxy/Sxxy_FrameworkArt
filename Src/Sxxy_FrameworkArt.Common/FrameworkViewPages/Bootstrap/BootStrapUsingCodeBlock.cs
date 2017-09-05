@@ -7,10 +7,10 @@ using System.Web.Mvc;
 
 namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
 {
-    public class BootStrapForm : IDisposable
+    public class BootStrapSearcherPanel : IDisposable
     {
         private readonly ViewContext _viewContext;
-        public BootStrapForm(ViewContext viewContext)
+        public BootStrapSearcherPanel(ViewContext viewContext)
         {
             _viewContext = viewContext;
         }

@@ -27,8 +27,8 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var vm = html.InnerHelper.ViewData.Model as BaseViewModel;
             sb.Append("<div class=\"row\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
-            BootStrapRow mf = new BootStrapRow(html.InnerHelper.ViewContext);
-            return mf;
+            BootStrapRow br = new BootStrapRow(html.InnerHelper.ViewContext);
+            return br;
         }
         /// <summary>
         /// 页面布局-栅格系统(列)
@@ -43,8 +43,8 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var vm = html.InnerHelper.ViewData.Model as BaseViewModel;
             sb.Append("<div class=\"col-md-" + widthPlaceholder + "\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
-            BootStrapRow mf = new BootStrapRow(html.InnerHelper.ViewContext);
-            return mf;
+            BootStrapRow br = new BootStrapRow(html.InnerHelper.ViewContext);
+            return br;
         }
         /// <summary>
         /// 页面布局-Box(盒子)
@@ -64,23 +64,23 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var vm = html.InnerHelper.ViewData.Model as BaseViewModel;
             sb.Append("<div class=\"box" + atr + "\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
-            BootStrapBox mf = new BootStrapBox(html.InnerHelper.ViewContext);
-            return mf;
+            BootStrapBox bb = new BootStrapBox(html.InnerHelper.ViewContext);
+            return bb;
         }
         #endregion
 
         /// <summary>
-        /// 表单开始
+        /// 搜索面板（表单）
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="html"></param>
         /// <param name="title">表单页面显示标题,默认为无</param>
         /// <param name="showSearch">是否展现搜索功能</param>
         /// <returns></returns>
-        public static BootStrapForm BeginForm<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string title = "", bool showSearch = true)
+        public static BootStrapSearcherPanel SearcherPanel<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, string title = "", bool showSearch = true)
         {
             StringBuilder sb = new StringBuilder();
-            var vm = html.InnerHelper.ViewData.Model as BaseViewModel;
+            var vm = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
             sb.Append("<div class=\"box box-danger\">");//.box默认有一个顶部颜色，与 .box-default（灰色）相同，.box-success（绿色），.box-warning（黄色），.box-danger（红色）等可覆盖默认的颜色样式
             if (title != "")
             {
@@ -91,16 +91,21 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             if (showSearch)
             {
                 sb.Append("<div class=\"box-header with-border\">");
-                sb.Append(" <a class=\"btn btn-app\" onclick=\"javascript:objTable.ajax.reload();\">");
+                sb.Append("<a class=\"btn btn-app\" onclick=\"javascript:objTable.ajax.reload();\">");
                 sb.Append("<i class=\"fa fa-search\"></i>search</a>");
+                foreach (var item in vm.GridActions)
+                {
+                    sb.Append("<a class=\"btn btn-app\" onclick=\"javascript:objTable.ajax.reload();\">");
+                    sb.Append("<i class=\"" + item.IconCls + "\"></i>"+item.Name+"</a>");
+                }
                 sb.Append("</div>");
             }
             sb.Append("<div class=\"box-body\">");
             sb.Append("<div class=\"col-md-12\">");
             sb.Append("<form class=\"form-inline\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
-            BootStrapForm mf = new BootStrapForm(html.InnerHelper.ViewContext);
-            return mf;
+            BootStrapSearcherPanel mp = new BootStrapSearcherPanel(html.InnerHelper.ViewContext);
+            return mp;
         }
         /// <summary>
         /// RouteGuidance 路径导航
@@ -139,11 +144,12 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             }
             BootStrapTable obj = new BootStrapTable();
             obj.TableId = (html.InnerHelper.ViewData.Model as BaseViewModel).ViewModelId.ToString();
-            obj.ColumnsJson = v.GetColumnsJson();
-            obj.BootStrapTableColumns = v.GetColumnsObj();
+            obj.BootStrapTableColumnsJson = v.GetColumnsJson();
+            obj.BootStrapTableColumnsObj = v.GetColumnsObj();
+            obj.ActionsJson = v.GetActionJson();
             obj.IsLoadData = isLoadData;
             obj.ViewModel = v.GetType().FullName + "," + v.GetType().Assembly.FullName.Substring(0, v.GetType().Assembly.FullName.IndexOf(",", StringComparison.Ordinal));
-            obj.BootStrapTableSearcherFields = list;
+            obj.BootStrapTableSearcherFieldsObj = list;
             var rv = html.InnerHelper.Editor("", $"BootstrapTable", new { obj });
             return rv;
         }

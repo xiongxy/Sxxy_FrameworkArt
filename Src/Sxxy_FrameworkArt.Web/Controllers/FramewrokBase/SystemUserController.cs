@@ -23,5 +23,18 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             var vm = CreateViewModel<SystemUserViewModel>();
             return View(vm);
         }
+        [HttpPost]
+        public ActionResult Create(SystemUserViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView(vm);
+            }
+            else
+            {
+                vm.DoAdd();
+                return PartialView(vm);
+            }
+        }
     }
 }
