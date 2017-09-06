@@ -58,9 +58,6 @@ namespace Sxxy_FrameworkArt.Models
         /// </summary>
         public bool IsValid { get; set; }
     }
-
-
-
     //public abstract class BaseParent<TParent>
     //{
     //    public Guid ParentId { get; set; }

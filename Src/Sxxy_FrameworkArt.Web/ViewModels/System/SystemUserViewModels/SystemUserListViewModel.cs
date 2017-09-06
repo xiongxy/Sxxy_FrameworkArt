@@ -13,17 +13,23 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
 {
     public class SystemUserListViewModel : BaseListViewModel<SystemUserListView, SystemUserSearcher>
     {
+        /// <inheritdoc />
         /// <summary>
         /// 页面显示按钮方案，如果需要增加Action类型则将按钮添加到此类中
         /// </summary>
         public SystemUserListViewModel()
         {
+            GridActions = new List<GridAction>();
+            GridActions.Add(GridAction.MakeStandAction("SystemUser", GridActionStandardTypesEnum.Create));
+            GridActions.Add(GridAction.MakeStandAction("SystemUser", GridActionStandardTypesEnum.Edit));
+            GridActions.Add(GridAction.MakeStandAction("SystemUser", GridActionStandardTypesEnum.Delete));
         }
         /// <summary>
         /// 初始化页面显示列表
         /// </summary>
         protected override void InitListViewModel()
         {
+            //选择要显示的列
             List<IGridColumn<SystemUserListView>> listColumns = new List<IGridColumn<SystemUserListView>>();
             listColumns.Add(this.MakeGridColumn(x => x.Id));
             listColumns.Add(this.MakeGridColumn(x => x.CreateTime));
@@ -32,7 +38,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
             listColumns.Add(this.MakeGridColumn(x => x.Email));
             listColumns.Add(this.MakeGridActionColumn());
             ListColumns = listColumns;
-            GridActions = new List<GridAction>();
+
         }
         /// <summary>
         /// 查询计划
@@ -41,6 +47,9 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
         public override IOrderedQueryable<SystemUserListView> GetSearchQuery()
         {
             var query = Dc.Set<SystemUser>()
+                .Where(x =>
+                (string.IsNullOrEmpty(Searcher.Code) || x.Code.Contains(Searcher.Code)) &&
+                (string.IsNullOrEmpty(Searcher.Email) || x.Email.Contains(Searcher.Email)))
                 .Select(x => new SystemUserListView
                 {
                     Id = x.Id,

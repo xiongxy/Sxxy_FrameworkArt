@@ -28,12 +28,12 @@ namespace Sxxy_FrameworkArt.Common
         /// <returns>对象格式的列信息</returns>
         List<BootStrapTableColumn> GetColumnsObj();
         /// <summary>
-        /// 获取数据以Json形式返回
+        /// 获取查询数据以Json形式返回
         /// </summary>
         /// <returns></returns>
         string GetDataJson();
         /// <summary>
-        /// 获取数据以HTML编码形式返回
+        /// 获取查询数据以HTML编码形式返回
         /// </summary>
         /// <returns></returns>
         string GetDataHtml();
@@ -48,8 +48,11 @@ namespace Sxxy_FrameworkArt.Common
         /// </summary>
         bool NeedPage { get; set; }
         List<GridAction> GridActions { get; set; }
-
-
+        /// <summary>
+        /// 获取动作的Json格式数据
+        /// </summary>
+        /// <returns></returns>
+        string GetActionJson();
     }
     public class BaseListViewModel<TModel, TSearch> : BaseViewModel, IBaseListViewModel<TModel, TSearch> where TModel : BaseEntity where TSearch : BaseSearcher
     {
@@ -62,6 +65,7 @@ namespace Sxxy_FrameworkArt.Common
             EntityList = new List<TModel>();
             //初始化搜索条件
             Searcher = Activator.CreateInstance(typeof(TSearch)) as TSearch;
+            GridActions = new List<GridAction>();
         }
         #region 属性
         public List<GridAction> GridActions { get; set; }
@@ -359,6 +363,16 @@ namespace Sxxy_FrameworkArt.Common
             {
                 OnAfterInitList(this);
             }
+        }
+
+        public string GetActionJson()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in GridActions)
+            {
+
+            }
+            return sb.ToString();
         }
     }
     public enum SearcherTypeEnum

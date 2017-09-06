@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Sxxy_FrameworkArt.Common.Attributes;
 using Sxxy_FrameworkArt.Common.Helpers;
 using Sxxy_FrameworkArt.Common.Helpers.Extensions;
@@ -466,13 +467,27 @@ namespace Sxxy_FrameworkArt.Common
             {
                 //获取viewmodel的类型
                 Type vmType = vm.GetType();
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
                 //循环FormCollection
                 foreach (var item in fc.AllKeys)
                 {
-                    if (item == "start")
+                    if (item == "searcher")
                     {
+                        var jsonobj = JsonConvert.DeserializeObject(fc[item]);
+                        IEnumerable<Newtonsoft.Json.Linq.JProperty> properties = ((Newtonsoft.Json.Linq.JObject)jsonobj).Properties();
+                        foreach (var itemProperty in properties)
+                        {
+                            dictionary.Add("Searcher." + itemProperty.Name, itemProperty.Value.ToString());
+                        }
                     }
-                    PropertyHelper.SetPropertyValue(vm, item, fc.GetValue(item).RawValue, true);
+                    else
+                    {
+                        PropertyHelper.SetPropertyValue(vm, item, fc.GetValue(item).RawValue, true);
+                    }
+                }
+                foreach (var item in dictionary)
+                {
+                    PropertyHelper.SetPropertyValue(vm, item.Key, item.Value, true);
                 }
                 return true;
             }
