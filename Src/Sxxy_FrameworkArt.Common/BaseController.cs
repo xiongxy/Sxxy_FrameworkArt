@@ -87,48 +87,6 @@ namespace Sxxy_FrameworkArt.Common
 
         #endregion
 
-        #region 域（属性）
-
-        public static List<SystemDomain> Domains
-        {
-            get
-            {
-                if (HttpRuntime.Cache["Domains"] == null)
-                {
-                    using (DataContext dc = new DataContext())
-                    {
-                        var data = dc.SystemDomains.ToList();
-                        HttpRuntime.Cache.Add("Domains", data, null, System.Web.Caching.Cache.NoAbsoluteExpiration,
-                            new TimeSpan(365, 0, 0, 0), System.Web.Caching.CacheItemPriority.Normal, null);
-                    }
-                }
-                return HttpRuntime.Cache["Domains"] as List<SystemDomain>;
-            }
-        }
-
-        public static string MainDomain
-        {
-            get
-            {
-                if (HttpRuntime.Cache["MainDomain"] == null)
-                {
-                    var v = System.Configuration.ConfigurationManager.AppSettings["MainDomain"];
-                    string md = "";
-                    if (!string.IsNullOrEmpty(v))
-                    {
-                        md = v;
-                    }
-                    HttpRuntime.Cache.Add("MainDomain", md, null, System.Web.Caching.Cache.NoAbsoluteExpiration,
-                        new TimeSpan(365, 0, 0, 0), System.Web.Caching.CacheItemPriority.Normal, null);
-                }
-                return HttpRuntime.Cache["MainDomain"].ToString();
-            }
-        }
-
-        public static long? DomainID { get; set; }
-
-        #endregion
-
         #region CookiePre（属性）
         public static string CookiePre
         {
@@ -158,25 +116,15 @@ namespace Sxxy_FrameworkArt.Common
                 if (HttpRuntime.Cache["SystemMenuProperty"] == null)
                 {
                     List<SystemMenu> data = null;
-                    if (!string.IsNullOrEmpty(MainDomain))
+                    using (DataContext dc = new DataContext())
                     {
-                        if (DomainID != null)
-                        {
-
-                        }
+                        data = dc.SystemMenus
+                            .OrderBy(x => x.DisplayOrder)
+                            .ToList();
                     }
-                    else
-                    {
-                        using (DataContext dc = new DataContext())
-                        {
-                            data = dc.SystemMenus
-                                .OrderBy(x => x.DisplayOrder)
-                                .ToList();
-                        }
-                        HttpRuntime.Cache.Add("SystemMenuProperty", data, null, DateTime.Now.AddHours(12),
-                            System.Web.Caching.Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.Normal,
-                            null);
-                    }
+                    HttpRuntime.Cache.Add("SystemMenuProperty", data, null, DateTime.Now.AddHours(12),
+                        System.Web.Caching.Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.Normal,
+                        null);
                 }
                 return HttpRuntime.Cache["SystemMenuProperty"] == null
                     ? new List<SystemMenu>()
@@ -287,7 +235,7 @@ namespace Sxxy_FrameworkArt.Common
                             //{
                             //    url = MainDomain + "/#/Login/Index?rd=" + HttpUtility.UrlEncode("/#" + cookie.Value);
                             //}
-                            var url = MainDomain + "/Login/Index?rd=" + HttpUtility.UrlEncode(filterContext.HttpContext.Request.Url.LocalPath);
+                            var url = "/Login/Index?rd=" + HttpUtility.UrlEncode(filterContext.HttpContext.Request.Url.LocalPath);
                             filterContext.Result = Content("<script>window.top.location.href = '" + url + "';</script>");
                         }
                         catch { }

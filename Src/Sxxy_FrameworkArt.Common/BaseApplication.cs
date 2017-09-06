@@ -69,6 +69,11 @@ namespace Sxxy_FrameworkArt.Common
         /// </summary>
         protected void Application_Start()
         {
+            var cache = System.Web.HttpRuntime.Cache.GetEnumerator();
+            while (cache.MoveNext())
+            {
+                System.Web.HttpRuntime.Cache.Remove(cache.Key.ToString());
+            }
             var constructorInfo = BaseController.DefaultDataContext.GetConstructor(Type.EmptyTypes);
             var dataContext = (IDataContext)constructorInfo.Invoke(null);
             //获取所有不需要权限就可以访问的链接，并且保存到BaseController的全局变量中。

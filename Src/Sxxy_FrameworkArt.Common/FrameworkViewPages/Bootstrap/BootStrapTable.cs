@@ -40,7 +40,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
         /// 搜索信息对象格式
         /// </summary>
         public List<BootStrapTableSearcherFields> BootStrapTableSearcherFieldsObj { get; set; }
-
+        public string JsObjName { get; set; }
 
     }
     public class BootStrapTreeTable

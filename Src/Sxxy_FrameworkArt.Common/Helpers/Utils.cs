@@ -110,6 +110,10 @@ namespace Sxxy_FrameworkArt.Common.Helpers
             return rv;
         }
 
+        /// <summary>
+        /// 获取程序运行时加载的程序集
+        /// </summary>
+        /// <returns></returns>
         public static List<Assembly> GetAllAssemblies()
         {
             List<Assembly> allAssemblies = new List<Assembly>();
@@ -117,6 +121,10 @@ namespace Sxxy_FrameworkArt.Common.Helpers
             DirectoryInfo dir = new DirectoryInfo(Path.GetDirectoryName(path));
             //本地调试时dll并不放在一个目录下
             if (path.ToLower().Contains("temporary asp.net files\\root"))
+            {
+                dir = dir.Parent.Parent;
+            }
+            if (path.ToLower().Contains("temporary asp.net files\\vs"))
             {
                 dir = dir.Parent.Parent;
             }

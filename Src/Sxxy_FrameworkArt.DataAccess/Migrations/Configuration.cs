@@ -33,13 +33,6 @@ namespace Sxxy_FrameworkArt.DataAccess.Migrations
             }
             //try
             //{
-            dataContext = dataContext.ReCreate();
-            for (int i = 0; i < 10; i++)
-            {
-                dataContext.Set<EncHash>().Add(new EncHash() { Id = Guid.NewGuid(), Key = Guid.NewGuid() });
-            }
-            dataContext.SaveChanges();
-
             #region  模块初始化
             dataContext = dataContext.ReCreate();
             var allModules = Utils.GetAllControllerModules();

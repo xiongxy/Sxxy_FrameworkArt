@@ -76,7 +76,15 @@
             drawCallback: function (settings) {
                 //$('#Table_@obj.TableId').treegrid();
             },
-            rowCallback: function (row, data, displayIndex) {//行定义
+            //rowCallback: function (row, data, displayIndex) {//行定义
+            //    if (data.ParentId !== "") {
+            //        $(row).attr("class", "text-c treegrid-" + data.Id + " treegrid-parent-" + data.ParentId);
+            //    }
+            //    else {
+            //        $(row).attr("class", "text-c treegrid-" + data.Id);
+            //    }
+            //},
+            createdRow: function (row, data, displayIndex) {//行定义
                 if (data.ParentId !== "") {
                     $(row).attr("class", "text-c treegrid-" + data.Id + " treegrid-parent-" + data.ParentId);
                 }

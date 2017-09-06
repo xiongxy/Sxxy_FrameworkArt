@@ -58,7 +58,6 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         /// 部门编码
         /// </summary>
         public Guid? DepartmentId { get; set; }
-
         public SystemDepartment Department { get; set; }
     }
 }

@@ -12,6 +12,5 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         public string TableName { get; set; }
         public Guid? RelateId { get; set; }
         public Guid? DomainId { get; set; }
-        public SystemDomain Domain { get; set; }
     }
 }

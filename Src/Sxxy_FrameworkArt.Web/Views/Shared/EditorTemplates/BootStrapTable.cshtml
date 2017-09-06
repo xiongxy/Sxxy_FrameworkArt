@@ -41,9 +41,9 @@
     <!-- /.box-body -->
 </div>
 <script>
-    var objTable;
+    var @obj.JsObjName;
     $(function () {
-        objTable = $('#Table_@obj.TableId').DataTable({
+        @obj.JsObjName = $('#Table_@obj.TableId').DataTable({
             paging: true,
             lengthChange: true,
             searching: false,
@@ -71,9 +71,27 @@
                 }
             }
             ,
-            initComplete: function () {
-                $("#toolbar").append("<a href='https://github.com/ssy341/datatables-cn/issues/new' " +
-                    "class='btn btn-primary btn-sm'>我也要提问</a>");
+            //当初始化结束后执行的回调函数
+            initComplete: function (settings, json) {
+                
+            }
+        });
+        $('#Table_@obj.TableId tbody').on( 'click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                @obj.JsObjName.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+        $("#checkAll").on("click", function () {
+            if ($(this).prop("checked") === true) {
+                $("input[name='checkList']").prop("checked", $(this).prop("checked"));
+                $('#example tbody tr').addClass('selected');
+            } else {
+                $("input[name='checkList']").prop("checked", false);
+                $('#example tbody tr').removeClass('selected');
             }
         });
     });

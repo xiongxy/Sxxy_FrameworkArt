@@ -96,7 +96,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
                 foreach (var item in vm.GridActions)
                 {
                     sb.Append("<a class=\"btn btn-app\" onclick=\"javascript:objTable.ajax.reload();\">");
-                    sb.Append("<i class=\"" + item.IconCls + "\"></i>"+item.Name+"</a>");
+                    sb.Append("<i class=\"" + item.IconCls + "\"></i>" + item.Name + "</a>");
                 }
                 sb.Append("</div>");
             }
@@ -125,15 +125,23 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", $"BootstrapRouteGuidance", new { obj });
             return rv;
         }
+
         /// <summary>
         /// TableFor 生成一个表格给予使用
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="html"></param>
         /// <param name="fieldExp"></param>
+        /// <param name="isEnableCheckBox">是否启用checkbox</param>
+        /// <param name="jsObjName">JS对象的名称，通常为默认</param>
         /// <param name="isLoadData">第一次是否加载数据，默认是True</param>
         /// <returns></returns>
-        public static MvcHtmlString TableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, bool isLoadData = true)
+        public static MvcHtmlString TableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html,
+                                                                        Expression<Func<TViewModel,
+                                           IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp,
+                                                                           bool isEnableCheckBox = true,
+                                                                     string jsObjName = "objTable",
+                                                                            bool isLoadData = true)
         {
             var v = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
             var propertyInfos = v.Searcher.GetType().GetProperties(System.Reflection.BindingFlags.DeclaredOnly | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
@@ -145,8 +153,15 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             BootStrapTable obj = new BootStrapTable();
             obj.TableId = (html.InnerHelper.ViewData.Model as BaseViewModel).ViewModelId.ToString();
             obj.BootStrapTableColumnsJson = v.GetColumnsJson();
-            obj.BootStrapTableColumnsObj = v.GetColumnsObj();
+            List<BootStrapTableColumn> tableColumns = new List<BootStrapTableColumn>() { };
+            if (isEnableCheckBox)
+            {
+                tableColumns.Add(new BootStrapTableColumn() { Title = "<input type=\"checkbox\" id=\"checkAll\">" });
+            }
+            tableColumns.AddRange(v.GetColumnsObj());
+            obj.BootStrapTableColumnsObj = tableColumns;
             obj.ActionsJson = v.GetActionJson();
+            obj.JsObjName = jsObjName;
             obj.IsLoadData = isLoadData;
             obj.ViewModel = v.GetType().FullName + "," + v.GetType().Assembly.FullName.Substring(0, v.GetType().Assembly.FullName.IndexOf(",", StringComparison.Ordinal));
             obj.BootStrapTableSearcherFieldsObj = list;

@@ -39,8 +39,6 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels
         {
             SystemMenu v = new SystemMenu();
             v.Id = item.Id;
-            v.Domain = item.Domain;
-            v.DomainId = item.DomainId;
             v.ActionId = item.ActionId;
             v.ModuleId = item.ModuleId;
             v.DisplayOrder = item.DisplayOrder;
@@ -172,7 +170,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels
             }
             else
             {
-                tree = GetMenus().GetTree(x => x.Id.ToString(), x => x.PageName, x => x.Url, x => x.DomainId.ToString());
+                tree = GetMenus().GetTree(x => x.Id.ToString(), x => x.PageName, x => x.Url);
             }
             StringBuilder sb = new StringBuilder();
             foreach (var item in tree)

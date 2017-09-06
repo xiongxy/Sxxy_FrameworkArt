@@ -9,7 +9,7 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
     public class SystemAction : BaseEntity
     {
         /// <summary>
-        /// 动作名称
+        /// 动作名称 action 中文名
         /// </summary>
         public string ActionName { get; set; }
         /// <summary>

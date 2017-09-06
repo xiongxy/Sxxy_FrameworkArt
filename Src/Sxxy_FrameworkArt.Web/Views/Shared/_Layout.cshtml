@@ -507,10 +507,9 @@
         $(function () {
             var list = $(".sidebar-menu li a");
             for (var i = 0; i < list.length; i++) {
-                var vv = list[i];
                 list[i].onclick = function () {
-                    hash = $(this).attr("href");
-                    if (hash != null && hash != "") {
+                    var hash = $(this).attr("href");
+                    if (hash != null && hash !== "") {
                         hash = hash.replace("/#", "");
                         $('.content').load(hash, function (response, status, xhr) {
                         });

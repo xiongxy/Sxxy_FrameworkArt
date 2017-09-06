@@ -218,8 +218,9 @@ namespace Sxxy_FrameworkArt.Common
             {
                 if (ListColumns[i] is GridActionColumn<TModel>)
                 {
-                    sb.Append("\"<a class='glyphicon glyphicon-pencil' style='font-size:20px;color:black;margin-left:10px;'></a>");
-                    sb.Append("<a class='glyphicon glyphicon-trash' style='font-size:20px;color:black;;margin-left:10px;'></a>\"");
+                    //sb.Append("\"<a class='glyphicon glyphicon-pencil' style='font-size:20px;color:black;margin-left:10px;'></a>");
+                    //sb.Append("<a class='glyphicon glyphicon-trash' style='font-size:20px;color:black;;margin-left:10px;'></a>\"");
+                    sb.Append("\"\"");
                 }
                 else
                 {

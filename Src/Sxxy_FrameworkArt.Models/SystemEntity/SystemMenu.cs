@@ -28,11 +28,8 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         /// 是否继承
         /// </summary>
         public bool? IsInherit { get; set; }
-        //public List<FunctionPrivilege> Privileges { get; set; }
         public Guid? ActionId { get; set; }
         public Guid? ModuleId { get; set; }
-        public Guid? DomainId { get; set; }
-        public SystemDomain Domain { get; set; }
         /// <summary>
         /// 是否显示在菜单上
         /// </summary>
@@ -50,10 +47,7 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         /// </summary>
         public string Url { get; set; }
         //public bool? IsInside { get; set; }
-
-
         #region ITreeData成员
-
         public Guid? ParentId { get; set; }
         public SystemMenu Parent { get; set; }
         public List<SystemMenu> Children { get; set; }

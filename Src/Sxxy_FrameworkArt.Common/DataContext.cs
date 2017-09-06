@@ -33,14 +33,11 @@ namespace Sxxy_FrameworkArt.Common
     {
         #region DbSet
         public DbSet<SystemModule> SystemModules { get; set; }
-        public DbSet<SystemDomain> SystemDomains { get; set; }
         public DbSet<SystemAction> SystemActions { get; set; }
         public DbSet<FunctionPrivilege> FunctionPrivileges { get; set; }
         public DbSet<SystemMenu> SystemMenus { get; set; }
         public DbSet<SystemRole> SystemRoles { get; set; }
         public DbSet<SystemUser> SystemUsers { get; set; }
-        public DbSet<EncHash> EncHashs { get; set; }
-        
         #endregion
 
 
