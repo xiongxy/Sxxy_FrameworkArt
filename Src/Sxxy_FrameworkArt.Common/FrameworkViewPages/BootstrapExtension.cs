@@ -154,11 +154,8 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             obj.TableId = (html.InnerHelper.ViewData.Model as BaseViewModel).ViewModelId.ToString();
             obj.BootStrapTableColumnsJson = v.GetColumnsJson();
             List<BootStrapTableColumn> tableColumns = new List<BootStrapTableColumn>() { };
-            if (isEnableCheckBox)
-            {
-                tableColumns.Add(new BootStrapTableColumn() { Title = "<input type=\"checkbox\" id=\"checkAll\">" });
-            }
             tableColumns.AddRange(v.GetColumnsObj());
+            obj.IsEnableCheckBox = isEnableCheckBox;
             obj.BootStrapTableColumnsObj = tableColumns;
             obj.ActionsJson = v.GetActionJson();
             obj.JsObjName = jsObjName;

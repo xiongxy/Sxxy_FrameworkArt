@@ -186,7 +186,7 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("\"data\":[");
             for (int i = 0; i < count; i++)
             {
-                sb.Append(GetSingleDataJsonArray(EntityList[i]));
+                sb.Append(GetSingleDataJsonNorml(EntityList[i]));
                 if (i < EntityList.Count - 1)
                 {
                     sb.Append(",");
@@ -201,10 +201,21 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("{");
             for (int i = 0; i < ListColumns.Count; i++)
             {
-                sb.Append($"\"{PropertyHelper.GetPropertyName(ListColumns[i].ColumnExp)}\":\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
-                if (i < ListColumns.Count - 1)
+                if (ListColumns[i] is GridActionColumn<TModel>)
                 {
-                    sb.Append(",");
+                    //sb.Append("\"<a class='glyphicon glyphicon-pencil' style='font-size:20px;color:black;margin-left:10px;'></a>");
+                    //sb.Append("<a class='glyphicon glyphicon-trash' style='font-size:20px;color:black;;margin-left:10px;'></a>\"");
+                    //var str = sb.ToString();
+                    //sb = new StringBuilder(str.Substring(0, str.Length - 1));
+                    sb.Append($"\"{ListColumns[i].Title}\":\"\"");
+                }
+                else
+                {
+                    sb.Append($"\"{PropertyHelper.GetPropertyName(ListColumns[i].ColumnExp)}\":\"{ListColumns[i].ColumnExp.Compile()(model)}\"");
+                    if (i < ListColumns.Count - 1)
+                    {
+                        sb.Append(",");
+                    }
                 }
             }
             sb.Append("}");
