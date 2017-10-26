@@ -55,8 +55,18 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
             _viewContext.Writer.WriteLine("</div>");
         }
     }
-
-
+    public class BootStrapModal : IDisposable
+    {
+        private readonly ViewContext _viewContext;
+        public BootStrapModal(ViewContext viewContext)
+        {
+            _viewContext = viewContext;
+        }
+        public void Dispose()
+        {
+            _viewContext.Writer.WriteLine("</div>");
+        }
+    }
 
 
 }

@@ -74,10 +74,12 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="html"></param>
+        /// <param name="fieldExp"></param>
         /// <param name="title">表单页面显示标题,默认为无</param>
         /// <param name="showSearch">是否展现搜索功能</param>
+        /// <param name="dataTableJsName"></param>
         /// <returns></returns>
-        public static BootStrapSearcherPanel SearcherPanel<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, string title = "", bool showSearch = true)
+        public static BootStrapSearcherPanel SearcherPanel<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, string title = "", bool showSearch = true, string dataTableJsName = "objTable")
         {
             StringBuilder sb = new StringBuilder();
             var vm = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
@@ -91,7 +93,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             if (showSearch)
             {
                 sb.Append("<div class=\"box-header with-border\">");
-                sb.Append("<a class=\"btn btn-app\" onclick=\"javascript:objTable.ajax.reload();\">");
+                sb.Append($"<a class=\"btn btn-app\" onclick=\"javascript:{dataTableJsName}.ajax.reload();\">");
                 sb.Append("<i class=\"fa fa-search\"></i>search</a>");
                 foreach (var item in vm.GridActions)
                 {
@@ -230,6 +232,48 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             return new MvcHtmlString("");
         }
+        #region 模态框
+        public static BootStrapModal ModalWindowDialog<TViewModel>(this BootstrapHtmlHelper<TViewModel> html)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<div class=\"modal-dialog\" role=\"document\">");
+            html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
+            BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
+            return bootStrapModal;
+        }
+        public static BootStrapModal ModalWindowContent<TViewModel>(this BootstrapHtmlHelper<TViewModel> html)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<div class=\"modal-content\">");
+            html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
+            BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
+            return bootStrapModal;
+        }
+        public static BootStrapModal ModalWindowHeader<TViewModel>(this BootstrapHtmlHelper<TViewModel> html)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<div class=\"modal-header\">");
+            html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
+            BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
+            return bootStrapModal;
+        }
+        public static BootStrapModal ModalWindowBody<TViewModel>(this BootstrapHtmlHelper<TViewModel> html)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<div class=\"modal-body\">");
+            html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
+            BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
+            return bootStrapModal;
+        }
+        public static BootStrapModal ModalWindowFooter<TViewModel>(this BootstrapHtmlHelper<TViewModel> html)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<div class=\"modal-footer\">");
+            html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
+            BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
+            return bootStrapModal;
+        }
+        #endregion
     }
     public enum BootStarpBoxLayout
     {

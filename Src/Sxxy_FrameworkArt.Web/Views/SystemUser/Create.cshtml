@@ -1,17 +1,20 @@
-﻿
-@{
-    Layout = null;
+﻿@model Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels.SystemUserViewModel
+
+@using (Bootstrap.ModalWindowDialog())
+{
+    using (Bootstrap.ModalWindowContent())
+    {
+        using (Bootstrap.ModalWindowHeader())
+        {
+            @Bootstrap.TextField(x => x.Entity.Address)
+        }
+        using (Bootstrap.ModalWindowBody())
+        {
+            @Bootstrap.TextField(x => x.Entity.Address)
+        }
+        using (Bootstrap.ModalWindowFooter())
+        {
+            @Bootstrap.TextField(x => x.Entity.Address)
+        }
+    }
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
-    <div> 
-    </div>
-</body>
-</html>

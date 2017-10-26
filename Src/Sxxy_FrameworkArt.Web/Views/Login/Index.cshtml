@@ -81,13 +81,6 @@
                 increaseArea: '20%' // optional
             });
         });
-        //$(function () {
-        //    if ($("#errorinfo_hi").val()) {
-        //        layer.tips($("#errorinfo_hi").val(), '#btnSubmit', {
-        //            tips: [2, '#CC0033']
-        //        });
-        //    }
-        //});
     </script>
     <script>
         function Submit() {
@@ -108,7 +101,7 @@
             }
             var url = "/Login/ValidateLoginUser";
             $.get(url, { Code: code.val(), Msg: pwd.val() }, function (data) {
-                if (data == "") {
+                if (data === "") {
                     $("#loginForm")[0].submit();
                 }
                 else {
