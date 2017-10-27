@@ -3,7 +3,7 @@
 {
     using (Bootstrap.ModalWindowContent())
     {
-        using (Bootstrap.BootStrapForm("SystemUser/Create", "Post"))
+        using (Bootstrap.BootStrapForm("SystemUser/Create", "myForm", "Post"))
         {
             using (Bootstrap.ModalWindowHeader())
             {
@@ -29,3 +29,6 @@
         }
     }
 }
+<script>
+    SxxyJs.StopFormConventAjax()
+</script>

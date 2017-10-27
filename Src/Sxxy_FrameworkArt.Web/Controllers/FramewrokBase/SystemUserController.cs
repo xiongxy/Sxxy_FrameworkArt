@@ -25,8 +25,12 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
         }
 
         [HttpPost]
-        public ActionResult Create(SystemUserViewModel vm)
+        public  ActionResult Create(SystemUserViewModel vm)
         {
+            //foreach (var item in vm.AllKeys)
+            //{
+            //    var vv = vm[item];
+            //}
             if (!ModelState.IsValid)
             {
                 return PartialView(vm);
@@ -34,7 +38,7 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             else
             {
                 //vm.DoAdd();
-                return RedirectToRoute("#/SystemUser/Index");
+                return new ContentResult() { Content = "成功！" };
             }
         }
     }

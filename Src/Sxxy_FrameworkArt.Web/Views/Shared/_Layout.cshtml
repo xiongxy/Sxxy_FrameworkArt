@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="~/Content/css/AdminLTE.css">
     <!--皮肤-->
     <link rel="stylesheet" href="~/Content/css/skins/skin-blue.css">
+    @*<script src="~/Content/lib/jquery3.2.1/jquery-3.2.1.js"></script>*@
     <script src="~/Content/lib/jquery/dist/jquery.js"></script>
     <script src="~/Content/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/Content/js/app.js"></script>
+    <script src="~/Content/SxxyJs/SxxyJs.js"></script>
     <script>
         $(function () {
             var hash = window.location.hash;
@@ -321,7 +323,7 @@
             @Bootstrap.RouteGuidance(Model.NowController.NowControllerName, Model.NowController.NowControllerRemark)
             <!-- Main content -->
             <section class="content">
-                @RenderBody()
+                @RenderBody();
             </section>
             <!-- /.content -->
         </div>
@@ -503,6 +505,7 @@
         immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div>
+
     <script>
         $(function () {
             var list = $(".sidebar-menu li a");

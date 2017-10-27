@@ -160,12 +160,14 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                 var errors = html.ViewData.ModelState[property].Errors;
                 if (errors != null && errors.Count > 0)
                 {
-                    //   expError = "[" + errors.ToSpratedString(x => x, (x) => { return "'" + (x.ErrorMessage == "" ? x.Exception.Message : x.ErrorMessage).Replace("'", "\\\'").Replace(Environment.NewLine, "\\n").Replace("\n", "\\n") + "'"; }) + "]";
+                    foreach (var item in errors)
+                    {
+                        expError += item.ErrorMessage == "" ? item.Exception.Message : item.ErrorMessage;
+                    }
                 }
             }
             return expError;
         }
-
         public static bool IsPropertyRequired(PropertyInfo pi)
         {
             bool isRequired = false;

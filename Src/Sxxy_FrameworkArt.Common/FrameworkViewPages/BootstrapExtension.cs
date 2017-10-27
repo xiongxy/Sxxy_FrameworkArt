@@ -209,12 +209,16 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             PropertyInfo pi = PropertyHelper.GetPropertyInfo(fieldExp);
             var vm = html.InnerHelper.ViewData.Model as BaseViewModel;
             string label = PropertyHelper.GetPropertyDisplayName(pi, labelText);
+            string name = PropertyHelper.GetPropertyName(fieldExp);
+            string error = PropertyHelper.GetPropertyErrors(html.InnerHelper, fieldExp);
             BootstrapTextField obj = new BootstrapTextField
             {
                 LableText = label,
                 InputType = inputType,
                 Description = description,
-                InputId = label + "txt" + "_" + (vm == null ? "" : vm.ViewModelId.ToString())
+                InputId = label + "txt" + "_" + (vm == null ? "" : vm.ViewModelId.ToString()),
+                InputName = name,
+                Error = error
             };
             var rv = html.InnerHelper.Editor("", $"BootStrapTextField", new { obj });
             return rv;
@@ -241,12 +245,13 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="html"></param>
         /// <param name="formAction"></param>
+        /// <param name="formId"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public static BootStrapForm BootStrapForm<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string formAction, string method = "Get")
+        public static BootStrapForm BootStrapForm<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string formAction, string formId = "myForm", string method = "Get")
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"<form action=\"{formAction}\" method=\"{method}\">");
+            sb.Append($"<form class=\"form-inline\" id=\"{formId}\" action=\"{formAction}\" method=\"{method}\" target=\"modalWindowDialogiFrame\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             BootStrapForm bootStrapForm = new BootStrapForm(html.InnerHelper.ViewContext);
             return bootStrapForm;
@@ -270,6 +275,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         public static BootStrapModal ModalWindowDialog<TViewModel>(this BootstrapHtmlHelper<TViewModel> html)
         {
             StringBuilder sb = new StringBuilder();
+            sb.Append("<iframe id=\"modalWindowDialogiFrame\" name=\"modalWindowDialogiFrame\" src=\"about:blank\" style=\"display:none;\"></iframe>");
             sb.Append("<div class=\"modal-dialog\" role=\"document\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
@@ -287,6 +293,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<div class=\"modal-header\">");
+            sb.Append("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
             return bootStrapModal;

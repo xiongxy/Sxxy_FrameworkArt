@@ -3653,6 +3653,7 @@ select[multiple].input-lg {
         display: inline-block;
         margin-bottom: 0;
         vertical-align: middle;
+        margin: 1px;
     }
 
     .form-inline .form-control {

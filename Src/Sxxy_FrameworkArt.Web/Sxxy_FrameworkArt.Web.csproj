@@ -302,6 +302,8 @@
     <Content Include="Content\lib\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\lib\font-awesome\HELP-US-OUT.txt" />
     <Content Include="Content\lib\jquery.cookie\jquery.cookie.js" />
+    <Content Include="Content\lib\jquery.form\jquery.form.js" />
+    <Content Include="Content\lib\jquery3.2.1\jquery-3.2.1.js" />
     <Content Include="Content\lib\jquery\AUTHORS.txt" />
     <Content Include="Content\lib\jquery\dist\core.js" />
     <Content Include="Content\lib\jquery\dist\jquery.js" />
@@ -414,6 +416,7 @@
     <Content Include="Content\lib\jquery\src\var\support.js" />
     <Content Include="Content\lib\jquery\src\var\toString.js" />
     <Content Include="Content\lib\jquery\src\wrap.js" />
+    <Content Include="Content\SxxyJs\SxxyJs.js" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
