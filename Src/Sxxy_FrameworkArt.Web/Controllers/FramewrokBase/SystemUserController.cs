@@ -23,6 +23,7 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             var vm = CreateViewModel<SystemUserViewModel>();
             return PartialView(vm);
         }
+
         [HttpPost]
         public ActionResult Create(SystemUserViewModel vm)
         {
@@ -32,8 +33,8 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             }
             else
             {
-                vm.DoAdd();
-                return PartialView(vm);
+                //vm.DoAdd();
+                return RedirectToRoute("#/SystemUser/Index");
             }
         }
     }

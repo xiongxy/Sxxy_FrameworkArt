@@ -79,7 +79,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         /// <param name="showSearch">是否展现搜索功能</param>
         /// <param name="dataTableJsName"></param>
         /// <returns></returns>
-        public static BootStrapSearcherPanel SearcherPanel<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, string title = "", bool showSearch = true, string dataTableJsName = "objTable")
+        public static BootStrapSearcherPanel SearcherPanel<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IBaseListViewModel<BaseEntity, BaseSearcher>>> fieldExp, Guid viewModelId, string title = "", bool showSearch = true, string dataTableJsName = "objTable")
         {
             StringBuilder sb = new StringBuilder();
             var vm = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
@@ -97,7 +97,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
                 sb.Append("<i class=\"fa fa-search\"></i>search</a>");
                 foreach (var item in vm.GridActions)
                 {
-                    sb.Append("<a class=\"btn btn-app\" onclick=\"javascript:objTable.ajax.reload();\">");
+                    sb.Append($"<a class=\"btn btn-app\" data-toggle=\"modal\" data-target=\"#modal_{viewModelId}\" href=\"{item.Url}\">");
                     sb.Append("<i class=\"" + item.IconCls + "\"></i>" + item.Name + "</a>");
                 }
                 sb.Append("</div>");
@@ -219,6 +219,40 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", $"BootStrapTextField", new { obj });
             return rv;
         }
+        /// <summary>
+        /// 生成一个Button按钮
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="buttonName"></param>
+        /// <param name="buttonType">button|reset|submit</param>
+        /// <returns></returns>
+        public static MvcHtmlString Button<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string buttonName, string buttonType = "button")
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"<button type=\"{buttonType}\" class=\"btn btn-info pull-right\">{buttonName}</button>");
+            html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
+            return new MvcHtmlString("");
+        }
+
+        /// <summary>
+        /// BootStrapForm 
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="formAction"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public static BootStrapForm BootStrapForm<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string formAction, string method = "Get")
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"<form action=\"{formAction}\" method=\"{method}\">");
+            html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
+            BootStrapForm bootStrapForm = new BootStrapForm(html.InnerHelper.ViewContext);
+            return bootStrapForm;
+        }
+
+
         /// <summary>
         /// 生成一个搜索面板，SearcherPanel
         /// </summary>

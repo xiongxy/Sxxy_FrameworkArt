@@ -68,5 +68,16 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
         }
     }
 
-
+    public class BootStrapForm : IDisposable
+    {
+        private readonly ViewContext _viewContext;
+        public BootStrapForm(ViewContext viewContext)
+        {
+            _viewContext = viewContext;
+        }
+        public void Dispose()
+        {
+            _viewContext.Writer.WriteLine("</form>");
+        }
+    }
 }

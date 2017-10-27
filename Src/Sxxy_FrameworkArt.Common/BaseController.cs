@@ -446,5 +446,12 @@ namespace Sxxy_FrameworkArt.Common
         }
         #endregion
 
+        protected ContentResult CloseAndRefreshResult(Guid? vmID, string alertMessage = null)
+        {
+            ContentResult contentResult = new ContentResult();
+            contentResult.Content += $"<script>$('#modal_{vmID}').modal('hide');</script>";
+            return contentResult;
+        }
+
     }
 }

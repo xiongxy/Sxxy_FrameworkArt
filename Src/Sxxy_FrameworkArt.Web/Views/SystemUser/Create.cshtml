@@ -1,20 +1,31 @@
 ﻿@model Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels.SystemUserViewModel
-
 @using (Bootstrap.ModalWindowDialog())
 {
     using (Bootstrap.ModalWindowContent())
     {
-        using (Bootstrap.ModalWindowHeader())
+        using (Bootstrap.BootStrapForm("SystemUser/Create", "Post"))
         {
-            @Bootstrap.TextField(x => x.Entity.Address)
-        }
-        using (Bootstrap.ModalWindowBody())
-        {
-            @Bootstrap.TextField(x => x.Entity.Address)
-        }
-        using (Bootstrap.ModalWindowFooter())
-        {
-            @Bootstrap.TextField(x => x.Entity.Address)
+            using (Bootstrap.ModalWindowHeader())
+            {
+                <div>创建用户</div>
+            }
+            using (Bootstrap.ModalWindowBody())
+            {
+                @Bootstrap.TextField(x => x.Entity.Code)
+                @Bootstrap.TextField(x => x.Entity.Email)
+                @Bootstrap.TextField(x => x.Entity.Name)
+                @Bootstrap.TextField(x => x.Entity.WorkPhone)
+                @Bootstrap.TextField(x => x.Entity.CellPhone)
+                @Bootstrap.TextField(x => x.Entity.HomePhone)
+                @Bootstrap.TextField(x => x.Entity.FaxNum)
+                @Bootstrap.TextField(x => x.Entity.Address)
+                @Bootstrap.TextField(x => x.Entity.ZipCode)
+                @Bootstrap.TextField(x => x.Entity.StartWorkDate)
+            }
+            using (Bootstrap.ModalWindowFooter())
+            {
+                @Bootstrap.Button("提交", "submit")
+            }
         }
     }
 }
