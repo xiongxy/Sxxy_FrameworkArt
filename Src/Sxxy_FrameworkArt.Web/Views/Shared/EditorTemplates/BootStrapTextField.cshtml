@@ -1,5 +1,5 @@
 ﻿@{
-    var obj = ViewData["obj"] as BootstrapTextField;
+    var obj = ViewData["bootstrapTextField"] as BootstrapTextField;
     if (obj == null)
     {
         return;
@@ -7,5 +7,5 @@
 }
 <div class="form-group">
     <label for="@obj.InputId">@obj.LableText</label>
-    <input type="@obj.InputType" name="@obj.InputName" class="form-control" id="@obj.InputId" placeholder="@obj.Description">
+    <input type="@obj.InputType" name="@obj.InputName" value="@obj.Value" ErrorMessage="@obj.Error" class="form-control" id="@obj.InputId" placeholder="@obj.Description">
 </div>

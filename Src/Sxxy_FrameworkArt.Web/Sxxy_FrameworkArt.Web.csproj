@@ -651,6 +651,8 @@
     <Content Include="Views\Shared\EditorTemplates\BootStrapTreeTable.cshtml" />
     <Content Include="Views\SystemUser\Create.cshtml" />
     <Content Include="Views\Shared\_LayoutLogo.cshtml" />
+    <Content Include="Views\SystemUser\Edit.cshtml" />
+    <Content Include="Views\SystemUser\Delete.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

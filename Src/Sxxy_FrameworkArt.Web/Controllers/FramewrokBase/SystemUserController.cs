@@ -18,27 +18,63 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             var vm = CreateViewModel<SystemUserListViewModel>();
             return PartialView(vm);
         }
+
         public ActionResult Create()
         {
             var vm = CreateViewModel<SystemUserViewModel>();
+            vm.Entity.Address = "bbbb";
             return PartialView(vm);
         }
-
         [HttpPost]
-        public  ActionResult Create(SystemUserViewModel vm)
+        public ActionResult Create(SystemUserViewModel vm)
         {
-            //foreach (var item in vm.AllKeys)
-            //{
-            //    var vv = vm[item];
-            //}
             if (!ModelState.IsValid)
             {
                 return PartialView(vm);
             }
             else
             {
-                //vm.DoAdd();
-                return new ContentResult() { Content = "成功！" };
+                vm.DoAdd();
+                return CloseAndRefreshResult();
+            }
+        }
+
+        public ActionResult Edit(Guid id)
+        {
+            var vm = CreateViewModel<SystemUserViewModel>(id);
+            vm.Entity.Address = "bbbb";
+            return PartialView(vm);
+        }
+        [HttpPost]
+        public ActionResult Edit(SystemUserViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView(vm);
+            }
+            else
+            {
+                vm.DoEdit();
+                return CloseAndRefreshResult();
+            }
+        }
+
+        public ActionResult Delete(Guid[] ids)
+        {
+            var vm = CreateViewModel<SystemUserViewModel>(IDs: ids);
+            return PartialView(vm);
+        }
+        [HttpPost]
+        public ActionResult Delete(SystemUserViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView(vm);
+            }
+            else
+            {
+                vm.DoDelete();
+                return CloseAndRefreshResult();
             }
         }
     }

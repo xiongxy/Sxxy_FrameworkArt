@@ -29,8 +29,12 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
         /// </summary>
         public string InputName { get; set; }
         /// <summary>
-        /// input标签Name
+        /// input标签 错误信息
         /// </summary>
         public string Error { get; set; }
+        /// <summary>
+        /// input标签Value值
+        /// </summary>
+        public string Value { get; set; }
     }
 }

@@ -75,6 +75,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="html"></param>
         /// <param name="fieldExp"></param>
+        /// <param name="viewModelId"></param>
         /// <param name="title">表单页面显示标题,默认为无</param>
         /// <param name="showSearch">是否展现搜索功能</param>
         /// <param name="dataTableJsName"></param>
@@ -83,24 +84,25 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         {
             StringBuilder sb = new StringBuilder();
             var vm = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
-            sb.Append("<div class=\"box box-danger\">");//.box默认有一个顶部颜色，与 .box-default（灰色）相同，.box-success（绿色），.box-warning（黄色），.box-danger（红色）等可覆盖默认的颜色样式
+            sb.Append($"<div id=\"searcherPanel_{viewModelId}\" class=\"box box-danger\">");//.box默认有一个顶部颜色，与 .box-default（灰色）相同，.box-success（绿色），.box-warning（黄色），.box-danger（红色）等可覆盖默认的颜色样式
             if (title != "")
             {
-                sb.Append("<div class=\"box-header with-border\">");
+                sb.Append("<div class=\"box-header with-border titlebar\">");
                 sb.Append("<h3 class=\"box-title\">" + title + "</h3>");
                 sb.Append("</div>");
             }
             if (showSearch)
             {
-                sb.Append("<div class=\"box-header with-border\">");
-                sb.Append($"<a class=\"btn btn-app\" onclick=\"javascript:{dataTableJsName}.ajax.reload();\">");
+                sb.Append("<div class=\"box-header with-border actionbar\">");
+                sb.Append($"<a actiontype=\"search\" class=\"btn btn-app\" onclick=\"javascript:{dataTableJsName}.ajax.reload();\">");
                 sb.Append("<i class=\"fa fa-search\"></i>search</a>");
                 foreach (var item in vm.GridActions)
                 {
-                    sb.Append($"<a class=\"btn btn-app\" data-toggle=\"modal\" data-target=\"#modal_{viewModelId}\" href=\"{item.Url}\">");
+                    sb.Append($"<a action-type=\"{item.ActionName}\" class=\"btn btn-app\" modalId=\"#modal_{viewModelId}\" action-url=\"{item.Url}\">");
                     sb.Append("<i class=\"" + item.IconCls + "\"></i>" + item.Name + "</a>");
                 }
                 sb.Append("</div>");
+                sb.Append($"<script>SxxyJs.BootStrapSearcherPanel($(\"#searcherPanel_{viewModelId}\"),\"{dataTableJsName}\");</script>");
             }
             sb.Append("<div class=\"box-body\">");
             sb.Append("<div class=\"col-md-12\">");
@@ -211,16 +213,19 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             string label = PropertyHelper.GetPropertyDisplayName(pi, labelText);
             string name = PropertyHelper.GetPropertyName(fieldExp);
             string error = PropertyHelper.GetPropertyErrors(html.InnerHelper, fieldExp);
-            BootstrapTextField obj = new BootstrapTextField
+            object obj = new object();
+            string value = PropertyHelper.GetPropertyValue(fieldExp, html.InnerHelper.ViewData.Model);
+            BootstrapTextField bootstrapTextField = new BootstrapTextField
             {
                 LableText = label,
                 InputType = inputType,
                 Description = description,
                 InputId = label + "txt" + "_" + (vm == null ? "" : vm.ViewModelId.ToString()),
                 InputName = name,
-                Error = error
+                Error = error,
+                Value = value,
             };
-            var rv = html.InnerHelper.Editor("", $"BootStrapTextField", new { obj });
+            var rv = html.InnerHelper.Editor("", $"BootStrapTextField", new { bootstrapTextField });
             return rv;
         }
         /// <summary>
@@ -251,7 +256,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         public static BootStrapForm BootStrapForm<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, string formAction, string formId = "myForm", string method = "Get")
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"<form class=\"form-inline\" id=\"{formId}\" action=\"{formAction}\" method=\"{method}\" target=\"modalWindowDialogiFrame\">");
+            sb.Append($"<form class=\"form-inline\" id=\"{formId}\" action=\"{formAction}\" method=\"{method}\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             BootStrapForm bootStrapForm = new BootStrapForm(html.InnerHelper.ViewContext);
             return bootStrapForm;
@@ -272,11 +277,10 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             return new MvcHtmlString("");
         }
         #region 模态框
-        public static BootStrapModal ModalWindowDialog<TViewModel>(this BootstrapHtmlHelper<TViewModel> html)
+        public static BootStrapModal ModalWindowDialog<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Guid vmGuid)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("<iframe id=\"modalWindowDialogiFrame\" name=\"modalWindowDialogiFrame\" src=\"about:blank\" style=\"display:none;\"></iframe>");
-            sb.Append("<div class=\"modal-dialog\" role=\"document\">");
+            sb.Append($"<div id=\"modaldialog_{vmGuid}\" class=\"modal-dialog\" role=\"document\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
             return bootStrapModal;

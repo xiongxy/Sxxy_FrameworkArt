@@ -159,18 +159,18 @@ namespace Sxxy_FrameworkArt.Common
 
         public NowControllerInfo NowController { get; set; }
 
-        protected BaseViewModel CreateViewModel(string VmFullName, long? ID = null, IEnumerable<long> IDs = null, bool passInit = false)
+        protected BaseViewModel CreateViewModel(string VmFullName, Guid? ID = null, IEnumerable<Guid> IDs = null, bool passInit = false)
         {
             return CreateViewModel(Type.GetType(VmFullName), ID, IDs, null, passInit || IDs != null);
         }
-        protected T CreateViewModel<T>(long? ID = null, IEnumerable<long> IDs = null, Expression<Func<T, object>> values = null, bool passInit = false) where T : BaseViewModel
+        protected T CreateViewModel<T>(Guid? ID = null, IEnumerable<Guid> IDs = null, Expression<Func<T, object>> values = null, bool passInit = false) where T : BaseViewModel
         {
             SetValuesParser p = new SetValuesParser();
             var dir = p.Parse(values);
             return CreateViewModel(typeof(T), ID, IDs, dir, passInit || IDs != null) as T;
         }
 
-        public BaseViewModel CreateViewModel(Type ViewModelType, long? ID = null, IEnumerable<long> IDs = null,
+        public BaseViewModel CreateViewModel(Type ViewModelType, Guid? ID = null, IEnumerable<Guid> IDs = null,
             Dictionary<string, object> values = null, bool passInit = false)
         {
             var ctor = ViewModelType.GetConstructor(Type.EmptyTypes);
@@ -184,6 +184,11 @@ namespace Sxxy_FrameworkArt.Common
                 ? new FormCollection()
                 : new FormCollection(this.HttpContext.Request.Form);
             baseViewModel.NowController = this.NowController;
+            //如果ViewModel T继承自BaseCRUDVM<>且ID有值，那么自动调用ViewModel的GetByID方法
+            if (ID != null && baseViewModel is IBaseCrudViewModel<BaseEntity>)
+            {
+                (baseViewModel as IBaseCrudViewModel<BaseEntity>).SetEntityById(ID.Value);
+            }
             //如果当前的viewModel 继承的是IBaseListViewModel，则初始化Searcher并调用Searcher的InitVM方法
             if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
             {
@@ -445,13 +450,11 @@ namespace Sxxy_FrameworkArt.Common
             }
         }
         #endregion
-
-        protected ContentResult CloseAndRefreshResult(Guid? vmID, string alertMessage = null)
+        protected ContentResult CloseAndRefreshResult(string alertMessage = null)
         {
             ContentResult contentResult = new ContentResult();
-            contentResult.Content += $"<script>$('#modal_{vmID}').modal('hide');</script>";
+            contentResult.Content += $"<script>$('.modal').modal('hide');</script>";
             return contentResult;
         }
-
     }
 }
