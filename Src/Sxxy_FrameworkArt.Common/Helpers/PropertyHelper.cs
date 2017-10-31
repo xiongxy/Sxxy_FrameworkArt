@@ -135,7 +135,7 @@ namespace Sxxy_FrameworkArt.Common.Helpers
 
         public static string GetPropertyValue(LambdaExpression exp, object obj)
         {
-            //获取表达式的值，并过滤单引号
+
             var expValue = exp.Compile().DynamicInvoke(obj);
             string val = "";
             if (expValue != null)
@@ -143,6 +143,11 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                 val = expValue.ToString().Replace("'", "\\\'").Replace(Environment.NewLine, "\\n").Replace("\n", "\\n");
             }
             return val;
+        }
+        public static object GetPropertyValueList(LambdaExpression exp, object obj)
+        {
+            var expValue = exp.Compile().DynamicInvoke(obj);
+            return expValue;
         }
 
         public static string GetPropertyErrors<T>(HtmlHelper<T> html, Expression exp)

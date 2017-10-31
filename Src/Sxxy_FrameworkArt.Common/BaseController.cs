@@ -189,6 +189,10 @@ namespace Sxxy_FrameworkArt.Common
             {
                 (baseViewModel as IBaseCrudViewModel<BaseEntity>).SetEntityById(ID.Value);
             }
+            if (IDs != null && baseViewModel is IBaseCrudViewModel<BaseEntity>)
+            {
+                (baseViewModel as IBaseCrudViewModel<BaseEntity>).SetEntityByIds(IDs);
+            }
             //如果当前的viewModel 继承的是IBaseListViewModel，则初始化Searcher并调用Searcher的InitVM方法
             if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
             {

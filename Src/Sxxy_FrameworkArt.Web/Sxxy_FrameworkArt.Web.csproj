@@ -653,6 +653,7 @@
     <Content Include="Views\Shared\_LayoutLogo.cshtml" />
     <Content Include="Views\SystemUser\Edit.cshtml" />
     <Content Include="Views\SystemUser\Delete.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BootstrapSimpleTable.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

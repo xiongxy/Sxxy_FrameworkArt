@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
 {
@@ -95,5 +96,10 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap
     public class BootStrapTableSearcherFields
     {
         public string Title { get; set; }
+    }
+
+    public class BootStrapSimpleTable
+    {
+        public string DataSourcesJson { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using Newtonsoft.Json;
 using Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap;
 using Sxxy_FrameworkArt.Common.Helpers;
 using Sxxy_FrameworkArt.Models;
@@ -169,6 +170,17 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", $"BootstrapTable", new { obj });
             return rv;
         }
+
+        public static MvcHtmlString SimpleTableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, object>> fieldExp)
+        {
+            BootStrapSimpleTable bootStrapSimpleTable = new BootStrapSimpleTable();
+            var obj = PropertyHelper.GetPropertyValueList(fieldExp, html.InnerHelper.ViewData.Model);
+            bootStrapSimpleTable.DataSourcesJson = JsonConvert.SerializeObject(obj);
+            var rv = html.InnerHelper.Editor("", $"BootstrapSimpleTable", new { bootStrapSimpleTable });
+            return rv;
+        }
+
+
         /// <summary>
         /// TreeTableFor 生成一个树形表格给予使用
         /// </summary>

@@ -15,12 +15,18 @@ namespace Sxxy_FrameworkArt.Common
 {
     interface IBaseCrudViewModel<out T> where T : BaseEntity
     {
+
         T Entity { get; }
         /// <summary>
         /// 根据主键ID获取Entity
         /// </summary>
         /// <param name="id">主键ID</param>
         void SetEntityById(Guid id);
+        /// <summary>
+        /// 根据主键ID获取Entitys
+        /// </summary>
+        /// <param name="ids">主键IDs</param>
+        void SetEntityByIds(IEnumerable<Guid> ids);
 
         /// <summary>
         /// 设置Entity
@@ -56,8 +62,8 @@ namespace Sxxy_FrameworkArt.Common
     }
 
     public class BaseCrudViewModel<TModel> : BaseViewModel, IBaseCrudViewModel<TModel> where TModel : BaseEntity
-
     {
+        public IList<TModel> EntityList { get; set; }
         public TModel Entity { get; set; }
 
         //保存读取时Include的内容
@@ -115,6 +121,12 @@ namespace Sxxy_FrameworkArt.Common
             this.Entity = GetById(id);
         }
 
+        public void SetEntityByIds(IEnumerable<Guid> ids)
+        {
+
+            this.EntityList = GetByIds(ids);
+        }
+
         /// <summary>
         /// 设置Entity
         /// </summary>
@@ -123,7 +135,6 @@ namespace Sxxy_FrameworkArt.Common
         {
             this.Entity = entity as TModel;
         }
-
         /// <summary>
         /// 根据主键获取Entity
         /// </summary>
@@ -148,6 +159,28 @@ namespace Sxxy_FrameworkArt.Common
             }
             //获取数据
             rv = query.SingleOrDefault(x => x.Id == Id);
+            if (rv == null)
+            {
+                throw new ApplicationException("指定的数据不存在");
+            }
+            return rv;
+        }
+        public virtual IList<TModel> GetByIds(IEnumerable<Guid> Ids)
+        {
+            IList<TModel> rv = null;
+            //建立基础查询
+            var query = Dc.Set<TModel>().AsQueryable();
+            //如果BasePoco是多语言，则自动Include MLContents
+            //循环添加其他设定的Include
+            if (_toInclude != null)
+            {
+                foreach (var item in _toInclude)
+                {
+                    query = query.Include(item);
+                }
+            }
+            //获取数据
+            rv = query.Where(x => Ids.Contains(x.Id)).ToList();
             if (rv == null)
             {
                 throw new ApplicationException("指定的数据不存在");

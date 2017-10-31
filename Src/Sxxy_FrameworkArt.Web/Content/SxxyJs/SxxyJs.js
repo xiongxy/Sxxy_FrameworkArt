@@ -14,17 +14,12 @@ SxxyJs.fn = SxxyJs.prototype = {
     }
 }
 SxxyJs.fn.init.prototype = SxxyJs.fn;
-
-
 SxxyJs.Create = function (c) {
     alert(c);
 };
 SxxyJs.Create.Form = function (c) {
     alert(c);
 };
-
-
-
 SxxyJs.ModalFormSubmit = function () {
     //改写Form表单提交事件
     $("form").submit(function () {
@@ -41,7 +36,6 @@ SxxyJs.ModalFormSubmit = function () {
         return false;
     });
 }
-
 SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
     var action = selector.find(".box-header.with-border.actionbar").find("a");
     $(action).each(function (index, value) {
@@ -80,21 +74,35 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
                     });
                     break;
                 case "Delete":
-                    layer.alert("暂时无法使用！");
-                    return;
+                    //layer.alert("暂时无法使用！");
+                    //return;
                     tableJsNameObj = eval(tableJsName);
                     selectNum = tableJsNameObj.rows(".selected").data().length;
                     if (selectNum === 0) {
                         layer.alert("请选择一行进行操作！");
                         return;
                     }
+                    $("" + modalId + "").modal("show");
+                    var str = "";
+                    for (var i = 0; i < tableJsNameObj.rows(".selected").data().length; i++) {
+                        str += tableJsNameObj.rows(".selected").data()[i].Id + ",";
+                    }
+                    var array = str.split(",");
+                    $.ajax({
+                        url: actionUrl,
+                        type: "Get",
+                        traditional: true,
+                        data: { "Ids": array },
+                        success: function (result) {
+                            $(".modal").html(result);
+                        }
+                    });
                     break;
                 default:
             }
         });
     });
 }
-
 SxxyJs.FormErrorMessageCheck = function (vmguid) {
     var allInput = $("#modaldialog_" + vmguid).find("input");
     $(allInput).each(function (index, value) {
