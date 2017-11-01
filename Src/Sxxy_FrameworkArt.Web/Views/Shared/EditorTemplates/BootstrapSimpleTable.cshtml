@@ -1,62 +1,53 @@
-﻿@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
-@{
+﻿@{
     var obj = ViewData["bootStrapSimpleTable"] as BootStrapSimpleTable;
     if (obj == null)
     {
         return;
     }
-    var str = obj.DataSourcesJson;
-    JArray jArray = JArray.Parse(str);
-    if (jArray.Count == 0)
-    {
-        return;
-    }
+    var str = obj.DataSourcesJson.Replace("\\", ""); 
+    Guid id = Guid.NewGuid();
 
 }
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Responsive Hover Table</h3>
-                <div class="box-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-                        <div class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-                <table class="table table-hover">
-                    <tbody>
-                        <tr>
-                            @{
-                                foreach (var item in (JObject)jArray[0])
-                                {
-                                    <th>@item.Key</th>
-                                }
-                            }
-                        </tr>
-
+<div id="SimpleTable_@id"></div>
+<script>
+    SxxyJs.Create.SimpleTable("#SimpleTable_@id",{dataType:"json",data:"@str",title:""})
+</script>
+@*<div class="box">
+            append("<div class=\"box-header\">");
+            append("<h3 class=\"box-title\">Responsive Hover Table</h3>");
+            append("<div class=\"box-tools\">");
+            append("<div class=\"input-group input-group-sm\" style=\"width: 150px;\">");
+            append("<input type=\"text\" name=\"table_search\" class=\"form-control pull-right\" placeholder=\"Search\">");
+            append("<div class=\"input-group-btn\">");
+            append("<button type=\"submit\" class=\"btn btn-default\"><i class=\"fa fa-search\"></i></button>");
+            append("</div></div></div></div>");
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+        <tbody>
+                    <tr>
                         @{
-                            foreach (var itemJarray in jArray)
+                            foreach (var item in (JObject)jArray[0])
                             {
-                                <tr>
-                                    @foreach (var itemJobject in (JObject)itemJarray)
-                                    {
-                                        <th>@itemJobject.Value</th>
-                                    }
-                                </tr>
+                                <th>@item.Key</th>
                             }
                         }
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.box-body -->
+                    </tr>
+
+                    @{
+                        foreach (var itemJarray in jArray)
+                        {
+                            <tr>
+                                @foreach (var itemJobject in (JObject)itemJarray)
+                                {
+                                    <th>@itemJobject.Value</th>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
-        <!-- /.box -->
-    </div>
-</div>
+        <!-- /.box-body -->
+    </div>*@
+

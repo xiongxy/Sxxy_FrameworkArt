@@ -3,6 +3,13 @@
 {
     using (Bootstrap.PageLayout_BeginColumn())
     {
+        using (Bootstrap.SearcherPanel(x => x, Model.ViewModelId))
+        {
+            @Bootstrap.TextField(x => x.Searcher.ActionName)
+        }
+    }
+    using (Bootstrap.PageLayout_BeginColumn())
+    {
         @Bootstrap.TreeTableFor(x => x)
     }
 }

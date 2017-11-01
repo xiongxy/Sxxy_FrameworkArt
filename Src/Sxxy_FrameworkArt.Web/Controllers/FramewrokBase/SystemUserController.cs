@@ -12,13 +12,14 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
     [ControllerOrActionDescription("系统用户管理")]
     public class SystemUserController : BaseController
     {
-        // GET: SystemUser
+        [ControllerOrActionDescription("查询用户")]
         public ActionResult Index()
         {
             var vm = CreateViewModel<SystemUserListViewModel>();
             return PartialView(vm);
         }
 
+        [ControllerOrActionDescription("创建用户")]
         public ActionResult Create()
         {
             var vm = CreateViewModel<SystemUserViewModel>();
@@ -38,7 +39,7 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
                 return CloseAndRefreshResult();
             }
         }
-
+        [ControllerOrActionDescription("修改用户")]
         public ActionResult Edit(Guid id)
         {
             var vm = CreateViewModel<SystemUserViewModel>(id);
@@ -58,7 +59,7 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
                 return CloseAndRefreshResult();
             }
         }
-
+        [ControllerOrActionDescription("删除用户")]
         public ActionResult Delete(Guid[] ids)
         {
             var vm = CreateViewModel<SystemUserViewModel>(IDs: ids);

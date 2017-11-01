@@ -14,5 +14,10 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             var vm = CreateViewModel<SystemMenuListViewModel>();
             return PartialView(vm);
         }
+
+        public ActionResult RefreshMenu()
+        {
+            return Content("");
+        }
     }
 }

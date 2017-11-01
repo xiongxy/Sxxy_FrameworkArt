@@ -27,7 +27,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels
             //根据用户名和密码查询用户
             var user = Dc.Set<SystemUser>()
                 .Where(x => x.Code.ToLower() == Code.ToLower() && x.Password.ToLower() == Password.ToLower() && x.IsValid == true)
-                .Include(x => x.Roles)
+                .Include(x => x.SystemUserAndRoleCorrespondings)
                 .SingleOrDefault();
             //如果没有找到则输出错误
             if (user == null)
@@ -36,7 +36,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels
                 return null;
             }
 
-            var roleIDs = user.Roles.Select(x => x.Id).ToList();
+            var roleIDs = user.SystemUserAndRoleCorrespondings.Select(x => x.SystemRoleId).ToList();
             //查找登录用户的数据权限
             //var dpris = Dc.Set<DataPrivilege>()
             //    .Where(x => x.UserId == user.Id && x.DomainId == null)
@@ -46,7 +46,7 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.LoginViewModels
             rv.Id = user.Id;
             rv.Code = user.Code;
             rv.Name = user.Name;
-            rv.Roles = user.Roles;
+            //rv.Roles = user.Roles;
             //rv.DataPrivileges = dpris;
             if (IgnorePris == false)
             {

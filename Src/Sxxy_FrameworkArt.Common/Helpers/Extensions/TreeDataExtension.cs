@@ -100,14 +100,7 @@ namespace Sxxy_FrameworkArt.Common.Helpers.Extensions
                         TreeItem sti = new TreeItem();
                         sti.Key = mi + "_" + ai;
                         sti.Title = chi.ActionName;
-                        if (item.Area == null)
-                        {
-                            sti.Url = "/" + item.ClassName + "/" + chi.MethodName;
-                        }
-                        else
-                        {
-                            sti.Url = "/" + item.Area.Prefix + "/" + item.ClassName + "/" + chi.MethodName;
-                        }
+                        sti.Url = "/" + item.ClassName + "/" + chi.MethodName;
                         //将ParasToRunTest保存在tag中
                         if (chi.ParasToRunTest != null && chi.ParasToRunTest.Count > 0)
                         {

@@ -12,10 +12,12 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         /// 菜单名称
         /// </summary>
         public string PageName { get; set; }
+        public Guid? ActionId { get; set; }
         /// <summary>
         /// 动作名称
         /// </summary>
         public string ActionName { get; set; }
+        public Guid? ModuleId { get; set; }
         /// <summary>
         /// 模块名称
         /// </summary>
@@ -24,12 +26,6 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         /// 是否是文件夹
         /// </summary>
         public bool? FolderOnly { get; set; }
-        /// <summary>
-        /// 是否继承
-        /// </summary>
-        public bool? IsInherit { get; set; }
-        public Guid? ActionId { get; set; }
-        public Guid? ModuleId { get; set; }
         /// <summary>
         /// 是否显示在菜单上
         /// </summary>
@@ -46,7 +42,6 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         /// 菜单url
         /// </summary>
         public string Url { get; set; }
-        //public bool? IsInside { get; set; }
         #region ITreeData成员
         public Guid? ParentId { get; set; }
         public SystemMenu Parent { get; set; }

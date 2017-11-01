@@ -24,16 +24,6 @@ namespace Sxxy_FrameworkArt.Common.Helpers
             {
                 List<Type> types = new List<Type>();
                 types.AddRange(item.GetExportedTypes());
-                var reg = types.FirstOrDefault(x => x.IsClass && typeof(IAreaRegistration).IsAssignableFrom(x));
-                string area = null;
-                if (reg != null)
-                {
-                    IAreaRegistration obj = reg.GetConstructor(Type.EmptyTypes).Invoke(null) as IAreaRegistration;
-                    if (obj != null)
-                    {
-                        area = obj.AreaRoutePrefix;
-                    }
-                }
                 foreach (var itemType in types)
                 {
                     if (itemType.BaseType == typeof(BaseController))
@@ -57,10 +47,6 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                             {
                                 actionName = itemMethod.Name;
                                 string url = controllerName + "/" + actionName;
-                                if (area != null)
-                                {
-                                    url = area + "/" + url;
-                                }
                                 if (includeAll)
                                 {
                                     rv.Add(url);
@@ -85,10 +71,7 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                             {
                                 actionName = method.Name;
                                 string url = controllerName + "/" + actionName;
-                                if (area != null)
-                                {
-                                    url = area + "/" + url;
-                                }
+
                                 if (includeAll == true)
                                 {
                                     rv.Add(url);
@@ -109,7 +92,6 @@ namespace Sxxy_FrameworkArt.Common.Helpers
             }
             return rv;
         }
-
         /// <summary>
         /// 获取程序运行时加载的程序集
         /// </summary>
@@ -135,7 +117,6 @@ namespace Sxxy_FrameworkArt.Common.Helpers
             }
             return allAssemblies;
         }
-
         public static List<SystemModule> GetAllControllerModules()
         {
             List<SystemModule> systemModules = new List<SystemModule>();
@@ -151,19 +132,6 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                 {
                     // ignored
                 }
-                var reg = types.FirstOrDefault(x => x.IsClass && typeof(IAreaRegistration).IsAssignableFrom(x));
-                SystemArea systemArea = null;
-                if (reg != null)
-                {
-                    systemArea = new SystemArea();
-                    IAreaRegistration obj = reg.GetConstructor(Type.EmptyTypes).Invoke(null) as IAreaRegistration;
-                    if (obj != null)
-                    {
-                        systemArea.Prefix = obj.AreaRoutePrefix;
-                        systemArea.AreaName = obj.AreaName;
-                    }
-                }
-
                 foreach (var item in types)
                 {
                     //如果是controller
@@ -266,7 +234,7 @@ namespace Sxxy_FrameworkArt.Common.Helpers
                         }
                         if (model.Actions != null && model.Actions.Count() > 0)
                         {
-                            model.Area = systemArea;
+                            //model.Area = systemArea;
                             systemModules.Add(model);
                         }
                     }
@@ -274,7 +242,6 @@ namespace Sxxy_FrameworkArt.Common.Helpers
             }
             return systemModules;
         }
-
         public static IController GetErrorController()
         {
             var vv =
@@ -289,6 +256,10 @@ namespace Sxxy_FrameworkArt.Common.Helpers
 
 
             return Type.GetType("Sxxy_FrameworkArt.Web.Areas.CoreWebAPI.Controllers.ErrorController,Sxxy_FrameworkArt.Web").GetConstructor(Type.EmptyTypes).Invoke(null) as IErrorController;
+        }
+        public static void SyncModulesAndActions()
+        {
+            var allModules = GetAllControllerModules();
         }
     }
 }

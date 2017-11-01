@@ -53,6 +53,7 @@
     <Compile Include="SystemEntity\SystemModule.cs" />
     <Compile Include="SystemEntity\SystemRole.cs" />
     <Compile Include="SystemEntity\SystemUser.cs" />
+    <Compile Include="SystemEntity\SystemUserAndRoleCorresponding.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

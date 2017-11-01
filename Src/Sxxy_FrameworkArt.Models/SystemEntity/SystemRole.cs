@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 
 namespace Sxxy_FrameworkArt.Models.SystemEntity
@@ -24,6 +25,7 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         /// 角色简介
         /// </summary>
         public string RoleRemark { get; set; }
-        //public List<SystemUser> Users { get; set; }
+
+        public List<SystemUserAndRoleCorresponding> SystemUserAndRoleCorrespondings { get; set; }
     }
 }

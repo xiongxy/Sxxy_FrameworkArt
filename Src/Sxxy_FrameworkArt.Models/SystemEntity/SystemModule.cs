@@ -22,7 +22,7 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         public string ClassName { get; set; }
         public List<SystemAction> Actions { get; set; }
         public Guid? AreaId { get; set; }
-        public SystemArea Area { get; set; }
+        //public SystemArea Area { get; set; }
         public string NameSpace { get; set; }
     }
 }

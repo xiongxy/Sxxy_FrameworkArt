@@ -13,6 +13,14 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemMenuViewModels
 {
     public class SystemMenuListViewModel : BaseListViewModel<SystemMenuListView, SystemMenuSearcher>
     {
+        public SystemMenuListViewModel()
+        {
+            GridActions = new List<GridAction>();
+            GridActions.Add(GridAction.MakeStandAction("SystemMenu", GridActionStandardTypesEnum.Create));
+            GridActions.Add(GridAction.MakeStandAction("SystemMenu", GridActionStandardTypesEnum.Edit));
+            GridActions.Add(GridAction.MakeStandAction("SystemMenu", GridActionStandardTypesEnum.Delete));
+            GridActions.Add(GridAction.MakeNormalAction("SystemMenu", "RefreshMenu","刷新菜单"));
+        }
         protected override void InitListViewModel()
         {
             List<IGridColumn<SystemMenuListView>> listColumns = new List<IGridColumn<SystemMenuListView>>();
@@ -36,7 +44,6 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemMenuViewModels
                     ActionName = x.ActionName,
                     ModuleName = x.ModuleName,
                     FolderOnly = x.FolderOnly,
-                    IsInherit = x.IsInherit,
                     ParentId = x.ParentId,
                     CreateTime = x.CreateTime
                 })

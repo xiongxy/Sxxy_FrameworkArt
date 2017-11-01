@@ -38,6 +38,7 @@ namespace Sxxy_FrameworkArt.Common
         public DbSet<SystemMenu> SystemMenus { get; set; }
         public DbSet<SystemRole> SystemRoles { get; set; }
         public DbSet<SystemUser> SystemUsers { get; set; }
+        public DbSet<SystemUserAndRoleCorresponding> SystemUserAndRoleCorrespondings { get; set; }
         #endregion
 
 

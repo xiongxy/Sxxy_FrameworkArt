@@ -5,8 +5,6 @@ var
     SxxyJs = function (selector, context) {
         return new SxxyJs.fn.init(selector, context);
     }
-
-
 SxxyJs.fn = SxxyJs.prototype = {
     // 实例化化方法，这个方法可以称作 SxxyJs 对象构造器
     init: function (selector, context, rootjQuery) {
@@ -14,12 +12,35 @@ SxxyJs.fn = SxxyJs.prototype = {
     }
 }
 SxxyJs.fn.init.prototype = SxxyJs.fn;
-SxxyJs.Create = function (c) {
-    alert(c);
+SxxyJs.Create = function () { };
+SxxyJs.Close = function () { };
+SxxyJs.Create.Form = function () { };
+SxxyJs.Create.SimpleTable = function (selector, options) {
+    debugger;
+    if (typeof options == "string") {
+        return;
+    }
+    options = $.extend({}, SxxyJs.Create.SimpleTable.default, options || {});
+    if (typeof options.dataType != "string") return;
+    var jsonData;
+    if (options.dataType.toUpperCase() === "JSON")
+        jsonData = eval(SxxyJs.Convert.HTML.htmlDecode(options.data));
+    var jqueryObj = $(selector);
+    jqueryObj.removeClass().addClass("box");
+    jqueryObj.append("<div class=\"box-header\">");
+    jqueryObj.append("<h3 class=\"box-title\">Responsive Hover Table</h3>");
+    jqueryObj.append("<div class=\"box-tools\">");
+    jqueryObj.append("<div class=\"input-group input-group-sm\" style=\"width: 150px;\">");
+    jqueryObj.append("<input type=\"text\" name=\"table_search\" class=\"form-control pull-right\" placeholder=\"Search\">");
+    jqueryObj.append("<div class=\"input-group-btn\">");
+    jqueryObj.append("<button type=\"submit\" class=\"btn btn-default\"><i class=\"fa fa-search\"></i></button>");
+    jqueryObj.append("</div></div></div></div>");
+    jqueryObj.append("<div class=\"box-body table-responsive no-padding\">");
+    jqueryObj.append("<table class=\"table table-hover\">");
+    jqueryObj.append("</table>");
+    jqueryObj.append("</div></div>");
 };
-SxxyJs.Create.Form = function (c) {
-    alert(c);
-};
+SxxyJs.Create.SimpleTable.defaults = { data: null, dataType: "JSON", title: {} };
 SxxyJs.ModalFormSubmit = function () {
     //改写Form表单提交事件
     $("form").submit(function () {
@@ -36,8 +57,15 @@ SxxyJs.ModalFormSubmit = function () {
         return false;
     });
 }
+/**
+ * @method  BootStrapSearcherPanel
+ * @param {} selector
+ * @param {} tableJsName
+ * @returns {}
+        */
 SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
-    var action = selector.find(".box-header.with-border.actionbar").find("a");
+    var jqueryObj = $(selector);
+    var action = jqueryObj.find(".box-header.with-border.actionbar").find("a");
     $(action).each(function (index, value) {
         var actionType = $(value).attr("action-type");
         var actionUrl = $(value).attr("action-url");
@@ -45,14 +73,17 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
         $(value).on("click", function () {
             var tableJsNameObj;
             var selectNum;
+            var loading;
             switch (actionType) {
                 case "Create":
-                    $("" + modalId + "").modal('show');
+                    loading = SxxyJs.Create.Loading();
                     $.ajax({
                         url: actionUrl,
                         type: "Get",
                         success: function (result) {
+                            SxxyJs.Close.Loading(loading);
                             $(".modal").html(result);
+                            $("" + modalId + "").modal('show');
                         }
                     });
                     break;
@@ -63,13 +94,15 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
                         layer.alert("请选择一行进行操作！");
                         return;
                     }
-                    $("" + modalId + "").modal("show");
+                    loading = SxxyJs.Create.Loading();
                     $.ajax({
                         url: actionUrl,
                         type: "Get",
                         data: { "Id": tableJsNameObj.rows(".selected").data()[0].Id },
                         success: function (result) {
+                            SxxyJs.Close.Loading(loading);
                             $(".modal").html(result);
+                            $("" + modalId + "").modal("show");
                         }
                     });
                     break;
@@ -82,7 +115,7 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
                         layer.alert("请选择一行进行操作！");
                         return;
                     }
-                    $("" + modalId + "").modal("show");
+                    loading = SxxyJs.Create.Loading();
                     var str = "";
                     for (var i = 0; i < tableJsNameObj.rows(".selected").data().length; i++) {
                         str += tableJsNameObj.rows(".selected").data()[i].Id + ",";
@@ -94,7 +127,10 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
                         traditional: true,
                         data: { "Ids": array },
                         success: function (result) {
+                            SxxyJs.Close.Loading(loading);
                             $(".modal").html(result);
+                            $("" + modalId + "").modal("show");
+
                         }
                     });
                     break;
@@ -114,4 +150,62 @@ SxxyJs.FormErrorMessageCheck = function (vmguid) {
             });
         }
     });
+}
+SxxyJs.Create.Loading = function () {
+    var loading = layer.load(1, {
+        shade: [0.2, '#fff']
+    });
+    return loading;
+}
+SxxyJs.Close.Loading = function (obj) {
+    layer.close(obj);
+}
+SxxyJs.Convert = function () { };
+SxxyJs.Convert.HTML = {
+    /*1.用浏览器内部转换器实现html转码*/
+    htmlEncode: function (html) {
+        //1.首先动态创建一个容器标签元素，如DIV
+        var temp = document.createElement("div");
+        //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+        (temp.textContent != undefined) ? (temp.textContent = html) : (temp.innerText = html);
+        //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+        var output = temp.innerHTML;
+        temp = null;
+        return output;
+    },
+    /*2.用浏览器内部转换器实现html解码*/
+    htmlDecode: function (text) {
+        //1.首先动态创建一个容器标签元素，如DIV
+        var temp = document.createElement("div");
+        //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+        temp.innerHTML = text;
+        //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+        var output = temp.innerText || temp.textContent;
+        temp = null;
+        return output;
+    },
+    /*3.用正则表达式实现html转码*/
+    htmlEncodeByRegExp: function (str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&/g, "&amp;");
+        s = s.replace(/</g, "&lt;");
+        s = s.replace(/>/g, "&gt;");
+        s = s.replace(/ /g, "&nbsp;");
+        s = s.replace(/\'/g, "&#39;");
+        s = s.replace(/\"/g, "&quot;");
+        return s;
+    },
+    /*4.用正则表达式实现html解码*/
+    htmlDecodeByRegExp: function (str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&amp;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/&#39;/g, "\'");
+        s = s.replace(/&quot;/g, "\"");
+        return s;
+    }
 }

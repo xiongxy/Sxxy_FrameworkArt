@@ -376,7 +376,6 @@ namespace Sxxy_FrameworkArt.Common
                 OnAfterInitList(this);
             }
         }
-
         public string GetActionJson()
         {
             StringBuilder sb = new StringBuilder();

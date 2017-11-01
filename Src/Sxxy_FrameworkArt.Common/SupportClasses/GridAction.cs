@@ -87,6 +87,11 @@ namespace Sxxy_FrameworkArt.Common.SupportClasses
             }
             return new GridAction() { ButtonId = "", Name = name ?? gridName, ActionName = actionName, ControllerName = controllerName, IconCls = iconCls };
         }
+
+        public static GridAction MakeNormalAction(string controllerName, string actionName, string name)
+        {
+            return new GridAction() { ControllerName = controllerName, ActionName = actionName, Name = name };
+        }
     }
 
     public enum GridActionStandardTypesEnum

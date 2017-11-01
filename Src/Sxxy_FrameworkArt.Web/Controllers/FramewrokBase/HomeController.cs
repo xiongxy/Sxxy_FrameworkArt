@@ -12,6 +12,7 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
     [ControllerOrActionDescription("主模块")]
     public class HomeController : BaseController
     {
+        public string b { get; set; }
         [ControllerOrActionDescription("初始页")]
         public ActionResult Index()
         {

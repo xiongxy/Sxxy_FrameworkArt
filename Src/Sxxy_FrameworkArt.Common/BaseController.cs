@@ -108,7 +108,6 @@ namespace Sxxy_FrameworkArt.Common
         #endregion
 
         #region 菜单 （属性）
-
         public static List<SystemMenu> SystemMenuProperty
         {
             get
@@ -131,9 +130,6 @@ namespace Sxxy_FrameworkArt.Common
                     : HttpRuntime.Cache["SystemMenuProperty"] as List<SystemMenu>;
             }
         }
-
-
-
         #endregion
 
         #region 当前用户（属性）

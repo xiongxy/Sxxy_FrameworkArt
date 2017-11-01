@@ -159,6 +159,7 @@
     <Compile Include="Controllers\FramewrokBase\HomeController.cs" />
     <Compile Include="Controllers\FramewrokBase\LoginController.cs" />
     <Compile Include="Controllers\FramewrokBase\SystemMenuController.cs" />
+    <Compile Include="Controllers\FramewrokBase\SystemRoleController.cs" />
     <Compile Include="Controllers\FramewrokBase\SystemUserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -169,6 +170,7 @@
     <Compile Include="ViewModels\SharedViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\SharedViewModels\RouteGuidanceViewModel.cs" />
     <Compile Include="ViewModels\System\SystemMenuViewModels\SystemMenuListViewModel.cs" />
+    <Compile Include="ViewModels\System\SystemRoleViewModels\SystemRoleListViewModel.cs" />
     <Compile Include="ViewModels\System\SystemUserViewModels\SystemUserListViewModel.cs" />
     <Compile Include="ViewModels\System\SystemUserViewModels\SystemUserViewModel.cs" />
   </ItemGroup>
@@ -654,6 +656,7 @@
     <Content Include="Views\SystemUser\Edit.cshtml" />
     <Content Include="Views\SystemUser\Delete.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\BootstrapSimpleTable.cshtml" />
+    <Content Include="Views\SystemRole\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

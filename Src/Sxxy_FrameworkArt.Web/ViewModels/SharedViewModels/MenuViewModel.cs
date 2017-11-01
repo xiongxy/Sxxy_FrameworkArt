@@ -43,7 +43,6 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.SharedViewModels
             v.ModuleId = item.ModuleId;
             v.DisplayOrder = item.DisplayOrder;
             v.FolderOnly = item.FolderOnly;
-            v.IsInherit = item.IsInherit;
             v.IsPublic = item.IsPublic;
             v.ShowOnMenu = item.ShowOnMenu;
             v.ParentId = item.ParentId;

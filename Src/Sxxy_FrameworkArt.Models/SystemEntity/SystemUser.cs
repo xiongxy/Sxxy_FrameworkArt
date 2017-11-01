@@ -17,7 +17,7 @@ namespace Sxxy_FrameworkArt.Models.SystemEntity
         /// 姓名
         /// </summary>
         public string Name { get; set; }
-        public List<SystemRole> Roles { get; set; }
+        public List<SystemUserAndRoleCorresponding> SystemUserAndRoleCorrespondings { get; set; }
     }
 
     public class SystemUser : SystemUserBase

@@ -103,7 +103,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
                     sb.Append("<i class=\"" + item.IconCls + "\"></i>" + item.Name + "</a>");
                 }
                 sb.Append("</div>");
-                sb.Append($"<script>SxxyJs.BootStrapSearcherPanel($(\"#searcherPanel_{viewModelId}\"),\"{dataTableJsName}\");</script>");
+                sb.Append($"<script>SxxyJs.BootStrapSearcherPanel(\"#searcherPanel_{viewModelId}\",\"{dataTableJsName}\");</script>");
             }
             sb.Append("<div class=\"box-body\">");
             sb.Append("<div class=\"col-md-12\">");
