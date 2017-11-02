@@ -91,13 +91,31 @@ namespace Sxxy_FrameworkArt.Common.Helpers.Extensions
             }
             return query;
         }
+
+
+
+        public static List<SimpleSelectItem> GetSelectListItems<TBaseEntity>(this IQueryable<TBaseEntity> baseQuery, Expression<Func<TBaseEntity, object>> textField, Expression<Func<TBaseEntity, object>> valueField)
+        {
+            var pe = Expression.Parameter(typeof(TBaseEntity));
+            var newItem = Expression.New(typeof(SimpleSelectItem));
+            var textMember = typeof(SimpleSelectItem).GetMember("Text")[0];
+            var valueMember = typeof(SimpleSelectItem).GetMember("Value")[0];
+            Expression textFieldMember = Expression.PropertyOrField(pe, PropertyHelper.GetPropertyName(textField, false));
+            Expression valueFieldMember = Expression.PropertyOrField(pe, PropertyHelper.GetPropertyName(valueField, false));
+            var textBind = Expression.Bind(textMember, textFieldMember);
+            var valueBind = Expression.Bind(valueMember, valueFieldMember);
+            MemberInitExpression init = Expression.MemberInit(newItem, textBind, valueBind);
+            var lambda = Expression.Lambda(init, pe);
+            var simpleTextAndValue = baseQuery.Select((Expression<Func<TBaseEntity, SimpleSelectItem>>)lambda).ToList();
+            return simpleTextAndValue;
+        }
     }
 
 
     /// <summary>
     /// 简单键值对类，用来存著生成下拉菜单的数据
     /// </summary>
-    public class SimpleTextAndValue
+    public class SimpleSelectItem
     {
         public object Text { get; set; }
         public object Value { get; set; }

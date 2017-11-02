@@ -1,0 +1,29 @@
+﻿@model Sxxy_FrameworkArt.Web.ViewModels.System.SystemRoleViewModels.SystemRoleViewModel
+@using (Bootstrap.ModalWindowDialog(Model.ViewModelId))
+{
+    using (Bootstrap.ModalWindowContent())
+    {
+        using (Bootstrap.BootStrapForm("SystemRole/Edit", "myForm", "Post"))
+        {
+            using (Bootstrap.ModalWindowHeader())
+            {
+                <div>修改角色</div>
+            }
+            using (Bootstrap.ModalWindowBody())
+            {
+                @Bootstrap.TextField(x => x.Entity.RoleCode)
+                @Bootstrap.TextField(x => x.Entity.RoleName)
+                @Bootstrap.TextField(x => x.Entity.RoleRemark)
+
+            }
+            using (Bootstrap.ModalWindowFooter())
+            {
+                @Bootstrap.Button("提交", "submit")
+            }
+        }
+    }
+}
+<script>
+    SxxyJs.ModalFormSubmit();
+    SxxyJs.FormErrorMessageCheck("@Model.ViewModelId");
+</script>

@@ -261,7 +261,7 @@ namespace Sxxy_FrameworkArt.Common
             sb.Append("<tr role=\"row\" class=\"odd\">");
             foreach (var itemListColumn in ListColumns)
             {
-                sb.Append($"<td textfiled=\"{PropertyHelper.GetPropertyName(itemListColumn.ColumnExp)}\">{itemListColumn.ColumnExp.Compile()(model)}</td>");
+                sb.Append($"<td textfield=\"{PropertyHelper.GetPropertyName(itemListColumn.ColumnExp)}\">{itemListColumn.ColumnExp.Compile()(model)}</td>");
             }
             sb.Append("</tr>");
             return sb.ToString();

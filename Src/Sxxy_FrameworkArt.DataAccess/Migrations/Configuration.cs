@@ -149,7 +149,12 @@ namespace Sxxy_FrameworkArt.DataAccess.Migrations
             if (isShowOnMenu)
             {
                 systemMenu.PageName = systemAction.Module.ModuleName;
-                systemMenu.ActionName = systemAction.ActionName;
+                systemMenu.ActionName = systemAction.MethodName;
+            }
+            else
+            {
+                systemMenu.PageName = systemAction.ActionName;
+                systemMenu.ActionName = systemAction.MethodName;
             }
             return systemMenu;
         }

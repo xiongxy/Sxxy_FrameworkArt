@@ -1,0 +1,20 @@
+﻿@{
+    var obj = ViewData["bootStrapSelect2"] as BootStrapSelect2;
+    if (obj == null)
+    {
+        return;
+    }
+    var selectGuid = Guid.NewGuid();
+}
+<div class="form-group" style="width: 100%">
+    <label>Disabled</label>
+    <select id="select2_@selectGuid" class="form-control" multiple="multiple" style="width: 100%"></select>
+</div>
+<script>
+    var select2Data = eval(SxxyJs.Convert.HTML.htmlDecode("@obj.JsonDataBySelect2"));
+        $("#select2_@selectGuid").select2({
+            data: select2Data,
+            placeholder: '请选择',
+            allowClear:true
+        });
+</script>

@@ -32,10 +32,10 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
             //选择要显示的列
             List<IGridColumn<SystemUserListView>> listColumns = new List<IGridColumn<SystemUserListView>>();
             listColumns.Add(this.MakeGridColumn(x => x.Id));
-            listColumns.Add(this.MakeGridColumn(x => x.CreateTime));
             listColumns.Add(this.MakeGridColumn(x => x.Code));
             listColumns.Add(this.MakeGridColumn(x => x.Name));
             listColumns.Add(this.MakeGridColumn(x => x.Email));
+            listColumns.Add(this.MakeGridColumn(x => x.CreateTime));
             listColumns.Add(this.MakeGridActionColumn());
             ListColumns = listColumns;
 
@@ -77,6 +77,8 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
         /// 姓名
         /// </summary>
         public string Name { get; set; }
+        public string RoleName { get; set; }
+
     }
     public class SystemUserSearcher : BaseSearcher
     {

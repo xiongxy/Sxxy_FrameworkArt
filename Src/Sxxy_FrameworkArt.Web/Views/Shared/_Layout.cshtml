@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="~/Content/lib/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="~/Content/lib/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="~/Content/css/AdminLTE.css">
+    <!--Select2-->
+    <link href="~/Content/lib/select2-4.0.5/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/css/AdminLTE.min.css">
     <!--皮肤-->
     <link rel="stylesheet" href="~/Content/css/skins/skin-blue.css">
     <script src="~/Content/lib/jquery/dist/jquery.js"></script>
@@ -20,8 +24,10 @@
         $(function () {
             var hash = window.location.hash;
             if (hash != null && hash !== "") {
+                var loading = SxxyJs.Create.Loading();
                 hash = hash.replace("#", "");
                 $('.content').load(hash, function (response, status, xhr) {
+                    SxxyJs.Close.Loading(loading);
                 });
             }
         })
@@ -507,19 +513,23 @@
         <div class="control-sidebar-bg"></div>
     </div>
     <script>
-        $(function () {
-            var list = $(".sidebar-menu li a");
-            for (var i = 0; i < list.length; i++) {
-                list[i].onclick = function () {
-                    var hash = $(this).attr("href");
-                    if (hash != null && hash !== "") {
-                        hash = hash.replace("/#", "");
-                        $('.content').load(hash, function (response, status, xhr) {
-                        });
-                    }
+    $(function () {
+        var list = $(".sidebar-menu li a");
+        for (var i = 0; i < list.length; i++) {
+            list[i].onclick = function () {
+                var loading = SxxyJs.Create.Loading();
+                var hash = $(this).attr("href");
+                if (hash != null && hash !== "") {
+                    hash = hash.replace("/#", "");
+                    $('.content').load(hash, function (response, status, xhr) {
+                        SxxyJs.Close.Loading(loading);
+                    });
                 }
             }
-        })
+        }
+    })
     </script>
+    <!--Select2-->
+    <script src="~/Content/lib/select2-4.0.5/dist/js/select2.min.js"></script>
 </body>
 </html>

@@ -15,7 +15,6 @@ namespace Sxxy_FrameworkArt.Common
 {
     interface IBaseCrudViewModel<out T> where T : BaseEntity
     {
-
         T Entity { get; }
         /// <summary>
         /// 根据主键ID获取Entity

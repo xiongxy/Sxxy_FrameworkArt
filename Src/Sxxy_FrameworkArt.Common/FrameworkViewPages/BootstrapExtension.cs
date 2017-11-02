@@ -9,6 +9,7 @@ using System.Web.Mvc.Html;
 using Newtonsoft.Json;
 using Sxxy_FrameworkArt.Common.FrameworkViewPages.Bootstrap;
 using Sxxy_FrameworkArt.Common.Helpers;
+using Sxxy_FrameworkArt.Common.Helpers.Extensions;
 using Sxxy_FrameworkArt.Models;
 
 namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
@@ -179,8 +180,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", $"BootstrapSimpleTable", new { bootStrapSimpleTable });
             return rv;
         }
-
-
         /// <summary>
         /// TreeTableFor 生成一个树形表格给予使用
         /// </summary>
@@ -256,6 +255,24 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             return new MvcHtmlString("");
         }
 
+        public static MvcHtmlString Select2<TViewModel, TValue>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IList<TValue>>> fieldExp, Expression<Func<TViewModel, IEnumerable<SimpleSelectItem>>> allItems)
+        {
+            var list = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
+            var ai = allItems.Compile().Invoke(html.InnerHelper.ViewData.Model);
+            List<BootStrapSelect2Item> bootStrapSelect2Item = new List<BootStrapSelect2Item>();
+            foreach (var simpleSelectItem in ai)
+            {
+                bootStrapSelect2Item.Add(new BootStrapSelect2Item() { id = simpleSelectItem.Value.ToString(), text = simpleSelectItem.Text.ToString() });
+            }
+            BootStrapSelect2 bootStrapSelect2 = new BootStrapSelect2
+            {
+                JsonDataBySelect2 = JsonConvert.SerializeObject(bootStrapSelect2Item),
+                SelectedItem = JsonConvert.SerializeObject(list)
+            };
+            var rv = html.InnerHelper.Editor("", $"BootStrapSelect2", new { bootStrapSelect2 });
+            return rv;
+        }
+
         /// <summary>
         /// BootStrapForm 
         /// </summary>
@@ -273,6 +290,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             BootStrapForm bootStrapForm = new BootStrapForm(html.InnerHelper.ViewContext);
             return bootStrapForm;
         }
+
 
 
         /// <summary>

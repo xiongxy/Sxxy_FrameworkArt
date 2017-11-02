@@ -21,6 +21,7 @@
                 @Bootstrap.TextField(x => x.Entity.Address)
                 @Bootstrap.TextField(x => x.Entity.ZipCode)
                 @Bootstrap.TextField(x => x.Entity.StartWorkDate)
+                @Bootstrap.Select2(x => x.SelectedRolsIds, x => x.AllRoles);
             }
             using (Bootstrap.ModalWindowFooter())
             {
