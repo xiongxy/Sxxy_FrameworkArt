@@ -70,7 +70,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             return bb;
         }
         #endregion
-
         /// <summary>
         /// 搜索面板（表单）
         /// </summary>
@@ -131,7 +130,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", $"BootstrapRouteGuidance", new { obj });
             return rv;
         }
-
         /// <summary>
         /// TableFor 生成一个表格给予使用
         /// </summary>
@@ -171,7 +169,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", $"BootstrapTable", new { obj });
             return rv;
         }
-
         public static MvcHtmlString SimpleTableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, object>> fieldExp)
         {
             BootStrapSimpleTable bootStrapSimpleTable = new BootStrapSimpleTable();
@@ -254,7 +251,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             return new MvcHtmlString("");
         }
-
         public static MvcHtmlString Select2<TViewModel, TValue>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, IList<TValue>>> fieldExp, Expression<Func<TViewModel, IEnumerable<SimpleSelectItem>>> allItems)
         {
             var list = fieldExp.Compile().Invoke(html.InnerHelper.ViewData.Model);
@@ -272,7 +268,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", $"BootStrapSelect2", new { bootStrapSelect2 });
             return rv;
         }
-
         /// <summary>
         /// BootStrapForm 
         /// </summary>
@@ -290,9 +285,6 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             BootStrapForm bootStrapForm = new BootStrapForm(html.InnerHelper.ViewContext);
             return bootStrapForm;
         }
-
-
-
         /// <summary>
         /// 生成一个搜索面板，SearcherPanel
         /// </summary>

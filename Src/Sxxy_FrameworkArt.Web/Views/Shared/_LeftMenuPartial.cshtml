@@ -1,17 +1,20 @@
 ﻿<ul class="sidebar-menu"></ul>
-<script>
-    $(function () {
-        $.ajax({
-            url: "/Home/LeftMenu?ran=" + Math.random(),
-            type: "GET",
-            dataType: "text",
-            async: false,
-            success: function (data) {
-                $(".sidebar-menu").append(data);
-            },
-            complete: function (data) {
-        
-            }
-        });
-    })
-</script>
+@section scripts{
+    <script>
+        $(function () {
+            $.ajax({
+                url: "/Home/LeftMenu?ran=" + Math.random(),
+                type: "GET",
+                dataType: "text",
+                async: false,
+                success: function (data) {
+                    $(".sidebar-menu").append(data);
+                },
+                complete: function (data) {
+
+                }
+            });
+        })
+    </script>
+}
+

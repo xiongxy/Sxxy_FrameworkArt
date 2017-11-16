@@ -54,9 +54,9 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             }
         }
         [ControllerOrActionDescription("删除角色")]
-        public ActionResult Delete(Guid[] ids)
+        public ActionResult Delete(Guid id)
         {
-            var vm = CreateViewModel<SystemRoleViewModel>(IDs: ids);
+            var vm = CreateViewModel<SystemRoleViewModel>(id);
             return PartialView(vm);
         }
         [HttpPost]

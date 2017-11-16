@@ -88,8 +88,9 @@
     <Compile Include="Attributes\AllRightsAttribute.cs" />
     <Compile Include="Attributes\PublicAttribute.cs" />
     <Compile Include="BaseApplication.cs" />
+    <Compile Include="BaseBatchOperationViewModel.cs" />
     <Compile Include="BaseController.cs" />
-    <Compile Include="BaseCRUDViewModel.cs" />
+    <Compile Include="BaseSingleOperationViewModel.cs" />
     <Compile Include="BaseListViewModel.cs" />
     <Compile Include="BaseSearcher.cs" />
     <Compile Include="BaseViewModel.cs" />

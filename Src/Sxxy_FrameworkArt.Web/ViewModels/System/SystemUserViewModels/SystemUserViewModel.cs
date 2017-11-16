@@ -10,7 +10,7 @@ using Sxxy_FrameworkArt.Models.SystemEntity;
 
 namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
 {
-    public class SystemUserViewModel : BaseCrudViewModel<SystemUser>
+    public class SystemUserViewModel : BaseSingleOperationViewModel<SystemUser>
     {
 
         public List<SimpleSelectItem> AllRoles { get; set; }

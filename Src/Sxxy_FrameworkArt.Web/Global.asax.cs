@@ -11,7 +11,6 @@ namespace Sxxy_FrameworkArt.Web
 {
     public class MvcApplication : BaseApplication
     {
-
         public MvcApplication()
         {
             ControllerNamsSpace = "Sxxy_FrameworkArt.Web.Controllers";

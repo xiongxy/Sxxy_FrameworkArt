@@ -85,10 +85,6 @@ namespace Sxxy_FrameworkArt.DataAccess.Migrations
             dataContext.Set<SystemRole>().Attach(systemRole);
             #region 系统管理
             SystemMenu systemManagement = GetFolderMenu("系统管理");
-            //SystemMenu logList = GetMenu(allModules, "Admin", "ActionLog", "Index", new List<SystemRole> { adminRole }, null, 1);
-            //SystemMenu companyList = GetMenu(allModules, null, "FrameworkCompany", "Index", new List<SystemRole> { adminRole }, null, 2);
-            //SystemMenu departmentList = GetMenu(allModules, null, "FrameworkDepartment", "Index", new List<SystemRole> { adminRole }, null, 3);
-            //SystemMenu roleList = GetMenu(allModules, "Admin", "FrameworkRole", "Index", new List<SystemRole> { adminRole }, null, 4);
             SystemMenu roleList = GetMenu(allModules, "SystemRole", "Index", 4);
             SystemMenu userList = GetMenu(allModules, "SystemUser", "Index", 5);
             SystemMenu menuList = GetMenu(allModules, "SystemMenu", "Index", 6);

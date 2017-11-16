@@ -8,7 +8,7 @@ using Sxxy_FrameworkArt.Models.SystemEntity;
 
 namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemRoleViewModels
 {
-    public class SystemRoleViewModel : BaseCrudViewModel<SystemRole>
+    public class SystemRoleViewModel : BaseSingleOperationViewModel<SystemRole>
     {
         public override void DoAdd()
         {

@@ -16,7 +16,7 @@ namespace Sxxy_FrameworkArt.Common
 {
     public interface IDataContext : IDisposable
     {
-        bool IsFake { get; set; }
+        Database Database { get; }
         void AddEntity(BaseEntity entity);
         void UpdateEntity(BaseEntity entity);
         void UpdateProperty<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> fidldexp)
@@ -24,10 +24,6 @@ namespace Sxxy_FrameworkArt.Common
         void DeleteEntity<TEntity>(TEntity entity) where TEntity : class;
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         int SaveChanges();
-        Database Database { get; }
-        void ChangeRelationTo<T, V>(T source, Expression<Func<T, List<V>>> navigation, List<long> oldIDs, List<long> newIDs)
-            where T : BaseEntity
-            where V : BaseEntity;
     }
     public class DataContext : DbContext, IDataContext
     {
@@ -46,27 +42,21 @@ namespace Sxxy_FrameworkArt.Common
         {
             Configuration.LazyLoadingEnabled = false;
             Database.SetInitializer<DataContext>(null);
-
         }
-
         public DataContext(string connstring)
             : base(connstring)
         {
             Configuration.LazyLoadingEnabled = false;
             Database.SetInitializer<DataContext>(null);
         }
-        bool IDataContext.IsFake { get; set; }
-
         void IDataContext.AddEntity(BaseEntity entity)
         {
             this.Entry(entity).State = EntityState.Added;
         }
-
         void IDataContext.UpdateEntity(BaseEntity entity)
         {
             this.Entry(entity).State = EntityState.Modified;
         }
-
         void IDataContext.UpdateProperty<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> fidldexp)
         {
             this.Entry(entity).Property(fidldexp).IsModified = true;
@@ -84,17 +74,10 @@ namespace Sxxy_FrameworkArt.Common
         {
             return System.Configuration.ConfigurationManager.ConnectionStrings["Connstring"].ConnectionString;
         }
-        void IDataContext.ChangeRelationTo<T, V>(T source, Expression<Func<T, List<V>>> navigation, List<long> oldIDs, List<long> newIDs)
-        {
-            throw new NotImplementedException();
-        }
-
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //移除EF默认的一对多级联删除设定
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-          
         }
     }
 }

@@ -18,7 +18,6 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             var vm = CreateViewModel<SystemUserListViewModel>();
             return PartialView(vm);
         }
-
         [ControllerOrActionDescription("创建用户")]
         public ActionResult Create()
         {
@@ -60,9 +59,9 @@ namespace Sxxy_FrameworkArt.Web.Controllers.FramewrokBase
             }
         }
         [ControllerOrActionDescription("删除用户")]
-        public ActionResult Delete(Guid[] ids)
+        public ActionResult Delete(Guid id)
         {
-            var vm = CreateViewModel<SystemUserViewModel>(IDs: ids);
+            var vm = CreateViewModel<SystemUserViewModel>(id);
             return PartialView(vm);
         }
         [HttpPost]

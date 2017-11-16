@@ -71,7 +71,7 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
         var actionUrl = $(value).attr("action-url");
         var modalId = $(value).attr("modalId");
         $(value).on("click", function () {
-            var tableJsNameObj;
+            var tableJsNameObj = eval(tableJsName);
             var selectNum;
             var loading;
             switch (actionType) {
@@ -88,7 +88,6 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
                     });
                     break;
                 case "Edit":
-                    tableJsNameObj = eval(tableJsName);
                     selectNum = tableJsNameObj.rows('.selected').data().length;
                     if (selectNum !== 1) {
                         layer.alert("请选择一行进行操作！");
@@ -107,15 +106,34 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
                     });
                     break;
                 case "Delete":
-                    //layer.alert("暂时无法使用！");
-                    //return;
-                    tableJsNameObj = eval(tableJsName);
+                    loading = SxxyJs.Create.Loading();
                     selectNum = tableJsNameObj.rows(".selected").data().length;
                     if (selectNum === 0) {
                         layer.alert("请选择一行进行操作！");
                         return;
                     }
+                    var id = tableJsNameObj.rows(".selected").data()[0].Id;
+                    $.ajax({
+                        url: actionUrl,
+                        type: "Get",
+                        traditional: true,
+                        data: { "id": id },
+                        success: function (result) {
+                            SxxyJs.Close.Loading(loading);
+                            $(".modal").html(result);
+                            $("" + modalId + "").modal("show");
+                        }
+                    });
+                    break;
+                case "BatchDelete":
+                    layer.alert("暂时无法使用！");
+                    return;
                     loading = SxxyJs.Create.Loading();
+                    selectNum = tableJsNameObj.rows(".selected").data().length;
+                    if (selectNum === 0) {
+                        layer.alert("请选择一行进行操作！");
+                        return;
+                    }
                     var str = "";
                     for (var i = 0; i < tableJsNameObj.rows(".selected").data().length; i++) {
                         str += tableJsNameObj.rows(".selected").data()[i].Id + ",";
@@ -130,7 +148,6 @@ SxxyJs.BootStrapSearcherPanel = function (selector, tableJsName) {
                             SxxyJs.Close.Loading(loading);
                             $(".modal").html(result);
                             $("" + modalId + "").modal("show");
-
                         }
                     });
                     break;

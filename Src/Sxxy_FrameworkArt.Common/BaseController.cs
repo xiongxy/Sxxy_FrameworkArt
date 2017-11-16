@@ -181,13 +181,13 @@ namespace Sxxy_FrameworkArt.Common
                 : new FormCollection(this.HttpContext.Request.Form);
             baseViewModel.NowController = this.NowController;
             //如果ViewModel T继承自BaseCRUDVM<>且ID有值，那么自动调用ViewModel的GetByID方法
-            if (ID != null && baseViewModel is IBaseCrudViewModel<BaseEntity>)
+            if (ID != null && baseViewModel is IBaseSingleOperationViewModel<BaseEntity>)
             {
-                (baseViewModel as IBaseCrudViewModel<BaseEntity>).SetEntityById(ID.Value);
+                (baseViewModel as IBaseSingleOperationViewModel<BaseEntity>).SetEntityById(ID.Value);
             }
-            if (IDs != null && baseViewModel is IBaseCrudViewModel<BaseEntity>)
+            if (IDs != null && baseViewModel is IBaseBatchOperationViewModel<BaseEntity>)
             {
-                (baseViewModel as IBaseCrudViewModel<BaseEntity>).SetEntityByIds(IDs);
+                (baseViewModel as IBaseBatchOperationViewModel<BaseEntity>).SetEntityByIds(IDs);
             }
             //如果当前的viewModel 继承的是IBaseListViewModel，则初始化Searcher并调用Searcher的InitVM方法
             if (baseViewModel is IBaseListViewModel<BaseEntity, BaseSearcher>)
