@@ -9,7 +9,9 @@ SxxyJs.fn = SxxyJs.prototype = {
     // 实例化化方法，这个方法可以称作 SxxyJs 对象构造器
     init: function (selector, context, rootjQuery) {
         // ...
-    }
+        throw new Error("Not implemented");
+    },
+
 }
 SxxyJs.fn.init.prototype = SxxyJs.fn;
 SxxyJs.Create = function () { };
@@ -17,30 +19,44 @@ SxxyJs.Close = function () { };
 SxxyJs.Create.Form = function () { };
 SxxyJs.Create.SimpleTable = function (selector, options) {
     debugger;
-    if (typeof options == "string") {
+    if (typeof options == "string")
         return;
-    }
     options = $.extend({}, SxxyJs.Create.SimpleTable.default, options || {});
     if (typeof options.dataType != "string") return;
-    var jsonData;
-    if (options.dataType.toUpperCase() === "JSON")
-        jsonData = eval(SxxyJs.Convert.HTML.htmlDecode(options.data));
+    var tableData;
+    if (options.dataType.toUpperCase() === "JSON") {
+        tableData = JSON.parse(options.data);
+    }
+    //开始获取Title
+    var tableTitle = "<tr>";
+    for (i in tableData[0]) {
+        tableTitle += "<td>" + i + "</td>";
+    }
+    tableTitle += "</tr>";
+    //开始获取Content
+    var tableContent = "";
+    for (var i = 0; i < tableData.length; i++) {
+        tableContent = "<tr>";
+        for (x in tableData[i]) {
+            tableContent += "<td>" + tableData[i][x] + "</td>";
+        }
+        tableContent += "</tr>";
+    }
     var jqueryObj = $(selector);
     jqueryObj.removeClass().addClass("box");
-    jqueryObj.append("<div class=\"box-header\">");
-    jqueryObj.append("<h3 class=\"box-title\">Responsive Hover Table</h3>");
-    jqueryObj.append("<div class=\"box-tools\">");
-    jqueryObj.append("<div class=\"input-group input-group-sm\" style=\"width: 150px;\">");
-    jqueryObj.append("<input type=\"text\" name=\"table_search\" class=\"form-control pull-right\" placeholder=\"Search\">");
-    jqueryObj.append("<div class=\"input-group-btn\">");
-    jqueryObj.append("<button type=\"submit\" class=\"btn btn-default\"><i class=\"fa fa-search\"></i></button>");
-    jqueryObj.append("</div></div></div></div>");
-    jqueryObj.append("<div class=\"box-body table-responsive no-padding\">");
-    jqueryObj.append("<table class=\"table table-hover\">");
-    jqueryObj.append("</table>");
-    jqueryObj.append("</div></div>");
+    var dataTableHtml = "";
+    dataTableHtml += "<div class=\"box-header\">";
+    dataTableHtml += "<h3 class=\"box-title\">Responsive Hover Table</h3>";
+    dataTableHtml += "</div";
+    dataTableHtml += "<div class=\"box-body table-responsive no-padding\">";
+    dataTableHtml += "<table class=\"table table-hover\">";
+    dataTableHtml += tableTitle;
+    dataTableHtml += tableContent;
+    dataTableHtml += "</table>";
+    dataTableHtml += "</div></div>";
+    jqueryObj.append(dataTableHtml);
 };
-SxxyJs.Create.SimpleTable.defaults = { data: null, dataType: "JSON", title: {} };
+SxxyJs.Create.SimpleTable.defaults = { data: null, dataType: "JSON", title: "" };
 SxxyJs.ModalFormSubmit = function () {
     //改写Form表单提交事件
     $("form").submit(function () {
@@ -203,8 +219,8 @@ SxxyJs.Convert.HTML = {
     },
     /*3.用正则表达式实现html转码*/
     htmlEncodeByRegExp: function (str) {
-        var s = "";
-        if (str.length == 0) return "";
+        var s;
+        if (str.length === 0) return "";
         s = str.replace(/&/g, "&amp;");
         s = s.replace(/</g, "&lt;");
         s = s.replace(/>/g, "&gt;");
@@ -215,8 +231,8 @@ SxxyJs.Convert.HTML = {
     },
     /*4.用正则表达式实现html解码*/
     htmlDecodeByRegExp: function (str) {
-        var s = "";
-        if (str.length == 0) return "";
+        var s;
+        if (str.length === 0) return "";
         s = str.replace(/&amp;/g, "&");
         s = s.replace(/&lt;/g, "<");
         s = s.replace(/&gt;/g, ">");

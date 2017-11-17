@@ -30,12 +30,14 @@
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/daterangepicker/daterangepicker.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link href="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            @Html.Partial("_LayoutLogo")
+            @{ Html.RenderPartial("_LayoutLogo"); }
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
@@ -318,7 +320,7 @@
                 </form>
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                @Html.Partial("_LeftMenuPartial")
+                @{ Html.RenderPartial("_LeftMenuPartial"); }
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -511,7 +513,6 @@
         <div class="control-sidebar-bg"></div>
     </div>
     <!-- jQuery 2.2.3 -->
-    <script src="~/Content/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     @*<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>*@
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -549,7 +550,9 @@
     <script src="~/Content/AdminLTE/dist/js/demo.js"></script>
     <script src="~/Content/SxxyJs/SxxyJs.js"></script>
     <!-- Layer -->
-    <script src="~/Content/layer/layer.js"></script>
+    <script src="~/Content/lib/layer/layer.js"></script>
+    <script src="~/Content/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script>
         $(function () {
             var hash = window.location.hash;

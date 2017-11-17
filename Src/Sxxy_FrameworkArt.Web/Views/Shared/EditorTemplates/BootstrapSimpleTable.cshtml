@@ -4,13 +4,15 @@
     {
         return;
     }
-    var str = obj.DataSourcesJson.Replace("\\", ""); 
+    var str = obj.DataSourcesJson;
     Guid id = Guid.NewGuid();
 
 }
 <div id="SimpleTable_@id"></div>
 <script>
-    SxxyJs.Create.SimpleTable("#SimpleTable_@id",{dataType:"json",data:"@str",title:""})
+    var json =
+        "[{\"Id\":\"1\",\"Name\":\"John1\",\"CreateBy\":\"\",\"CreateTime\":\"\"},{\"Id\":\"1\",\"Name\":\"John1\",\"CreateBy\":\"\",\"CreateTime\":\"\"},{\"Id\":\"1\",\"Name\":\"John1\",\"CreateBy\":\"\",\"CreateTime\":\"\"},{\"Id\":\"1\",\"Name\":\"John1\",\"CreateBy\":\"\",\"CreateTime\":\"\"}]";
+    SxxyJs.Create.SimpleTable("#SimpleTable_@id", { dataType: "json", data: json, title: "" });
 </script>
 @*<div class="box">
             append("<div class=\"box-header\">");
