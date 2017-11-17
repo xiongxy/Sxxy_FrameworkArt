@@ -12,7 +12,8 @@
             }
             using (Bootstrap.ModalWindowBody())
             {
-                @Bootstrap.SimpleTableFor(x => x.Entity)
+                @Bootstrap.SimpleTableFor(x => x.Entity, "Id,RoleCode,RoleName,CreateTime,CreateBy")
+
             }
             using (Bootstrap.ModalWindowFooter())
             {

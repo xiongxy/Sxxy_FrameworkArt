@@ -169,11 +169,27 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             var rv = html.InnerHelper.Editor("", $"BootstrapTable", new { obj });
             return rv;
         }
-        public static MvcHtmlString SimpleTableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, object>> fieldExp)
+        public static MvcHtmlString SimpleTableFor<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Expression<Func<TViewModel, object>> entityExp, string queryKey)
         {
             BootStrapSimpleTable bootStrapSimpleTable = new BootStrapSimpleTable();
-            var obj = PropertyHelper.GetPropertyValueList(fieldExp, html.InnerHelper.ViewData.Model);
-            bootStrapSimpleTable.DataSourcesJson = JsonConvert.SerializeObject(obj);
+            var obj = PropertyHelper.GetPropertyValueList(entityExp, html.InnerHelper.ViewData.Model);
+            var queryKeyArray = queryKey.Split(',');
+            string jsonData = "{";
+            foreach (var item in queryKeyArray)
+            {
+                var type = obj.GetType();
+                var property = type.GetProperty(item);
+                var value = "";
+                if (property != null)
+                {
+                    var pp = property.GetValue(obj)?.ToString();
+                    value = property.GetValue(obj) == null ? "" : property.GetValue(obj).ToString();
+                }
+                jsonData += "\"" + item + "\"" + ":" + "\"" + value + "\"" + ",";
+            }
+            jsonData = jsonData.Substring(0, jsonData.Length - 1);
+            jsonData += "}";
+            bootStrapSimpleTable.DataSourcesJson = jsonData;
             var rv = html.InnerHelper.Editor("", $"BootstrapSimpleTable", new { bootStrapSimpleTable });
             return rv;
         }
@@ -307,7 +323,7 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
         /// <param name="vmGuid"></param>
         /// <param name="size">模态框大小，默认为普通，大：modal-lg 小：modal-sm</param>
         /// <returns></returns>
-        public static BootStrapModal ModalWindowDialog<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Guid vmGuid,string size="")
+        public static BootStrapModal ModalWindowDialog<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Guid vmGuid, string size = "")
         {
             StringBuilder sb = new StringBuilder();
             sb.Append($"<div id=\"modaldialog_{vmGuid}\" class=\"modal-dialog {size}\" role=\"document\">");

@@ -1,6 +1,7 @@
 ﻿@using Sxxy_FrameworkArt.Models.SystemEntity
+@using Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
 @model Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels.SystemUserViewModel
-@using (Bootstrap.ModalWindowDialog(Model.ViewModelId))
+@using (Bootstrap.ModalWindowDialog(Model.ViewModelId, "modal-lg"))
 {
     using (Bootstrap.ModalWindowContent())
     {
@@ -12,7 +13,7 @@
             }
             using (Bootstrap.ModalWindowBody())
             {
-                @Bootstrap.SimpleTableFor(x => x.Entity)
+                @Bootstrap.SimpleTableFor(x => x.Entity,"Id")
             }
             using (Bootstrap.ModalWindowFooter())
             {
