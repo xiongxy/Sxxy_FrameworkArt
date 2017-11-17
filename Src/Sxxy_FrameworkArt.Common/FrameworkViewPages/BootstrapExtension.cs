@@ -299,10 +299,18 @@ namespace Sxxy_FrameworkArt.Common.FrameworkViewPages
             return new MvcHtmlString("");
         }
         #region 模态框
-        public static BootStrapModal ModalWindowDialog<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Guid vmGuid)
+        /// <summary>
+        /// 模态框
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="vmGuid"></param>
+        /// <param name="size">模态框大小，默认为普通，大：modal-lg 小：modal-sm</param>
+        /// <returns></returns>
+        public static BootStrapModal ModalWindowDialog<TViewModel>(this BootstrapHtmlHelper<TViewModel> html, Guid vmGuid,string size="")
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"<div id=\"modaldialog_{vmGuid}\" class=\"modal-dialog\" role=\"document\">");
+            sb.Append($"<div id=\"modaldialog_{vmGuid}\" class=\"modal-dialog {size}\" role=\"document\">");
             html.InnerHelper.ViewContext.Writer.WriteLine(sb.ToString());
             BootStrapModal bootStrapModal = new BootStrapModal(html.InnerHelper.ViewContext);
             return bootStrapModal;

@@ -27,6 +27,9 @@ SxxyJs.Create.SimpleTable = function (selector, options) {
     if (options.dataType.toUpperCase() === "JSON") {
         tableData = JSON.parse(options.data);
     }
+    else if (options.dataType.toUpperCase() === "OBJ") {
+        tableData = options.data;
+    }
     //开始获取Title
     var tableTitle = "<tr>";
     for (i in tableData[0]) {

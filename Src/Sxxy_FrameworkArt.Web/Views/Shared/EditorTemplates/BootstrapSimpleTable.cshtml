@@ -12,44 +12,6 @@
 <script>
     var json =
         "[{\"Id\":\"1\",\"Name\":\"John1\",\"CreateBy\":\"\",\"CreateTime\":\"\"},{\"Id\":\"1\",\"Name\":\"John1\",\"CreateBy\":\"\",\"CreateTime\":\"\"},{\"Id\":\"1\",\"Name\":\"John1\",\"CreateBy\":\"\",\"CreateTime\":\"\"},{\"Id\":\"1\",\"Name\":\"John1\",\"CreateBy\":\"\",\"CreateTime\":\"\"}]";
-    SxxyJs.Create.SimpleTable("#SimpleTable_@id", { dataType: "json", data: json, title: "" });
+    SxxyJs.Create.SimpleTable("#SimpleTable_@id", { dataType: "obj", data: JSON.parse('[@Html.Raw(str)]'), title: "" });
 </script>
-@*<div class="box">
-            append("<div class=\"box-header\">");
-            append("<h3 class=\"box-title\">Responsive Hover Table</h3>");
-            append("<div class=\"box-tools\">");
-            append("<div class=\"input-group input-group-sm\" style=\"width: 150px;\">");
-            append("<input type=\"text\" name=\"table_search\" class=\"form-control pull-right\" placeholder=\"Search\">");
-            append("<div class=\"input-group-btn\">");
-            append("<button type=\"submit\" class=\"btn btn-default\"><i class=\"fa fa-search\"></i></button>");
-            append("</div></div></div></div>");
-        <!-- /.box-header -->
-        <div class="box-body table-responsive no-padding">
-        <table class="table table-hover">
-        <tbody>
-                    <tr>
-                        @{
-                            foreach (var item in (JObject)jArray[0])
-                            {
-                                <th>@item.Key</th>
-                            }
-                        }
-                    </tr>
-
-                    @{
-                        foreach (var itemJarray in jArray)
-                        {
-                            <tr>
-                                @foreach (var itemJobject in (JObject)itemJarray)
-                                {
-                                    <th>@itemJobject.Value</th>
-                                }
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-        <!-- /.box-body -->
-    </div>*@
 
