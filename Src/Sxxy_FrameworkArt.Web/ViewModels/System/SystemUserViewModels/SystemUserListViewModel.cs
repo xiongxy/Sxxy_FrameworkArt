@@ -59,7 +59,6 @@ namespace Sxxy_FrameworkArt.Web.ViewModels.System.SystemUserViewModels
                     CreateTime = x.CreateTime
                 })
                 .OrderBy(x => x.CreateTime);
-            var v = query.ToList();
             return query;
         }
     }
